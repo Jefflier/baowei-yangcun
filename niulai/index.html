@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>牛来攻城 · 保卫羊村番外</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="description" content="牛来攻城 —— 保卫羊村番外篇：牛群攻打羊城！造墙绕路、牛会撞墙破城，12 种牛、8 种塔、10 关 + 无尽模式。">
+<link rel="stylesheet" href="css/niu.css">
+</head>
+<body>
+<div id="loading"><div class="ld-box"><div class="ld-title">牛来攻城</div><div class="ld-bar"><i id="ld-fill"></i></div><div class="ld-tip" id="ld-tip">牛群正在集结……</div></div></div>
+<div id="stage">
+  <canvas id="cv" width="1280" height="720"></canvas>
+  <div id="ui">
+    <section id="scr-title" class="scr"></section>
+    <section id="scr-map" class="scr"></section>
+    <section id="scr-battle" class="scr"></section>
+  </div>
+  <div id="modal-root"></div>
+  <div id="toast-root"></div>
+</div>
+
+<!-- 复用保卫羊村的底子：core.js（工具 / 存档）、audio.js + 原作 35 个 mp3、原作矢量美术与渲染器。
+     core.js 启动时会读 window.SVD（羊村的数值表），这里给个空壳就够了 -->
+<script>window.SVD = window.SVD || {};</script>
+<script src="../js/core.js"></script>
+<script src="../assets/audio/sounds.js"></script>
+<script src="../js/audio.js"></script>
+<!-- 原作矢量：塔（五种 × 五档）、石墙 / 盘龙柱 / 牛郎 / 织女、树石、羊的表情、气球 -->
+<script src="../assets/art/tower.js"></script>
+<script src="../assets/art/building.js"></script>
+<script src="../assets/art/obstacle.js"></script>
+<script src="../assets/art/sheep.js"></script>
+<script src="../assets/art/wolfui.js"></script>
+<script src="../js/art_original.js"></script>
+<!-- 牛来攻城本体 -->
+<script src="js/niu_data.js"></script>
+<script src="js/niu_engine.js"></script>
+<script src="js/niu_art.js"></script>
+<script src="js/niu_render.js"></script>
+<script src="js/niu_ui.js"></script>
+<script src="js/niu_main.js"></script>
+</body>
+</html>

@@ -8068,7 +8068,9 @@ window.SVA_LORE = {"wolves":{"僵尸狼":{"d":"我们是僵尸，我们会重生
       h('div', { class: 'row' },
         has ? bt('🆕 新存档', 'lg red', () => UI.confirm('开始新存档会清空现有进度，确定吗？', () => { G.reset(); Menu.newPlayer(); }, { danger: true, yes: '清空并重开' })) : null,
         bt('📖 玩法说明', 'lg blue', () => UI.Panels.help()),
-        bt('⚙ 设置', 'lg gray', () => UI.Panels.settings()))));
+        bt('⚙ 设置', 'lg gray', () => UI.Panels.settings())),
+      // 番外篇《牛来攻城》：源码目录里在 niulai/，单文件版里是同目录的 牛来攻城.html（单文件版的脚本都内联了，没有 src）
+      bt('🐂 番外 · 牛来攻城', 'lg', () => { location.href = document.querySelector('script[src]') ? 'niulai/index.html' : '牛来攻城.html'; })));
   root.appendChild(h('div', { class: 'foot', html: '灵感与资料来源：<a href="https://www.tdsheepvillage.com/forum.php?mod=forumdisplay&fid=2" target="_blank" rel="noopener">保卫羊村怀旧论坛</a> · 羊村百科全书 · 玩家社区攻略  |  粉丝自制的单机复刻：代码原创，美术、音效与战斗音乐取自原作客户端，详见 docs/ART_PIPELINE.md' }));
     UI.show('title');
   };

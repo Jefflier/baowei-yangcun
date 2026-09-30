@@ -12,6 +12,16 @@
 > 注意：单文件版只内联 JS/CSS，不含 `assets/wolf/*.png`（18.5 MB），所以单文件版里狼会用程序化美术；
 > 想要原作狼，用源码目录运行 `index.html` 即可。
 
+## 🐂 番外篇：牛来攻城
+
+用同一套底子手搓的新塔防：**牛群攻打羊城**。路可以堵死，但牛会**撞墙破城**——寻路是羊村 Dijkstra 流场的加权版，
+墙的剩余耐久就是通行代价，牛会自己权衡「绕远路」还是「撞开一堵墙」；撞城牛专挑最薄的墙撞。
+12 种手搓的 Q 版牛（奶牛回血、斗牛冲锋、飞天牛挂着原作气球飞过城墙、田单火牛阵、青牛精的金刚琢、牛魔王……）、
+8 种塔（原作矢量五档外观）、城墙三级、草垛、盘龙柱 / 织女 / 牛郎像、三个城主技能、10 关 + 无尽模式。
+
+- 双击 `niulai/index.html`，或者在本作标题页点「🐂 番外 · 牛来攻城」；单文件版 `dist/牛来攻城.html`（`python tools/build_niu.py` 生成）
+- 详细说明见 [`niulai/README.md`](niulai/README.md)；无头平衡模拟 `node tools/niu_sim.js`
+
 ## 玩法概览
 
 - 狼群从**出怪口（洞穴）**出发，沿**最短路线**冲向**羊村**。你要用**墙**把路线拉长，用**塔**消灭它们。
@@ -221,7 +231,8 @@ tools/              开发辅助：sim.html（无头平衡模拟）、gallery.ht
                     map_match_frames.py（录像帧 ↔ 战斗底图 SIFT 匹配）/ map_register.py（逐关标定 → assets/map/register.js）/
                     shot_levels.ps1（无头 Chrome 批量截战斗画面）、
                     fx_check.html（子弹/特效/狼身状态对照页）
-dist/               打包产物（单文件版）
+dist/               打包产物（单文件版）：保卫羊村怀旧服.html、牛来攻城.html
+niulai/             番外篇《牛来攻城》（见 niulai/README.md）；tools/niu_sim.js / niu_trace.js / build_niu.py 是它的工具
 ```
 
 ## 测试与质量
