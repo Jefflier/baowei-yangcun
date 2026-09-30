@@ -1,0 +1,28 @@
+<!doctype html><meta charset="utf-8"><title>art lab</title>
+<style>body{margin:0;background:#8ec73e;color:#fff;font:12px sans-serif}canvas{display:block}</style>
+<canvas id="c" width="1400" height="900"></canvas>
+<script>
+(async () => {
+  const files = ['data', 'core', 'battle', 'combat', 'art_terrain', 'art_units', 'art_chars'];
+  for (const f of files) await new Promise((res, rej) => { const s = document.createElement('script'); s.src = '../js/' + f + '.js?' + Date.now(); s.onload = res; s.onerror = () => rej(f); document.body.appendChild(s); });
+  const SV = window.SV, Art = SV.Art;
+  const cv = document.getElementById('c'), ctx = cv.getContext('2d');
+  const mk = (id, i, extra) => { const def = SV.wolfDef(id); return Object.assign({ def, x: 0, y: 0, dir: 1, walk: 0.7 + i * 0.13, fly: !!def.fly, uid: i, hp: def.a, maxhp: def.a, slows: [], poisons: [], burnT: 0, stunT: 0, curse: null, shield: 0, silT: 0, invis: false, hitFlash: 0, elite: false, boss: !!def.boss, noBar: true }, extra || {}); };
+  // 展示一批狼：ids 数组，cs=格子像素，cols=每行个数，label 是否写名字
+  window.labWolves = function (ids, cs, cols, label) {
+    cv.width = 1400; cv.height = Math.ceil(ids.length / cols) * cs * 1.9 + 40; ctx.fillStyle = '#8ec73e'; ctx.fillRect(0, 0, cv.width, cv.height);
+    const cw = cv.width / cols;
+    ids.forEach((id, i) => { const w = mk(id, i); const x = (i % cols) * cw + cw / 2, y = Math.floor(i / cols) * cs * 1.9 + cs * 1.5; Art.drawWolf(ctx, w, x, y + (w.fly ? cs * 0.2 : 0), cs, 0.4 + i * 0.05, false); if (label) { ctx.fillStyle = '#fff'; ctx.font = '12px sans-serif'; ctx.textAlign = 'center'; ctx.fillText(SV.wolfDef(id).n + ' ' + id, x, y + 18); } });
+  };
+  window.labSheep = function (cs) {
+    cv.width = 1400; cv.height = 500; ctx.fillStyle = '#8ec73e'; ctx.fillRect(0, 0, 1400, 500);
+    ['happy', 'idle', 'scared', 'cry', 'angry', 'sleep'].forEach((m, i) => { Art.drawSheep(ctx, 120 + i * 220, 300, cs, 0.3 + i * 0.4, { mood: m, bell: i % 2 === 0, dir: i % 3 === 2 ? -1 : 1 }); ctx.fillStyle = '#fff'; ctx.font = '14px sans-serif'; ctx.textAlign = 'center'; ctx.fillText(m, 120 + i * 220, 340); });
+    [30, 46, 60, 84].forEach((s, i) => Art.drawSheep(ctx, 120 + i * 100, 450, s, 0.5, { bell: true }));
+  };
+  window.labTowers = function (cs, lvls) {
+    const types = SV.TOWER_ORDER; cv.width = 1400; cv.height = types.length * (cs * 1.7) + 60; ctx.fillStyle = '#8ec73e'; ctx.fillRect(0, 0, cv.width, cv.height);
+    types.forEach((tp, r) => { for (let c = 0; c < 8; c++) { const T = SV.D.towers[tp]; const gem = c < 6 ? { c: c, t: 1 + (c % 5) } : (c === 6 ? null : { c: 3, t: 5 }); const lv = Math.max(1, Math.round(T.max * lvls[Math.min(c, lvls.length - 1)])); const b = { type: tp, lv, gem, id: c, aim: -0.5, recoil: c === 2 ? 0.1 : 0, disT: 0 }; Art.drawTower(ctx, b, cs, cs * 0.9 + c * (cs * 1.5), cs * 1.2 + r * cs * 1.7, 0.5 + c * 0.1, {}); } });
+  };
+  window.labReady = true;
+})();
+</script>

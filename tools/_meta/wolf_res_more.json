@@ -1,0 +1,62 @@
+{
+ "base": "https://tdsheep.tdsheepvillage.com/static/images/swf/",
+ "found": [
+  [
+   "gameUI/dynamic/yll.swf",
+   200
+  ]
+ ],
+ "solved": {
+  "liyuqil": [
+   [
+    "gameUI/dynamic/yll.swf",
+    200
+   ]
+  ],
+  "lyql": [
+   [
+    "gameUI/dynamic/yll.swf",
+    200
+   ]
+  ],
+  "yangpil_A": [
+   [
+    "gameUI/dynamic/yll.swf",
+    200
+   ]
+  ],
+  "yangpil_Z": [
+   [
+    "gameUI/dynamic/yll.swf",
+    200
+   ]
+  ]
+ },
+ "still_missing": [
+  "al_B",
+  "amstl_B",
+  "chidunl_A",
+  "daomu2_Z",
+  "gzl_Z",
+  "hlbb1_B",
+  "hlbb2_B",
+  "jisil_Z",
+  "meilyu_B",
+  "meinvl_Z",
+  "pkygl_Z",
+  "sdsl_B",
+  "sdxhl_B",
+  "sdys_A",
+  "wjxcl_B",
+  "wushengl_A",
+  "wushengl_Z",
+  "xuel_B",
+  "xuel_Z",
+  "xxgl_B",
+  "ybklr_A",
+  "yemanl_A",
+  "yemanl_Z",
+  "yll_B",
+  "yll_B2"
+ ]
+}

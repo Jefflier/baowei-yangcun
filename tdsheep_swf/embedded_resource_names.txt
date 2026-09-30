@@ -1,0 +1,11 @@
+gameUI/3366qqvip.swf
+gameUI/qqvip.swf
+initXML.xml
+inviteFriends_tw2.swf
+ktyellow.swf
+loadingAD_001.swf
+sheepNPC0.jpg
+sheepNPC1.jpg
+sheepNPC2.jpg
+sheepNPC3.jpg
+sheepNPC4.jpg

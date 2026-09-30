@@ -1,0 +1,140 @@
+<!doctype html><meta charset="utf-8"><title>fx_check</title>
+<style>html,body{margin:0;background:#222;overflow:hidden}iframe{position:absolute;left:0;top:0;width:1280px;height:720px;border:0}
+#out{position:absolute;left:0;top:0;z-index:9;background:#222}</style>
+<!-- 弹道 / 特效对照页：把游戏放进 iframe，摆好塔和狼，手动推演并截取「弹道最多」的几帧拼成一张图。
+     用法（需要先 python tools/devserver.py 8123）：
+       tools/fx_check.html?mode=towers&type=sentry|scatter|cannon|pulse|inlay&map=11&sim=8&snaps=4
+       tools/fx_check.html?mode=status            一排狼，各带一种状态（烧/毒/减速/眩晕/诅咒/护盾/惊吓/沉默）
+       tools/fx_check.html?mode=fxgrid            所有事件类特效，每种取 15% / 45% / 75% 三个进度
+     参数：orig=0 关掉原作特效（对比程序化版本）；lv=塔等级；t=宝石档；zoom=放大倍数 -->
+<iframe id="f" src="../index.html"></iframe>
+<canvas id="out" width="1280" height="720"></canvas>
+<script>
+const q = new URLSearchParams(location.search);
+const mode = q.get('mode') || 'towers';
+const frame = document.getElementById('f'), out = document.getElementById('out'), oc = out.getContext('2d');
+function title(s) { document.title = s; window.__fx = s; }
+function say(s, y) { oc.fillStyle = '#ffd'; oc.font = '14px monospace'; oc.fillText(s, 8, y || 18); }
+frame.addEventListener('load', () => setTimeout(run, parseInt(q.get('wait') || '2500', 10)));   // 等狼的图集/地图底图加载完
+
+function run() {
+  try {
+    const w = frame.contentWindow, D = w.SVDEBUG; if (!D) return title('ERR no SVDEBUG');
+    const ld = w.document.getElementById('loading'); if (ld) ld.remove();
+    w.__errs = []; const ce = w.console.error.bind(w.console);
+    w.console.error = function () { w.__errs.push(Array.prototype.map.call(arguments, a => (a && (a.stack || a.message)) || String(a)).join(' | ')); ce.apply(null, arguments); };
+    w.addEventListener('error', e => w.__errs.push(e.message + ' @' + e.lineno));
+    if (q.get('orig') === '0') w.SVA_ORIGINAL_ART.fx = false;
+    const SV = w.SV, UI = D.UI, BU = UI.Battle;
+    BU.enter(parseInt(q.get('map') || '11', 10), 'normal', {});
+    const B = BU.B, R = UI.renderer;
+    B.silver = 1e9; B.paused = true; BU.speed = 0;
+    const GEMS = ['hong', 'lv', 'huang', 'zi', 'lan', 'hei'];       // 与 SV.CID 同序 = 宝石下标 0..5
+    const wolfIds = Object.keys(SV.D.wolves);
+    const plain = wolfIds.find(id => { const d = SV.wolfDef(id); return d && !d.fly && !Object.keys(d.sk || {}).length; }) || wolfIds[0];
+    const draw = () => { R.draw(UI.t = (UI.t || 0) + 1 / 60, { focus: 0 }); };
+    const rc = R.cv;
+    const snapOf = (x, y, ww, hh) => {              // 把渲染器画布上的一块拷出来（画布像素 = 逻辑 × R.scale）
+      const s = R.scale, c = document.createElement('canvas'); c.width = Math.round(ww * s); c.height = Math.round(hh * s);
+      c.getContext('2d').drawImage(rc, x * s, y * s, ww * s, hh * s, 0, 0, c.width, c.height); return c;
+    };
+    const cell = (cx, cy) => ({ x: R.ox + (cx + 0.5) * R.cs, y: R.oy + (cy + 0.5) * R.ch });
+    const finish = (msg) => { title('done ' + msg + (w.__errs.length ? ' ERRS=' + w.__errs.join(' | ') : '')); };
+
+    if (mode === 'towers') {
+      const type = q.get('type') || 'sentry', types = type === 'all' ? ['sentry', 'scatter', 'cannon', 'pulse', 'inlay'] : [type];
+      const lv = parseInt(q.get('lv') || '60', 10), tier = parseInt(q.get('t') || '3', 10);
+      // 沿最短路找路旁的空建造格，摆塔
+      const path = []; { let c = B.map.spawns[0], g = 0; while (c >= 0 && g++ < 400) { path.push(c); const n = B.field.nxt[c]; if (n < 0) break; c = n; } }
+      const free = []; const seen = new Set();
+      path.forEach((c, i) => { if (i < 3) return; const cx = c % B.cols, cy = (c / B.cols) | 0;
+        for (const [dx, dy] of [[0, -1], [0, 1], [-1, 0], [1, 0], [0, -2], [0, 2], [-2, 0], [2, 0]]) { const x = cx + dx, y = cy + dy, k = y * B.cols + x;
+          if (B.map.inb(x, y) && !seen.has(k) && B.cellFree(x, y) && B.map.type[k] === 1) { seen.add(k); free.push([x, y]); } } });
+      const placed = [];
+      let fi = 0;
+      if (B.gemStock) B.gemStock.forEach(r => r.fill(99));           // 每种宝石管够，不然镶宝石的塔造不出来
+      for (const tp of types) for (let gi = 0; gi < 6; gi++) {
+        if (tp === 'inlay' && false) continue;
+        while (fi < free.length) { const [x, y] = free[fi++]; const r = B.build('tower', x, y, { type: tp, lv, gem: { c: gi, t: tier } }); if (r && r.ok !== false && !(r.ok === undefined && r.msg)) { placed.push([x, y, tp, GEMS[gi]]); break; } }
+      }
+      B.silver = 1e9;
+      // 缓慢走的耐打狼，让塔一直有目标
+      B.started = true; B.paused = false;                            // 不调 BU.start()：不要真的出怪，只留我们摆的耐打狼
+      for (let i = 0; i < 8; i++) { const wf = B.spawnWolf(plain, { hp: 1e12, speedMul: 0.12 }); if (wf) { const pc = path[Math.min(path.length - 1, 3 + i * 2)]; wf.x = (pc % B.cols) + 0.5; wf.y = ((pc / B.cols) | 0) + 0.5; wf.tx = -1; } }
+      const simT = parseFloat(q.get('sim') || '8'), snaps = parseInt(q.get('snaps') || '4', 10), zoom = parseFloat(q.get('zoom') || '2');
+      // 裁剪区域 = 所有塔的包围盒 ± 1.5 格
+      let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9; placed.forEach(([x, y]) => { const p = cell(x, y); x0 = Math.min(x0, p.x); y0 = Math.min(y0, p.y); x1 = Math.max(x1, p.x); y1 = Math.max(y1, p.y); });
+      const pad = R.cs * 1.6; x0 = Math.max(0, x0 - pad); y0 = Math.max(56, y0 - pad); x1 = Math.min(980, x1 + pad); y1 = Math.min(720, y1 + pad);
+      const shots = []; let lastAt = -9;
+      for (let i = 0; i < simT * 60; i++) {
+        B.update(1 / 60);
+        if (i % 3) continue;
+        const score = B.projs.filter(p => !(p.delay > 0)).length * 2 + B.fx.filter(f => f.type === 'hit' || f.type === 'beam' || f.type === 'boom' || f.type === 'flash' || f.type === 'arc').length;
+        if (score >= 4 && i / 60 - lastAt > 0.35) { draw(); shots.push({ c: snapOf(x0, y0, x1 - x0, y1 - y0), score, t: i / 60 }); lastAt = i / 60; if (shots.length >= snaps) break; }
+      }
+      if (!shots.length) { draw(); shots.push({ c: snapOf(x0, y0, x1 - x0, y1 - y0), score: 0, t: 0 }); }
+      // 拼图
+      const cw = shots[0].c.width, chh = shots[0].c.height, cols = Math.min(2, shots.length), rows = Math.ceil(shots.length / cols);
+      const zs = Math.min(zoom, 1280 / (cw * cols), 700 / (chh * rows));
+      oc.fillStyle = '#222'; oc.fillRect(0, 0, 1280, 720);
+      shots.forEach((s, i) => { oc.drawImage(s.c, (i % cols) * cw * zs, 20 + Math.floor(i / cols) * chh * zs, cw * zs, chh * zs); });
+      say(type + ' lv' + lv + ' tier' + tier + '  gems(hong,lv,huang,zi,lan,hei) per tower   snaps=' + shots.map(s => s.score + '@' + s.t.toFixed(1)).join(' ') + '  placed=' + placed.length + ' cs=' + R.cs);
+      finish('towers ' + placed.length + ' projs=' + B.projs.length);
+    } else if (mode === 'status') {
+      // 一排狼各带一种状态，排在同一行、间隔 1.5 格（不沿路径摆——有的图路径很短会叠在一起）
+      const ST = ['burn', 'poison', 'slow', 'stun', 'curse', 'shield', 'fear', 'silence', 'focus', 'none'];
+      const ws = []; const row = Math.floor(B.rows / 2), c0 = 0.6;
+      B.wolves.length = 0;
+      ST.forEach((s, i) => {
+        const wf = B.spawnWolf(plain, { hp: 1e9, speedMul: 0 }); if (!wf) return;
+        wf.x = c0 + i * (B.cols - 1.2) / (ST.length - 1); wf.y = row + 0.4; wf.tx = -1; wf.lane = 0;
+        if (s === 'burn') { wf.burnT = 999; wf.burnDps = 0; } if (s === 'poison') wf.poisons.push({ dps: 0, t: 999 }); if (s === 'slow') wf.slows.push({ v: 0.3, t: 999 });
+        if (s === 'stun') wf.stunT = 999; if (s === 'curse') wf.curse = { t: 999, energy: 0, hits: 0 }; if (s === 'shield') { wf.shield = wf.maxhp * 0.1; wf.shieldT = 999; }
+        if (s === 'fear') wf.fearT = 999; if (s === 'silence') wf.silT = 999; ws.push([wf, s]);
+      });
+      B.started = true; B.paused = true; B.spawnLock = true;
+      const foc = ws.find(a => a[1] === 'focus'); const ui = { focus: foc ? foc[0].uid : 0 };
+      for (let i = 0; i < 20; i++) R.draw(UI.t += 0.05, ui);
+      // 截图：两个时间点，裁到这一行狼
+      const y0 = R.oy + row * R.ch - R.ch * 2.4, hh = R.ch * 3.6;
+      const shots = []; for (let i = 0; i < 2; i++) { R.draw(UI.t += 0.23, ui); shots.push(snapOf(R.ox - 8, y0, R.cs * B.cols + 16, hh)); }
+      const cw = shots[0].width, chh = shots[0].height, zs = Math.min(1280 / cw, 1.6);
+      out.height = 24 + (chh * zs + 8) * shots.length; oc.fillStyle = '#222'; oc.fillRect(0, 0, 1280, out.height);
+      shots.forEach((s, i) => oc.drawImage(s, 0, 22 + i * (chh * zs + 8), cw * zs, chh * zs));
+      say('left→right: ' + ST.join(', '));
+      finish('status ' + ws.length);
+    } else if (mode === 'fxgrid') {
+      // 每种事件特效在一个格子里，三个进度并排。位置取棋盘中间的一片，不管地图。
+      const kinds = [
+        { type: 'hit', tower: 'sentry' }, { type: 'hit', tower: 'sentry', crit: true }, { type: 'hit', tower: 'pulse' },
+        { type: 'hit', tower: 'inlay', cname: 'hong' }, { type: 'hit', tower: 'inlay', cname: 'lv' }, { type: 'hit', tower: 'inlay', cname: 'hei' }, { type: 'hit', tower: 'inlay', cname: 'huang' },
+        { type: 'hit', tower: 'inlay', curse: true },
+        { type: 'boom', kind: 'shell', r: 0.9 }, { type: 'boom', kind: 'bomb', r: 1.7 }, { type: 'boom', kind: 'mine', r: 1 }, { type: 'boom', kind: 'burst', r: 1.3 }, { type: 'boom', kind: 'cloud', r: 1.8 },
+        { type: 'ring', kind: 'shield' }, { type: 'ring', kind: 'summon' }, { type: 'ring', kind: 'heal' }, { type: 'ring', kind: 'revive' }, { type: 'ring', kind: 'clamp' },
+        { type: 'blink', kind: 'out' }, { type: 'blink', kind: 'in' }, { type: 'blink', kind: 'mirror' }, { type: 'tele' }, { type: 'dust' }, { type: 'curse' }, { type: 'flash', r: 2 },
+        { type: 'arc', pts: [[0, 0], [1.2, -0.3], [2.2, 0.2]], color: '#d6b8ff', thick: true }
+      ];
+      B.wolves.length = 0;
+      const prog = [0.15, 0.45, 0.75];
+      const sw = 150, sh = 116, gap = 8, perRow = 3, rowH = sh + 16;
+      out.height = 24 + Math.ceil(kinds.length / perRow) * rowH; oc.fillStyle = '#222'; oc.fillRect(0, 0, 1280, out.height);
+      kinds.forEach((kd, i) => {
+        const col = i % perRow, row = Math.floor(i / perRow), bx = col * (sw * 3 + gap * 3), by = 20 + row * rowH;
+        prog.forEach((k, j) => {
+          B.fx.length = 0;
+          const cx = Math.floor(B.cols / 2), cy = Math.floor(B.rows / 2);
+          const f = Object.assign({ x: cx + 0.5, y: cy + 0.5, t: 0, ttl: 0.6 }, kd);
+          if (kd.pts) f.pts = kd.pts.map(p => [cx + 0.5 + p[0] - 1.1, cy + 0.5 + p[1]]);
+          f.t = f.ttl * k; B.fx.push(f);
+          R.draw(UI.t, {});
+          const p = cell(cx, cy);
+          oc.drawImage(snapOf(p.x - sw / 2, p.y - sh * 0.7, sw, sh), bx + j * sw, by);
+        });
+        oc.fillStyle = '#ffd'; oc.font = '11px monospace';
+        oc.fillText(kd.type + (kd.kind ? '/' + kd.kind : '') + (kd.tower ? '/' + kd.tower : '') + (kd.cname ? '/' + kd.cname : '') + (kd.crit ? '/crit' : '') + (kd.curse ? '/curse' : ''), bx + 2, by + sh + 11);
+      });
+      finish('fxgrid ' + kinds.length);
+    }
+  } catch (e) { title('ERR ' + e.message + ' ' + (e.stack || '').split('\n')[1]); }
+}
+</script>

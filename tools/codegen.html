@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>兑换码生成器</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  :root { --bg:#f6ecd2; --card:#fffaf0; --ink:#4a3418; --line:#b57d3f; --btn:#f0902a; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#2a2216; --card:#3a2f1e; --ink:#f3e6c8; --line:#8a6a3a; } }
+  body { margin:0; background:var(--bg); color:var(--ink); font:15px/1.6 "Microsoft YaHei",system-ui,sans-serif; }
+  main { max-width:720px; margin:0 auto; padding:20px 16px 40px; }
+  h1 { font-size:22px; margin:0 0 4px; }
+  .card { background:var(--card); border:2px solid var(--line); border-radius:12px; padding:14px; margin:12px 0; }
+  label { display:flex; align-items:center; gap:8px; margin:6px 0; flex-wrap:wrap; }
+  label span { width:110px; }
+  input, select { padding:6px 8px; border:2px solid var(--line); border-radius:8px; background:var(--bg); color:var(--ink); font:inherit; width:140px; }
+  button { padding:8px 16px; border:0; border-radius:10px; background:var(--btn); color:#fff; font:inherit; font-weight:700; cursor:pointer; }
+  textarea { width:100%; box-sizing:border-box; height:150px; padding:8px; border:2px solid var(--line); border-radius:8px; background:var(--bg); color:var(--ink); font:13px/1.5 Consolas,monospace; }
+  .muted { opacity:.7; font-size:13px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>🎁 兑换码生成器</h1>
+  <div class="muted">生成 SV- 开头的礼包码，发给朋友在游戏里「🎁 兑换码」中输入。每个码在同一个存档里只能兑换一次。</div>
+  <div class="card">
+    <label><span>银币</span><input id="silver" type="number" min="0" value="0"></label>
+    <label><span>积分</span><input id="points" type="number" min="0" value="0"></label>
+    <label><span>棒棒糖</span><input id="lolli" type="number" min="0" value="0"></label>
+    <label><span>炸弹</span><input id="bomb" type="number" min="0" value="0"></label>
+    <label><span>经验</span><input id="exp" type="number" min="0" value="0"></label>
+    <label><span>宝石</span>
+      <select id="gc"><option value="0">红</option><option value="1">绿</option><option value="2">黄</option><option value="3">紫</option><option value="4">蓝</option><option value="5">黑</option></select>
+      <select id="gt"><option value="1">碎片</option><option value="2">晶体</option><option value="3">宝石</option><option value="4">精华</option><option value="5">强化</option></select>
+      <input id="gn" type="number" min="0" value="0" style="width:80px"> 颗</label>
+    <label><span>有效期至</span><input id="exp_d" type="date"><span class="muted" style="width:auto">留空 = 永久有效</span></label>
+    <label><span>生成个数</span><input id="count" type="number" min="1" max="50" value="5"></label>
+    <button id="go">生成</button>
+  </div>
+  <div class="card">
+    <textarea id="out" readonly placeholder="生成的兑换码会出现在这里，每行一个"></textarea>
+    <div style="margin-top:8px"><button id="copy">复制全部</button></div>
+  </div>
+</main>
+<script src="../js/codes.js"></script>
+<script>
+  const $ = id => document.getElementById(id);
+  const n = id => Math.max(0, Math.floor(+$(id).value || 0));
+  $('go').onclick = () => {
+    const list = [];
+    if (n('silver')) list.push({ type: 'silver', n: n('silver') });
+    if (n('points')) list.push({ type: 'points', n: n('points') });
+    if (n('lolli')) list.push({ type: 'item', id: 'lollipop', n: n('lolli') });
+    if (n('bomb')) list.push({ type: 'item', id: 'bomb', n: n('bomb') });
+    if (n('exp')) list.push({ type: 'exp', n: n('exp') });
+    if (n('gn')) list.push({ type: 'gem', c: +$('gc').value, t: +$('gt').value, n: n('gn') });
+    if (!list.length) { $('out').value = '请至少填一项奖励'; return; }
+    const d = $('exp_d').value;
+    const expire = d ? d.replace(/-/g, '') : null;
+    const lines = [];
+    for (let i = 0; i < Math.min(50, Math.max(1, n('count'))); i++) lines.push(SV.Codes.make(list, { expire }));
+    $('out').value = lines.join('\n');
+  };
+  $('copy').onclick = () => { $('out').select(); try { document.execCommand('copy'); } catch (e) { } };
+</script>
+</body>
+</html>

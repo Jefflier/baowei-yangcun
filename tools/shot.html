@@ -1,0 +1,154 @@
+<!doctype html><meta charset="utf-8"><title>shot</title>
+<style>html,body{margin:0;background:#111;overflow:hidden}iframe{width:1280px;height:720px;border:0;display:block}</style>
+<!-- 把 index.html 放进 1280×720 的 iframe 里，用 ?go=… 直接跳到指定界面截图。
+     需要 chrome --allow-file-access-from-files 才能跨 frame 调到 SVDEBUG。
+     用法: chrome --headless=new --allow-file-access-from-files --screenshot=out.png --window-size=1284,724 ^
+                "file:///.../tools/shot.html?go=world&ch=2&wait=2500"
+     参数：
+       go=hub|world|title|battle      进哪个界面（默认 hub）
+       wait=N                         跳转后等多少毫秒再截（默认 2600）
+       ch=N / sel=N                   世界地图：第几章 / 选中第几关            （go=world）
+       click=shop|mine|work|camp|…    进大厅后点开某个建筑（HUB_SPOTS 的 id）  （go=hub）
+       js=<encodeURIComponent 的脚本> 在游戏窗口里执行（打开面板 / 选中条目），跑在 click 之后
+       map=N / towers=N               战斗：第 N 张图、先摆 N 座塔             （go=battle）
+       pick=1                         战斗中选中第一座塔（看等级牌）
+       start=1                        开战（不写就把战斗暂停，截图更稳）
+       icons=1                        把界面用的塔图标放大摆出来（诊断用）
+       diag=1                         左上角显示 pack/art/报错等诊断信息
+       noanim=0                       保留 CSS 动画。默认注入 animation:none —— 无头 Chrome 的虚拟时间
+                                      会把弹窗的淡入动画停在半路，截出来像半透明贴纸。 -->
+<iframe id="f" src="../index.html"></iframe>
+<script>
+const q = new URLSearchParams(location.search);
+const go = q.get('go') || 'hub';
+const wait = parseInt(q.get('wait') || '2600', 10);
+const frame = document.getElementById('f');
+function title(s) { document.title = s; window.__shot = s; }
+frame.addEventListener('load', () => {
+  setTimeout(() => {
+    try {
+      const w = frame.contentWindow, D = w.SVDEBUG;
+      if (!D) return title('ERR no SVDEBUG');
+      // 页面里的 JS 报错记下来（事件监听器里抛的错不会冒泡到调用处）
+      w.__errs = [];
+      w.addEventListener('error', (e) => { w.__errs.push(e.message + ' @' + (e.filename || '') + ':' + e.lineno); });
+      w.addEventListener('unhandledrejection', (e) => { w.__errs.push('reject ' + e.reason); });
+      const _cerr = w.console.error.bind(w.console);
+      w.console.error = function () {           // 被 try/catch 吞掉的错误也记一笔
+        w.__errs.push(Array.prototype.map.call(arguments, a => (a && (a.stack || a.message)) || String(a)).join(' | '));
+        _cerr.apply(null, arguments);
+      };
+      const ld = w.document.getElementById('loading'); if (ld) ld.remove();   // 截图不要加载盖层
+      // 无头 Chrome 的虚拟时间会让 CSS 动画停在半路（弹窗看起来是半透明的），截图时关掉动画
+      if (q.get('noanim') !== '0') {
+        const st = w.document.createElement('style');
+        st.textContent = '*{animation:none !important;transition:none !important}';
+        w.document.head.appendChild(st);
+      }
+      if (go === 'hub') D.UI.Menu.toHub();
+      else if (go === 'world') D.UI.Menu.toWorld(parseInt(q.get('ch') || '1', 10));
+      else if (go === 'battle') {
+        // 直接进战斗，用来截 DOM 战斗界面（建造栏 / 顶栏 / 波次条）
+        const mi = parseInt(q.get('map') || '0', 10);
+        D.UI.Battle.enter(mi, 'normal', {});
+        const tw = parseInt(q.get('towers') || '5', 10), B = D.UI.Battle.B;
+        if (q.get('rich') === '1') B.silver = 99999999;     // rich=1：银币管够，方便摆高级塔
+        const TYPES = ['sentry', 'scatter', 'cannon', 'pulse', 'inlay'];
+        let placed = 0, lastMsg = '';
+        let gemUse = null;                     // 存档里有宝石就镶上，方便看插槽/等级牌
+        if (B.gemStock) for (let c = 0; c < 6 && !gemUse; c++) for (let t = 1; t <= 5 && !gemUse; t++) if (B.gemStock[c][t - 1] > 0) gemUse = { c: c, t: t };
+        for (let y = 0; y < B.rows && placed < tw; y++) for (let x = 0; x < B.cols && placed < tw; x++) {
+          if (B.cellFree(x, y) && B.map.type[y * B.cols + x] === 1) {
+            const lv = [1, 20, 45, 80, 100][placed % 5];
+            try {
+              const r = B.build('tower', x, y, { type: TYPES[placed % 5], lv: lv, gem: gemUse });
+              if (r && r.ok !== false && !(r.ok === undefined && r.msg)) placed++; else lastMsg = (r && r.msg) || 'no';
+            } catch (e) { lastMsg = 'throw ' + e.message; }
+          }
+        }
+        // walls=N：在可建格上撒 N 堵墙（每隔一格），看墙/塔在格子里的位置
+        const nw = parseInt(q.get('walls') || '0', 10);
+        for (let y = 0, placedW = 0; y < B.rows && placedW < nw; y++) for (let x = 0; x < B.cols && placedW < nw; x++) {
+          if ((x + 2 * y) % 3 !== 0) continue;
+          if (B.cellFree(x, y) && B.map.type[y * B.cols + x] === 1) { try { const r = B.build('wall', x, y, {}); if (!(r && r.ok === false)) placedW++; } catch (e) {} }
+        }
+        // sim=S：开战后手动推演 S 秒再暂停，得到一帧「打到一半」的画面（不受虚拟时间快进影响）
+        const sim = parseFloat(q.get('sim') || '0');
+        if (sim > 0) { B.silver = 9999999; D.UI.Battle.start(); for (let i = 0; i < sim * 60; i++) B.update(1 / 60); B.paused = q.get('live') !== '1'; }   // live=1：推演后不暂停（画面无「暂停」遮罩）
+        else if (q.get('start') === '1') D.UI.Battle.start();
+        if (!(sim > 0) && q.get('start') !== '1') B.paused = true;                      // 不推演，只截静态画面（虚拟时间会快进战斗）
+        // 注意：?sel=N 是「世界地图选中第 N 关」的老参数，这里用 pick=1 选中第一座塔（看等级牌）
+        if (q.get('pick') === '1' && B.buildings.length) D.UI.Battle.sel = B.buildings[0];
+        D.UI.Battle.refreshAll();
+        if (q.get('icons') === '1') {           // 把界面用的塔图标单独放大摆出来
+          const box = w.document.createElement('div');
+          box.style.cssText = 'position:fixed;left:0;top:60px;z-index:99;background:#fff;padding:6px;display:flex;gap:6px';
+          TYPES.forEach(t => {
+            const im = w.document.createElement('img');
+            im.src = w.SV.Art.towerIconURL(t, null, 30);
+            im.style.cssText = 'width:170px;height:170px;background:#eee;border:1px solid #333';
+            box.appendChild(im);
+          });
+          const K = {sentry: 'shaota', scatter: 'sandanta', cannon: 'paota', pulse: 'bodongta', inlay: 'xiangqianta'};
+          TYPES.forEach(t => {
+            const cv = w.document.createElement('canvas'); cv.width = cv.height = 170;
+            cv.style.cssText = 'background:#eee;border:1px solid #333';
+            const cx = cv.getContext('2d');
+            const fr = w.SVAArt.libs.tower[K[t]].frames[0];
+            w.SVAArt.draw(cx, 'tower', K[t], {frame: 0, x: 85, y: 160, w: 130, anchor: 'bottom'});
+            box.appendChild(cv);
+            const d = w.document.createElement('div');
+            d.style.cssText = 'font:11px monospace;color:#000';
+            d.textContent = K[t] + ' vb=' + fr.vb.join(',') + ' p=' + fr.p.length;
+            box.appendChild(d);
+          });
+          w.document.body.appendChild(box);
+          const info = w.document.createElement('div');
+          info.style.cssText = 'position:fixed;left:0;bottom:0;z-index:99;background:#000;color:#0f0;font:12px monospace;padding:4px;max-width:1900px;white-space:pre-wrap';
+          info.textContent = 'cfg=' + JSON.stringify(w.SVA_ORIGINAL_ART)
+            + '\nlibs=' + Object.keys(w.SVAArt.libs).join(',')
+            + '\nhasTower=' + !!w.SVAArt.libs.tower.shaota
+            + '\nplaced=' + placed + ' silver=' + B.silver + ' built=' + B.buildings.length + ' msg=' + lastMsg
+            + ' cells=' + JSON.stringify(B.map.type.reduce((a, v) => (a[v] = (a[v] || 0) + 1, a), {}))
+            + '\nwrap=' + w.SV.Art.drawTower.toString().slice(0, 260);
+          w.document.body.appendChild(info);
+        }
+      }
+      else D.UI.Menu.toTitle();
+      const want = q.get('sel');
+      if (want && D.UI.Menu.toWorld) setTimeout(() => { D.UI.Menu.selMap = parseInt(want, 10); D.UI.Menu.toWorld(); }, 300);
+      setTimeout(() => {
+        const clickId = q.get('click');
+        if (clickId) {
+          const el = w.document.querySelector('#scr-hub .hotspot[data-id="' + clickId + '"]');
+          if (el) el.click();
+        }
+        // js=...（要 encodeURIComponent）：在游戏窗口里执行一段脚本，用来打开面板、选中某个条目再截图
+        const jsq = q.get('js');
+        if (jsq) { try { w.eval(jsq); } catch (e) { (w.__errs = w.__errs || []).push('js: ' + e.message); } }
+        const P = w.SVAScenePack, im = P && P.img ? P.img('village') : null;
+        const art = (key) => ' art=' + (w.SVA_ART ? Object.keys(w.SVA_ART).join('/') : 'none')
+          + ' lib=' + !!(w.SVAArt && w.SVAArt.libs[key])
+          + ' sym=' + !!(w.SVAArt && w.SVAArt.libs[key] && w.SVAArt.libs[key].shaota)
+          + ' wrapped=' + (w.SV.Art.drawTower.toString().indexOf('origTower') >= 0 ? 1 : 0);
+        const txt = 'ok ' + go
+          + ' pack=' + (P ? (P.ready() ? 'loaded' : 'none') : 'missing')
+          + ' spots=' + (w.SV.Scene.hubHotspots ? w.SV.Scene.hubHotspots.length : 'no')
+          + ' village=' + (im ? (im.ok + '/' + im.im.complete + '/' + im.im.naturalWidth) : 'n/a')
+          + ' clicked=' + (clickId || '-') + ' screen=' + w.SV.UI.screen
+          + ' modal=' + (w.SV.UI.modals && w.SV.UI.modals.length)
+          + ' mbody=' + (w.SV.UI.modals || []).map(mm => (mm.body ? mm.body.innerHTML.length : -1)).join(',')
+          + (w.__errs && w.__errs.length ? ' ERRS=' + w.__errs.join(' | ') : '')
+          + art('tower');
+        title(txt);
+        if (q.get('diag') === '1') {
+          const d = document.createElement('div');
+          d.style.cssText = 'position:fixed;left:0;top:0;z-index:99;background:#000;color:#0f0;'
+                          + 'font:16px monospace;padding:6px'; d.textContent = txt;
+          document.body.appendChild(d);
+        }
+      }, wait);
+    } catch (e) { title('ERR ' + e.message); }
+  }, 400);
+});
+</script>

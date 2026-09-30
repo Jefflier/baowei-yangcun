@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>intro</title>
+<style>
+:root{--wood:#8a5a2c;--wood-d:#4a2a0c;--cream:#fff3d0;--gold:#ffd23f;--green:#6cc04a;--orange:#f08a24;--ink:#3a1f00}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#0d1a0a;font-family:"Microsoft YaHei UI","Microsoft YaHei","Noto Sans SC",sans-serif}
+#stage{position:relative;width:1920px;height:1080px;overflow:hidden}
+.scene{position:absolute;inset:0;opacity:0;overflow:hidden;will-change:opacity}
+.bg{position:absolute;left:0;top:0;width:1920px;height:1080px;object-fit:cover;transform-origin:50% 50%;will-change:transform}
+.shade{position:absolute;inset:0}
+.abs{position:absolute;will-change:transform,opacity}
+.gold-title{font-weight:900;color:var(--gold);letter-spacing:6px;line-height:1.05;
+  text-shadow:0 6px 0 #7a3f00,0 -2px 0 #fff2a8,3px 0 0 #7a3f00,-3px 0 0 #7a3f00,0 0 34px rgba(255,170,0,.55);
+  -webkit-text-stroke:2px #7a3f00;paint-order:stroke fill}
+.plate{background:linear-gradient(180deg,#a9713a,#7d4c1f);border:6px solid #4a2a0c;border-radius:26px;box-shadow:0 10px 0 rgba(0,0,0,.35),0 18px 40px rgba(0,0,0,.45),inset 0 4px 0 rgba(255,220,150,.45);color:#fff3d0;font-weight:900}
+.card{background:var(--cream);border:8px solid var(--wood);border-radius:28px;box-shadow:0 14px 0 rgba(60,30,5,.45),0 26px 60px rgba(0,0,0,.5)}
+.pill{display:inline-block;padding:10px 30px 12px;border-radius:999px;font-weight:900;font-size:40px;color:var(--ink);background:linear-gradient(180deg,#ffe36a,#ffb92a);border:5px solid #7a4a10;box-shadow:0 6px 0 rgba(0,0,0,.3)}
+.txt-shadow{text-shadow:0 3px 0 rgba(0,0,0,.85),0 0 22px rgba(0,0,0,.7)}
+.frame{position:absolute;border:10px solid var(--wood);border-radius:30px;overflow:hidden;background:#000;box-shadow:0 14px 0 rgba(60,30,5,.5),0 30px 70px rgba(0,0,0,.55)}
+.frame img{position:absolute;width:1920px;height:1080px;max-width:none}
+.tile{position:absolute;width:390px;height:330px;text-align:center;padding-top:28px}
+.tile .n{font-size:150px;font-weight:900;line-height:1;color:#d8730a;text-shadow:0 5px 0 #fff,0 9px 0 rgba(90,50,10,.35);font-variant-numeric:tabular-nums}
+.tile .u{font-size:44px;font-weight:900;color:var(--ink);margin-top:6px}
+.tile .d{font-size:30px;font-weight:700;color:#7a5a30;margin-top:10px}
+.li{position:absolute;left:0;font-size:46px;font-weight:900;color:#fff;line-height:1.3;white-space:nowrap}
+.li i{display:inline-block;width:58px;height:58px;line-height:56px;text-align:center;border-radius:50%;background:var(--green);border:4px solid #2d6a16;color:#fff;font-style:normal;font-size:38px;margin-right:22px;vertical-align:middle;box-shadow:0 4px 0 rgba(0,0,0,.35)}
+.li small{display:block;margin:2px 0 0 80px;font-size:28px;color:#ffe9b5;font-weight:700;letter-spacing:1px}
+.code{position:absolute;background:#15200f;border:8px solid #3a2410;border-radius:24px;box-shadow:0 14px 0 rgba(0,0,0,.4),0 30px 70px rgba(0,0,0,.6);font-family:Consolas,"Cascadia Mono","Microsoft YaHei",monospace;color:#d8f0c4}
+.code .bar{height:54px;background:#2a3d1c;border-radius:14px 14px 0 0;display:flex;align-items:center;padding-left:22px;gap:12px;font-size:24px;color:#b8d8a0}
+.code .bar b{width:18px;height:18px;border-radius:50%;display:inline-block}
+.row-bar{position:absolute;height:34px;border-radius:9px;background:linear-gradient(90deg,#ffb92a,#ff7a1a);box-shadow:0 3px 0 rgba(0,0,0,.4)}
+.row-lbl{position:absolute;font-size:26px;color:#e6f5d6;white-space:nowrap}
+.row-num{position:absolute;font-size:24px;color:#ffd23f;font-weight:700}
+</style>
+</head>
+<body>
+<div id="stage">
+
+<!-- ============ S1 标题 ============ -->
+<div class="scene" id="s1">
+  <img class="bg" id="s1bg" src="img/title.png">
+  <div class="shade" style="background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(20,10,0,.78) 100%)"></div>
+  <div class="abs" id="s1a" style="left:110px;top:668px">
+    <div class="gold-title" style="font-size:132px">迷宫式塔防 · 单机复刻</div>
+  </div>
+  <div class="abs" id="s1b" style="left:118px;top:836px;display:flex;gap:22px">
+    <span class="pill" style="background:linear-gradient(180deg,#9be26b,#4fae2e);border-color:#2d6a16;color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.5)">HTML5 · 纯前端</span>
+    <span class="pill">测试版 Demo</span>
+    <span class="pill" style="background:linear-gradient(180deg,#8fd0ff,#3f8fe0);border-color:#1d4f8f;color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.5)">完整源码</span>
+  </div>
+</div>
+
+<!-- ============ S2 玩法核心 ============ -->
+<div class="scene" id="s2">
+  <img class="bg" id="s2bg" src="img/hub_blur.jpg">
+  <div class="abs gold-title" id="s2t" style="left:0;width:1920px;top:20px;text-align:center;font-size:80px">造墙绕路，建塔御敌</div>
+  <div class="frame" id="s2L" style="left:190px;top:130px;width:680px;height:680px"><img id="s2Li" src="img/maze_before.png"></div>
+  <div class="frame" id="s2R" style="left:1050px;top:130px;width:680px;height:680px"><img id="s2Ri" src="img/maze_after.png"></div>
+  <div class="abs" id="s2arrow" style="left:900px;top:400px;width:120px;text-align:center;font-size:120px;font-weight:900;color:var(--gold);text-shadow:0 6px 0 #7a3f00,0 0 30px rgba(255,180,0,.7)">➜</div>
+  <div class="abs plate" id="s2Lc" style="left:190px;top:824px;width:680px;text-align:center;font-size:40px;padding:8px 0 10px">狼群直冲羊村　路线 <span id="s2n0">0</span> 格</div>
+  <div class="abs plate" id="s2Rc" style="left:1050px;top:824px;width:680px;text-align:center;font-size:40px;padding:8px 0 10px;background:linear-gradient(180deg,#7fc85a,#4a9a2a)">造墙 + 建塔　路线 <span id="s2n1">0</span> 格</div>
+</div>
+
+<!-- ============ S3 内容规模 ============ -->
+<div class="scene" id="s3">
+  <div id="s3bgs"></div>
+  <div class="shade" style="background:rgba(10,20,5,.5)"></div>
+  <div class="abs gold-title" id="s3t" style="left:0;width:1920px;top:60px;text-align:center;font-size:88px">内容规模</div>
+  <div class="tile card" id="s3a" style="left:100px;top:290px"><div class="n" id="s3n0">0</div><div class="u">张关卡</div><div class="d">四大陆 · 多种地形与机关</div></div>
+  <div class="tile card" id="s3b" style="left:530px;top:290px"><div class="n" id="s3n1">0</div><div class="u">种狼</div><div class="d">含空军 · 隐身 · BOSS</div></div>
+  <div class="tile card" id="s3c" style="left:960px;top:290px"><div class="n" id="s3n2">0</div><div class="u">种防御塔</div><div class="d">哨 · 散弹 · 炮 · 波动 · 镶嵌</div></div>
+  <div class="tile card" id="s3d" style="left:1390px;top:290px"><div class="n" id="s3n3" style="font-size:118px;padding-top:16px">6×5</div><div class="u">色 × 阶宝石</div><div class="d">红绿黄紫蓝黑 · 碎片到强化</div></div>
+  <div class="abs plate" id="s3e" style="left:360px;top:760px;width:1200px;text-align:center;font-size:50px;padding:16px 0 20px">噩梦模式 · 炸弹墙 · 传送门 · 传送带 · 火山 · 核电厂</div>
+</div>
+
+<!-- ============ S4 系统玩法 ============ -->
+<div class="scene" id="s4">
+  <img class="bg" src="img/hub_blur.jpg">
+  <div class="abs gold-title" id="s4t" style="left:0;width:1920px;top:34px;text-align:center;font-size:84px">养成系统一应俱全</div>
+  <div id="s4list"></div>
+  <div class="frame" id="s4card" style="left:640px;top:190px;width:1200px;height:675px"><img id="s4img" src="img/p_arena.png" style="left:0;top:0;width:1200px;height:auto"></div>
+</div>
+
+<!-- ============ S5 代码与工程 ============ -->
+<div class="scene" id="s5">
+  <img class="bg" src="img/forest_blur.jpg">
+  <div class="abs gold-title" id="s5t" style="left:110px;top:44px;font-size:84px">纯前端 · 方便二次开发</div>
+  <div id="s5list"></div>
+  <div class="code" id="s5code" style="left:1010px;top:160px;width:820px;height:730px">
+    <div class="bar"><b style="background:#ff5f56"></b><b style="background:#ffbd2e"></b><b style="background:#27c93f"></b>&nbsp;js/ 核心脚本（行数）</div>
+    <div id="s5bars" style="position:relative"></div>
+  </div>
+</div>
+
+<!-- ============ S6 转场 ============ -->
+<div class="scene" id="s6">
+  <img class="bg" id="s6bg" src="img/snow_dark.jpg">
+  <div class="shade" style="background:radial-gradient(ellipse at center,rgba(0,0,0,.1),rgba(0,0,0,.6))"></div>
+  <div class="abs" id="s6p" style="left:0;width:1920px;top:250px;text-align:center"><div style="display:inline-block;width:250px;height:250px;border-radius:50%;background:linear-gradient(180deg,#8fe25d,#3f9c22);border:12px solid #2d6a16;box-shadow:0 12px 0 rgba(0,0,0,.4),0 0 60px rgba(120,255,80,.5);position:relative"><div style="position:absolute;left:88px;top:58px;border-left:104px solid #fff;border-top:66px solid transparent;border-bottom:66px solid transparent"></div></div></div>
+  <div class="abs gold-title" id="s6t" style="left:0;width:1920px;top:560px;text-align:center;font-size:136px">实机演示</div>
+  <div class="abs txt-shadow" id="s6s" style="left:0;width:1920px;top:770px;text-align:center;font-size:52px;font-weight:900;color:#fff">真实操作 · 全程约 2 分钟</div>
+</div>
+
+<div id="cap" style="position:absolute;left:50%;bottom:26px;transform:translateX(-50%);z-index:50;max-width:1700px;padding:8px 34px 10px;border-radius:20px;background:linear-gradient(180deg,rgba(35,22,10,.88),rgba(20,12,4,.92));border:4px solid #ffd23f;box-shadow:0 8px 26px rgba(0,0,0,.5);font:800 36px/1.35 'Microsoft YaHei UI','Microsoft YaHei',sans-serif;color:#fff;text-align:center;text-shadow:0 2px 0 #000;opacity:0;white-space:pre-line"></div>
+</div>
+<script>
+'use strict';
+const $ = s => document.querySelector(s);
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const seg = (u, a, b) => clamp((u - a) / (b - a));
+const E = {
+  out: t => 1 - Math.pow(1 - clamp(t), 3),
+  inout: t => { t = clamp(t); return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; },
+  back: t => { t = clamp(t); const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); },
+  lin: t => clamp(t)
+};
+function tf(el, o = {}) {
+  const x = o.x || 0, y = o.y || 0, s = o.s == null ? 1 : o.s, r = o.r || 0;
+  el.style.transform = `translate(${x}px,${y}px) rotate(${r}deg) scale(${s})`;
+  if (o.o != null) el.style.opacity = o.o;
+}
+// 入场：透明度 + 位移 + 缩放
+function pop(el, u, a, dur = .5, from = {}) {
+  const k = E.back(seg(u, a, a + dur)), o = E.out(seg(u, a, a + dur * .6));
+  const fx = from.x || 0, fy = from.y || 0, fs = from.s == null ? .6 : from.s;
+  tf(el, { o, x: fx * (1 - k), y: fy * (1 - k), s: fs + (1 - fs) * k, r: (from.r || 0) * (1 - k) });
+}
+function kb(el, u, dur, a, b) {   // Ken Burns: a,b = {s,x,y}
+  const k = E.inout(u / dur);
+  tf(el, { s: a.s + (b.s - a.s) * k, x: a.x + (b.x - a.x) * k, y: a.y + (b.y - a.y) * k });
+}
+const fmt = n => String(Math.round(n));
+
+let CFG = null, SC = [], TOTAL = 0;
+const OVERLAP = 0.5;
+const BATTLE = ['forest', 'desert', 'ruins', 'volcano', 'snow', 'factory', 'town', 'glacier', 'lostcity', 'snowfield', 'canyon'];
+const S4ITEMS = [['nightmare', '噩梦模式'], ['arena', '竞技场'], ['camp', '训练营'], ['gems', '宝石工坊'], ['mine', '矿山'], ['friends', '好友小屋'], ['tasks', '每日任务 · 成就']];
+
+function build() {
+  // S3 背景图轮播
+  $('#s3bgs').innerHTML = BATTLE.map((n, i) => `<img class="bg" id="s3bg${i}" src="img/battle_${n}.png" style="opacity:0">`).join('');
+  // S4 列表
+  $('#s4list').innerHTML = S4ITEMS.map((it, i) => `<div class="abs plate" id="s4i${i}" style="left:70px;top:${180 + i * 108}px;width:520px;font-size:46px;padding:12px 0 14px 34px">${it[1]}</div>`).join('');
+  // S5 清单
+  const cs = CFG.code;
+  const items = [
+    ['原生 JavaScript + Canvas', '零框架、零依赖，不依赖任何 CDN'],
+    ['双击 index.html 即可运行', '也支持本地起服务，存档走 localStorage'],
+    ['一键打包成单文件 HTML', 'tools/build_single.py，发给朋友双击就能玩'],
+    [`${cs.jsCount} 个脚本 · 约 ${cs.total.toLocaleString('en-US')} 行核心代码`, '引擎 / 战斗 / 渲染 / 界面 / 存档 分模块'],
+    ['附开发文档与调试工具', '美术、狼、地图各有校验台和说明文档']
+  ];
+  $('#s5list').innerHTML = items.map((it, i) => `<div class="li" id="s5i${i}" style="left:110px;top:${170 + i * 132}px"><i>✔</i>${it[0]}<small>${it[1]}</small></div>`).join('');
+  // S5 行数条形图（前 9 个文件）
+  const files = Object.entries(cs.files).sort((a, b) => b[1] - a[1]).slice(0, 10);
+  const max = files[0][1];
+  $('#s5bars').innerHTML = files.map(([f, n], i) => `<div class="row-lbl" style="left:26px;top:${20 + i * 65}px">${f}</div><div class="row-bar" id="s5b${i}" data-w="${Math.round(n / max * 470)}" style="left:290px;top:${22 + i * 65}px;width:0"></div><div class="row-num" id="s5n${i}" data-n="${n}" style="left:290px;top:${22 + i * 65}px;opacity:0">${n}</div>`).join('');
+  // 场景时间线
+  const D = CFG.dur;
+  SC = [
+    { id: 's1', dur: Math.max(D.i01 + 1.0, 6.0), narr: 'i01', upd: upS1 },
+    { id: 's2', dur: D.i02 + 1.0, narr: 'i02', upd: upS2 },
+    { id: 's3', dur: D.i03 + 1.0, narr: 'i03', upd: upS3 },
+    { id: 's4', dur: D.i04 + 1.2, narr: 'i04', upd: upS4 },
+    { id: 's5', dur: D.i05 + 1.0, narr: 'i05', upd: upS5 },
+    { id: 's6', dur: D.i06 + 1.3, narr: 'i06', upd: upS6 }
+  ];
+  let t = 0;
+  SC.forEach((s, i) => { s.i = i; s.el = $('#' + s.id); s.start = t; s.end = t + s.dur; t = s.end - (i < SC.length - 1 ? OVERLAP : 0); });
+  TOTAL = SC[SC.length - 1].end;
+}
+
+/* ---------- 各场景 ---------- */
+function upS1(u, d) {
+  kb($('#s1bg'), u, d, { s: 1.0, x: 0, y: 0 }, { s: 1.045, x: 34, y: 12 });
+  pop($('#s1a'), u, .55, .7, { y: 60, s: .9 });
+  pop($('#s1b'), u, 1.0, .7, { y: 50, s: .9 });
+}
+function upS2(u, d) {
+  const bg = $('#s2bg');
+  pop($('#s2t'), u, .1, .6, { y: -60 });
+  // 左右两张图是完整截图；裁出棋盘区域：棋盘约在 (290..1180, 140..1030) 像素
+  const sc = 0.76, ix = -288, iy = -137;      // 图片缩放与偏移（在 720×720 的窗口里，把棋盘裁出来）
+  for (const id of ['s2Li', 's2Ri']) { const im = $('#' + id); im.style.transformOrigin = '0 0'; im.style.left = ix * sc + 'px'; im.style.top = iy * sc + 'px'; im.style.transform = `scale(${sc})`; }
+  pop($('#s2L'), u, .4, .7, { x: -300, s: .8 });
+  pop($('#s2Lc'), u, .8, .5, { y: 40 });
+  const uR = D_S2_R(d);
+  pop($('#s2arrow'), u, uR - .35, .5, { s: .3 });
+  pop($('#s2R'), u, uR, .7, { x: 300, s: .8 });
+  pop($('#s2Rc'), u, uR + .4, .5, { y: 40 });
+  const n = CFG.nums;
+  $('#s2n0').textContent = (n.pathBefore * E.out(seg(u, .9, 2.0))).toFixed(1);
+  $('#s2n1').textContent = (n.pathAfter * E.out(seg(u, uR + .5, uR + 2.0))).toFixed(1);
+}
+const D_S2_R = d => Math.min(d * 0.42, 4.2);
+function upS3(u, d) {
+  BATTLE.forEach((n, i) => {
+    const per = d / BATTLE.length * 1.35, st = i * (d - per) / (BATTLE.length - 1 || 1), lu = u - st;
+    const a = lu < 0 ? 0 : lu > per ? 0 : Math.min(seg(lu, 0, .5), 1 - seg(lu, per - .5, per));
+    const el = $('#s3bg' + i); el.style.opacity = a;
+    if (a > 0) tf(el, { s: 1.04 + .06 * seg(lu, 0, per), x: -14 + 28 * seg(lu, 0, per) * (i % 2 ? -1 : 1) });
+  });
+  pop($('#s3t'), u, .1, .6, { y: -60 });
+  const t0 = [.3, .30 + d * .22, .30 + d * .44, .30 + d * .62];
+  const ids = ['#s3a', '#s3b', '#s3c', '#s3d'];
+  ids.forEach((id, i) => pop($(id), u, t0[i], .6, { y: 120, s: .7, r: (i % 2 ? 4 : -4) }));
+  $('#s3n0').textContent = fmt(CFG.nums.maps * E.out(seg(u, t0[0] + .1, t0[0] + 1.3)));
+  $('#s3n1').textContent = fmt(CFG.nums.wolves * E.out(seg(u, t0[1] + .1, t0[1] + 1.3)));
+  $('#s3n2').textContent = fmt(5 * E.out(seg(u, t0[2] + .1, t0[2] + .9)));
+  pop($('#s3e'), u, d - 3.2, .6, { y: 60 });
+}
+function upS4(u, d) {
+  pop($('#s4t'), u, .05, .5, { y: -60 });
+  const n = S4ITEMS.length, t0 = .35, per = (d - t0 - .5) / n;
+  const cur = clamp(Math.floor((u - t0) / per), 0, n - 1), lu = (u - t0) - cur * per;
+  S4ITEMS.forEach((it, i) => {
+    const el = $('#s4i' + i), on = i === cur && u >= t0;
+    el.style.background = on ? 'linear-gradient(180deg,#ffe36a,#ffb92a)' : '';
+    el.style.color = on ? 'var(--ink)' : '';
+    el.style.borderColor = on ? '#7a4a10' : '';
+    tf(el, { o: E.out(seg(u, .1 + i * .05, .5 + i * .05)) * (on ? 1 : .78), x: on ? 26 : 0, s: on ? 1.05 : 1 });
+  });
+  const img = $('#s4img'), want = 'img/p_' + S4ITEMS[cur][0] + '.png';
+  if (!img.src.endsWith(want)) img.src = want;
+  const card = $('#s4card');
+  const k = E.back(seg(lu, 0, .45));
+  tf(card, { o: u < t0 ? E.out(seg(u, .1, .5)) : 1, x: (1 - k) * 160, s: .94 + .06 * k, r: (1 - k) * 2 });
+  img.style.transform = `scale(${1 + .04 * seg(lu, 0, per)})`;
+  img.style.transformOrigin = '50% 50%';
+}
+function upS5(u, d) {
+  pop($('#s5t'), u, .1, .6, { y: -60 });
+  const n = 5, t0 = .6, gap = Math.min(1.7, (d - 2.4) / n);
+  for (let i = 0; i < n; i++) pop($('#s5i' + i), u, t0 + i * gap, .55, { x: -160, s: .95 });
+  pop($('#s5code'), u, .5, .7, { x: 200, s: .9 });
+  for (let i = 0; i < 10; i++) {
+    const a = .9 + i * .16, k = E.out(seg(u, a, a + .7));
+    const b = $('#s5b' + i); b.style.width = (+b.dataset.w * k) + 'px';
+    const nn = $('#s5n' + i); nn.style.opacity = E.out(seg(u, a + .3, a + .7)); nn.style.left = (290 + +b.dataset.w * k + 14) + 'px';
+  }
+}
+function upS6(u, d) {
+  const bg = $('#s6bg'); kb(bg, u, d, { s: 1.05, x: 0, y: 0 }, { s: 1.14, x: -30, y: -14 });
+  pop($('#s6p'), u, .15, .6, { s: .3 });
+  pop($('#s6t'), u, .45, .6, { y: 60, s: .8 });
+  pop($('#s6s'), u, .9, .6, { y: 40 });
+  const pulse = 1 + .05 * Math.sin(u * 5);
+  $('#s6p').firstElementChild.style.transform = `scale(${pulse})`;
+}
+
+/* ---------- 渲染入口 ---------- */
+function renderAt(t) {
+  for (const s of SC) {
+    const u = t - s.start;
+    const inWin = t >= s.start && t <= s.end + 1e-6;
+    if (!inWin) { s.el.style.opacity = 0; s.el.style.visibility = 'hidden'; continue; }
+    s.el.style.visibility = 'visible';
+    const a = (s.i === 0 ? 1 : seg(u, 0, OVERLAP)) * (s.i === SC.length - 1 ? 1 : 1 - seg(u, s.dur - OVERLAP, s.dur));
+    s.el.style.opacity = a;
+    s.upd(u, s.dur);
+  }
+  // 旁白字幕（与配音同步）
+  const cap = $('#cap'); let txt = '', o = 0;
+  for (const s of SC) {
+    const a = s.start + 0.4, b = a + CFG.dur[s.narr] + 0.1;
+    if (t >= a - 0.05 && t <= b) { txt = CFG.texts[s.narr]; o = Math.min(seg(t, a - .05, a + .2), 1 - seg(t, b - .15, b)); }
+  }
+  if (cap.dataset.t !== txt) { cap.textContent = txt; cap.dataset.t = txt; }
+  cap.style.opacity = o;
+}
+window.setup = async cfg => {
+  CFG = cfg; build();
+  const imgs = [...document.images];
+  await Promise.all(imgs.map(i => i.decode().catch(() => { })));
+  // S4 用到的所有面板图预先解码
+  await Promise.all(S4ITEMS.map(([k]) => { const im = new Image(); im.src = 'img/p_' + k + '.png'; return im.decode().catch(() => { }); }));
+  renderAt(0);
+  return { total: TOTAL, narr: SC.map(s => ({ id: s.narr, start: s.start + 0.4 })), scenes: SC.map(s => [s.id, s.start, s.end]) };
+};
+window.renderAt = renderAt;
+</script>
+</body>
+</html>

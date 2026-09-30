@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>保卫羊村 · 怀旧服</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="description" content="保卫羊村怀旧服 —— 迷宫式塔防：造墙绕路、五种塔、六色宝石、47 张地图、噩梦模式、竞技场。">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="loading"><div class="ld-box"><div class="ld-title">保卫羊村 · 怀旧服</div><div class="ld-bar"><i id="ld-fill"></i></div><div class="ld-tip" id="ld-tip">正在集结羊羊……</div></div></div>
+<div id="rotate-hint"><span>📱 竖屏画面较小，建议横屏游玩</span><button id="rh-fs">全屏</button><button id="rh-x">知道了</button></div>
+<div id="stage">
+  <canvas id="cv" width="1280" height="720"></canvas>
+  <div id="ui">
+    <section id="scr-title" class="scr"></section>
+    <section id="scr-hub" class="scr"></section>
+    <section id="scr-world" class="scr"></section>
+    <section id="scr-battle" class="scr"></section>
+  </div>
+  <div id="modal-root"></div>
+  <div id="toast-root"></div>
+  <div id="banner-root"></div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/core.js"></script>
+<script src="js/battle.js"></script>
+<script src="js/combat.js"></script>
+<script src="js/ai.js"></script>
+<script src="js/art_terrain.js"></script>
+<script src="js/art_units.js"></script>
+<script src="js/art_chars.js"></script>
+<script src="js/art_map_original.js"></script>
+<!-- 原作矢量包：由 tools/export_assets.py 从原客户端 SWF 导出（去掉下面几行即回到纯程序化美术）
+     狼用 assets/wolf/*.png 的原作图集（tools/build_wolves.ps1 烘），没图集的狼自动退回程序化绘制 -->
+<script src="assets/art/sheep.js"></script>
+<script src="assets/art/tower.js"></script>
+<!-- 原作大厅 / 世界地图插画（tools/build_scene.py 烘的 PNG + 旗标坐标） -->
+<script src="assets/scene/flags.js"></script>
+<!-- 原作战斗底图的场地矩形与代表色（tools/build_maps.py 标定） -->
+<script src="assets/map/fields.js"></script>
+<script src="assets/map/register.js"></script>
+<!-- 辅助建筑 / 障碍 / 地形 的原版矢量（盘龙柱、牛郎织女、石墙、树石、火山、爆炸箱…） -->
+<script src="assets/art/building.js"></script>
+<script src="assets/art/obstacle.js"></script>
+<script src="assets/art/landform.js"></script>
+<!-- 界面素材：货币/道具图标与按钮（gameUI_material.swf / gameUI_item.swf） -->
+<script src="assets/art/material.js"></script>
+<script src="assets/art/item.js"></script>
+<!-- 狼身上的道具：气球（飞行狼）、间谍狼、火把、锤子、血条（gameUI_wolf.swf） -->
+<script src="assets/art/wolfui.js"></script>
+<!-- 子弹 / 战斗特效（gameUI_bullet.swf、gameUI_effect.swf；effect 只导出用到的符号，见 tools/export_assets.py） -->
+<script src="assets/art/bullet.js"></script>
+<script src="assets/art/effect.js"></script>
+<!-- 狼的技能 / 抗性图标（gameUI_skill.swf）：信息面板按需使用，缺符号仍回退文字标签 -->
+<script src="assets/art/skill.js"></script>
+<script src="assets/ui/images.js"></script>
+<script src="js/art_original.js"></script>
+<script src="js/art_wolf.js"></script>
+<script src="assets/wolf/flips.js"></script>
+<script src="js/art_wolf_origin.js"></script>
+<script src="js/art_units_original.js"></script>
+<script src="js/art_original_pack.js"></script>
+<script src="js/art_fx_original.js"></script>
+<script src="js/render.js"></script>
+<script src="js/wolf_talk.js"></script>
+<script src="js/scene.js"></script>
+<script src="assets/audio/sounds.js"></script>
+<script src="assets/data/lore.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/codes.js"></script>
+<script src="js/game.js"></script>
+<script src="js/features.js"></script>
+<script src="js/camp.js"></script>
+<script src="js/ui_core.js"></script>
+<script src="js/ui_battle.js"></script>
+<script src="js/ui_menu.js"></script>
+<script src="js/art_scene_pack.js"></script>
+<script src="js/art_title_original.js"></script>
+<script src="js/ui_panels.js"></script>
+<script src="js/ui_arena.js"></script>
+<script src="js/art_ui_original.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<data>
+	<!--矩形loading-->
+	<xmlData loadingName = '' width = '286' sx = '-391' type = '0'>
+	<!--弧形loading-->
+	<!--xmlData loadingName = '' width = '161' sx = '0' type = '1'-->
+		<xml id="0" src="string_cn.xml" index="1" type=""/>
+		<xml id="1" src="guide.xml" index="0" type=""/>
+		<xml id="2" src="dream.xml" index="0" type="dream"/>
+		<xml id="3" src="config.xml" index= "2" type="config"/>
+	</xmlData>
+	<swfData>
+		<swf id="0" src="gameUI/landform.swf" index="0"/>
+		<swf id="1" src="gameUI/material.swf" index="0"/>
+		<swf id="2" src="gameUI/wolf.swf" index="0"/>
+		<swf id="3" src="gameUI/tower.swf" index="0"/>
+		<swf id="4" src="gameUI/sheep.swf" index="0"/>
+		<swf id="5" src="gameUI/bullet.swf" index="0"/>
+		<swf id="6" src="gameUI/effect.swf" index="0"/>
+		<swf id="7" src="gameUI/item.swf" index="0"/>
+		<swf id="8" src="gameUI/skill.swf" index="0"/>
+		<swf id="9" src="gameUI/dynamic/TheWorld.swf" index="0"/>
+		<swf id="10" src="gameUI/qqvip.swf" index="0" />
+		<swf id="11" src="gameUI/dynamic/TheStronghold.swf" index="0" />
+		<swf id="12" src="gameUI/dynamic/TheStronghold_tame.swf" index="0" />
+		<swf id="13" src="gameUI/dynamic/TheStronghold_arena.swf" index="0" />
+		<swf id="14" src="gameUI/Font_num_HYHHJ.swf" index="0" />
+		<swf id="15" src="MainClass.swf" index="1" />
+	</swfData>
+</data>

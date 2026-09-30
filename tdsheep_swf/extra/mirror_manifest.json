@@ -1,0 +1,419 @@
+{
+ "base": "https://tdsheep.tdsheepvillage.com/static/images/swf/",
+ "found": [
+  {
+   "url": "../b_01.gif",
+   "bytes": 2226,
+   "type": "image/gif",
+   "local": "tdsheep_swf/extra/img_b_01.gif"
+  },
+  {
+   "url": "../b_01__.gif",
+   "bytes": 2844,
+   "type": "image/gif",
+   "local": "tdsheep_swf/extra/img_b_01__.gif"
+  },
+  {
+   "url": "../b_02.gif",
+   "bytes": 1666,
+   "type": "image/gif",
+   "local": "tdsheep_swf/extra/img_b_02.gif"
+  },
+  {
+   "url": "../b_02__.gif",
+   "bytes": 1697,
+   "type": "image/gif",
+   "local": "tdsheep_swf/extra/img_b_02__.gif"
+  },
+  {
+   "url": "../b_03.gif",
+   "bytes": 1705,
+   "type": "image/gif",
+   "local": "tdsheep_swf/extra/img_b_03.gif"
+  },
+  {
+   "url": "../b_03__.gif",
+   "bytes": 1707,
+   "type": "image/gif",
+   "local": "tdsheep_swf/extra/img_b_03__.gif"
+  },
+  {
+   "url": "../b_04.gif",
+   "bytes": 2152,
+   "type": "image/gif",
+   "local": "tdsheep_swf/extra/img_b_04.gif"
+  },
+  {
+   "url": "../b_04__.gif",
+   "bytes": 2259,
+   "type": "image/gif",
+   "local": "tdsheep_swf/extra/img_b_04__.gif"
+  },
+  {
+   "url": "../b_05.gif",
+   "bytes": 2335,
+   "type": "image/gif",
+   "local": "tdsheep_swf/extra/img_b_05.gif"
+  },
+  {
+   "url": "../b_05__.gif",
+   "bytes": 2402,
+   "type": "image/gif",
+   "local": "tdsheep_swf/extra/img_b_05__.gif"
+  },
+  {
+   "url": "../b_06.gif",
+   "bytes": 1606,
+   "type": "image/gif",
+   "local": "tdsheep_swf/extra/img_b_06.gif"
+  },
+  {
+   "url": "../b_06__.gif",
+   "bytes": 1650,
+   "type": "image/gif",
+   "local": "tdsheep_swf/extra/img_b_06__.gif"
+  },
+  {
+   "url": "../b_07.gif",
+   "bytes": 1722,
+   "type": "image/gif",
+   "local": "tdsheep_swf/extra/img_b_07.gif"
+  },
+  {
+   "url": "../b_07__.gif",
+   "bytes": 1784,
+   "type": "image/gif",
+   "local": "tdsheep_swf/extra/img_b_07__.gif"
+  },
+  {
+   "url": "../b_08.gif",
+   "bytes": 1729,
+   "type": "image/gif",
+   "local": "tdsheep_swf/extra/img_b_08.gif"
+  },
+  {
+   "url": "../b_08__.gif",
+   "bytes": 1805,
+   "type": "image/gif",
+   "local": "tdsheep_swf/extra/img_b_08__.gif"
+  },
+  {
+   "url": "../b_09.gif",
+   "bytes": 3436,
+   "type": "image/gif",
+   "local": "tdsheep_swf/extra/img_b_09.gif"
+  },
+  {
+   "url": "../b_09__.gif",
+   "bytes": 3518,
+   "type": "image/gif",
+   "local": "tdsheep_swf/extra/img_b_09__.gif"
+  },
+  {
+   "url": "../b_10.gif",
+   "bytes": 3475,
+   "type": "image/gif",
+   "local": "tdsheep_swf/extra/img_b_10.gif"
+  },
+  {
+   "url": "../b_10__.gif",
+   "bytes": 3518,
+   "type": "image/gif",
+   "local": "tdsheep_swf/extra/img_b_10__.gif"
+  },
+  {
+   "url": "../bg.png",
+   "bytes": 230,
+   "type": "image/png",
+   "local": "tdsheep_swf/extra/img_bg.png"
+  },
+  {
+   "url": "../bottom.gif",
+   "bytes": 63713,
+   "type": "image/gif",
+   "local": "tdsheep_swf/extra/img_bottom.gif"
+  },
+  {
+   "url": "../bottom.jpg",
+   "bytes": 37911,
+   "type": "image/jpeg",
+   "local": "tdsheep_swf/extra/img_bottom.jpg"
+  },
+  {
+   "url": "../dpicture2.png",
+   "bytes": 16497,
+   "type": "image/png",
+   "local": "tdsheep_swf/extra/img_dpicture2.png"
+  },
+  {
+   "url": "../dpicture4.png",
+   "bytes": 12873,
+   "type": "image/png",
+   "local": "tdsheep_swf/extra/img_dpicture4.png"
+  },
+  {
+   "url": "../feed_weibo.jpg",
+   "bytes": 5519,
+   "type": "image/jpeg",
+   "local": "tdsheep_swf/extra/img_feed_weibo.jpg"
+  },
+  {
+   "url": "../first_install.jpg",
+   "bytes": 74618,
+   "type": "image/jpeg",
+   "local": "tdsheep_swf/extra/img_first_install.jpg"
+  },
+  {
+   "url": "../logo.gif",
+   "bytes": 4014,
+   "type": "image/gif",
+   "local": "tdsheep_swf/extra/img_logo.gif"
+  },
+  {
+   "url": "../logo.jpg",
+   "bytes": 32212,
+   "type": "image/jpeg",
+   "local": "tdsheep_swf/extra/img_logo.jpg"
+  },
+  {
+   "url": "../nav.png",
+   "bytes": 15510,
+   "type": "image/png",
+   "local": "tdsheep_swf/extra/img_nav.png"
+  },
+  {
+   "url": "../z_bottom.png",
+   "bytes": 849,
+   "type": "image/png",
+   "local": "tdsheep_swf/extra/img_z_bottom.png"
+  },
+  {
+   "url": "../z_but.png",
+   "bytes": 7736,
+   "type": "image/png",
+   "local": "tdsheep_swf/extra/img_z_but.png"
+  },
+  {
+   "url": "../z_close.png",
+   "bytes": 4885,
+   "type": "image/png",
+   "local": "tdsheep_swf/extra/img_z_close.png"
+  },
+  {
+   "url": "../ztxbg.jpg",
+   "bytes": 10956,
+   "type": "image/jpeg",
+   "local": "tdsheep_swf/extra/img_ztxbg.jpg"
+  },
+  {
+   "url": "gameSound/allAttack.mp3",
+   "bytes": 4813,
+   "type": "audio/mpeg",
+   "local": "tdsheep_swf/gameSound_allAttack.mp3"
+  },
+  {
+   "url": "gameSound/bigFire.mp3",
+   "bytes": 2376,
+   "type": "audio/mpeg",
+   "local": "tdsheep_swf/gameSound_bigFire.mp3"
+  },
+  {
+   "url": "gameSound/bigHit.mp3",
+   "bytes": 3852,
+   "type": "audio/mpeg",
+   "local": "tdsheep_swf/gameSound_bigHit.mp3"
+  },
+  {
+   "url": "gameSound/blast.mp3",
+   "bytes": 7848,
+   "type": "audio/mpeg",
+   "local": "tdsheep_swf/gameSound_blast.mp3"
+  },
+  {
+   "url": "gameSound/build.mp3",
+   "bytes": 3135,
+   "type": "audio/mpeg",
+   "local": "tdsheep_swf/gameSound_build.mp3"
+  },
+  {
+   "url": "gameSound/buildUp.mp3",
+   "bytes": 6792,
+   "type": "audio/mpeg",
+   "local": "tdsheep_swf/gameSound_buildUp.mp3"
+  },
+  {
+   "url": "gameSound/burn.mp3",
+   "bytes": 4578,
+   "type": "audio/mpeg",
+   "local": "tdsheep_swf/gameSound_burn.mp3"
+  },
+  {
+   "url": "gameSound/clamp.mp3",
+   "bytes": 2916,
+   "type": "audio/mpeg",
+   "local": "tdsheep_swf/gameSound_clamp.mp3"
+  },
+  {
+   "url": "gameSound/cold.mp3",
+   "bytes": 4735,
+   "type": "audio/mpeg",
+   "local": "tdsheep_swf/gameSound_cold.mp3"
+  },
+  {
+   "url": "gameSound/countDown.mp3",
+   "bytes": 1303,
+   "type": "audio/mpeg",
+   "local": "tdsheep_swf/gameSound_countDown.mp3"
+  },
+  {
+   "url": "gameSound/fail.mp3",
+   "bytes": 14009,
+   "type": "audio/mpeg",
+   "local": "tdsheep_swf/gameSound_fail.mp3"
+  },
+  {
+   "url": "gameSound/fight001.mp3",
+   "bytes": 28735,
+   "type": "audio/mpeg",
+   "local": "tdsheep_swf/gameSound_fight001.mp3"
+  },
+  {
+   "url": "gameSound/fight004.mp3",
+   "bytes": 21316,
+   "type": "audio/mpeg",
+   "local": "tdsheep_swf/gameSound_fight004.mp3"
+  },
+  {
+   "url": "gameSound/fight005.mp3",
+   "bytes": 26018,
+   "type": "audio/mpeg",
+   "local": "tdsheep_swf/gameSound_fight005.mp3"
+  },
+  {
+   "url": "gameSound/fight010.mp3",
+   "bytes": 16614,
+   "type": "audio/mpeg",
+   "local": "tdsheep_swf/gameSound_fight010.mp3"
+  },
+  {
+   "url": "gameSound/fight011.mp3",
+   "bytes": 16439,
+   "type": "audio/mpeg",
+   "local": "tdsheep_swf/gameSound_fight011.mp3"
+  },
+  {
+   "url": "gameSound/fight012.mp3",
+   "bytes": 16238,
+   "type": "audio/mpeg",
+   "local": "tdsheep_swf/gameSound_fight012.mp3"
+  },
+  {
+   "url": "gameSound/gem.mp3",
+   "bytes": 3344,
+   "type": "audio/mpeg",
+   "local": "tdsheep_swf/gameSound_gem.mp3"
+  },
+  {
+   "url": "gameSound/gold.mp3",
+   "bytes": 1881,
+   "type": "audio/mpeg",
+   "local": "tdsheep_swf/gameSound_gold.mp3"
+  },
+  {
+   "url": "gameSound/lightning.mp3",
+   "bytes": 5076,
+   "type": "audio/mpeg",
+   "local": "tdsheep_swf/gameSound_lightning.mp3"
+  },
+  {
+   "url": "gameSound/magicFire.mp3",
+   "bytes": 836,
+   "type": "audio/mpeg",
+   "local": "tdsheep_swf/gameSound_magicFire.mp3"
+  },
+  {
+   "url": "gameSound/magicHit.mp3",
+   "bytes": 1983,
+   "type": "audio/mpeg",
+   "local": "tdsheep_swf/gameSound_magicHit.mp3"
+  },
+  {
+   "url": "gameSound/miss.mp3",
+   "bytes": 1463,
+   "type": "audio/mpeg",
+   "local": "tdsheep_swf/gameSound_miss.mp3"
+  },
+  {
+   "url": "gameSound/passMap.mp3",
+   "bytes": 7628,
+   "type": "audio/mpeg",
+   "local": "tdsheep_swf/gameSound_passMap.mp3"
+  },
+  {
+   "url": "gameSound/poison.mp3",
+   "bytes": 3384,
+   "type": "audio/mpeg",
+   "local": "tdsheep_swf/gameSound_poison.mp3"
+  },
+  {
+   "url": "gameSound/reward.mp3",
+   "bytes": 2376,
+   "type": "audio/mpeg",
+   "local": "tdsheep_swf/gameSound_reward.mp3"
+  },
+  {
+   "url": "gameSound/sheep.mp3",
+   "bytes": 6912,
+   "type": "audio/mpeg",
+   "local": "tdsheep_swf/gameSound_sheep.mp3"
+  },
+  {
+   "url": "gameSound/slow.mp3",
+   "bytes": 4140,
+   "type": "audio/mpeg",
+   "local": "tdsheep_swf/gameSound_slow.mp3"
+  },
+  {
+   "url": "gameSound/smallFire.mp3",
+   "bytes": 2304,
+   "type": "audio/mpeg",
+   "local": "tdsheep_swf/gameSound_smallFire.mp3"
+  },
+  {
+   "url": "gameSound/smallHit.mp3",
+   "bytes": 2758,
+   "type": "audio/mpeg",
+   "local": "tdsheep_swf/gameSound_smallHit.mp3"
+  },
+  {
+   "url": "gameSound/stab.mp3",
+   "bytes": 3204,
+   "type": "audio/mpeg",
+   "local": "tdsheep_swf/gameSound_stab.mp3"
+  },
+  {
+   "url": "gameSound/teleport.mp3",
+   "bytes": 8064,
+   "type": "audio/mpeg",
+   "local": "tdsheep_swf/gameSound_teleport.mp3"
+  },
+  {
+   "url": "gameSound/win.mp3",
+   "bytes": 2038,
+   "type": "audio/mpeg",
+   "local": "tdsheep_swf/gameSound_win.mp3"
+  },
+  {
+   "url": "gameSound/wolfComing.mp3",
+   "bytes": 9944,
+   "type": "audio/mpeg",
+   "local": "tdsheep_swf/gameSound_wolfComing.mp3"
+  },
+  {
+   "url": "gameSound/wolfDie.mp3",
+   "bytes": 7884,
+   "type": "audio/mpeg",
+   "local": "tdsheep_swf/gameSound_wolfDie.mp3"
+  }
+ ]
+}

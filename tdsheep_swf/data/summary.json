@@ -1,0 +1,141 @@
+{
+ "config_entries": 2919,
+ "config_groups": {
+  "wolfs": 763,
+  "task": 551,
+  "return_msg_config": 256,
+  "card": 240,
+  "camp_wolfs": 232,
+  "skill": 198,
+  "tame": 192,
+  "wc": 86,
+  "feed_gift": 64,
+  "gem": 60,
+  "snarp": 46,
+  "umaps": 38,
+  "msg_templates": 33,
+  "barrier": 26,
+  "building": 20,
+  "ploy": 20,
+  "broadcast": 18,
+  "request_gift": 15,
+  "free_gift": 15,
+  "dm_building": 12,
+  "dmaps": 10,
+  "broadcast_templates": 10,
+  "wolf_hard_ness": 6,
+  "slaves": 5,
+  "system_simple": 2,
+  "reward_icon": 1
+ },
+ "strings_cn": 961,
+ "guide_steps": 59,
+ "dream_steps": 11,
+ "init_entries": 20,
+ "top_prefixes": [
+  [
+   "wolfs",
+   763
+  ],
+  [
+   "task",
+   551
+  ],
+  [
+   "return_msg_config",
+   256
+  ],
+  [
+   "card",
+   240
+  ],
+  [
+   "camp_wolfs",
+   232
+  ],
+  [
+   "skill",
+   198
+  ],
+  [
+   "tame",
+   192
+  ],
+  [
+   "wc",
+   86
+  ],
+  [
+   "feed_gift",
+   64
+  ],
+  [
+   "gem",
+   60
+  ],
+  [
+   "snarp",
+   46
+  ],
+  [
+   "umaps",
+   38
+  ],
+  [
+   "msg_templates",
+   33
+  ],
+  [
+   "barrier",
+   26
+  ],
+  [
+   "building",
+   20
+  ],
+  [
+   "ploy",
+   20
+  ],
+  [
+   "broadcast",
+   18
+  ],
+  [
+   "request_gift",
+   15
+  ],
+  [
+   "free_gift",
+   15
+  ],
+  [
+   "dm_building",
+   12
+  ],
+  [
+   "dmaps",
+   10
+  ],
+  [
+   "broadcast_templates",
+   10
+  ],
+  [
+   "wolf_hard_ness",
+   6
+  ],
+  [
+   "slaves",
+   5
+  ],
+  [
+   "system_simple",
+   2
+  ],
+  [
+   "reward_icon",
+   1
+  ]
+ ]
+}

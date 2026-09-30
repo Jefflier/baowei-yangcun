@@ -1,0 +1,2991 @@
+[
+  {
+    "file": "MainClass.swf",
+    "version": 10,
+    "size": 969585,
+    "counts": {
+      "FileAttributes": 1,
+      "Metadata": 1,
+      "EnableDebugger": 1,
+      "RawBody": 2,
+      "ScriptLimits": 1,
+      "SetBackgroundColor": 1,
+      "FrameLabel": 1,
+      "DoAbc": 413,
+      "SymbolClass": 1,
+      "ShowFrame": 1
+    },
+    "symbols": [
+      {
+        "id": 0,
+        "name": "com.kingdowin.TDSheep.main.init.MainClass"
+      }
+    ]
+  },
+  {
+    "file": "TDSheepMain.swf",
+    "version": 10,
+    "size": 99847,
+    "counts": {
+      "FileAttributes": 1,
+      "Metadata": 1,
+      "EnableDebugger": 1,
+      "RawBody": 2,
+      "ScriptLimits": 1,
+      "SetBackgroundColor": 1,
+      "FrameLabel": 1,
+      "DoAbc": 33,
+      "SymbolClass": 1,
+      "ShowFrame": 1
+    },
+    "symbols": [
+      {
+        "id": 0,
+        "name": "com.kingdowin.TDSheep.main.TDSheepMain"
+      }
+    ]
+  },
+  {
+    "file": "gameUI_Font_num_HYHHJ.swf",
+    "version": 10,
+    "size": 5455,
+    "counts": {
+      "FileAttributes": 1,
+      "SetBackgroundColor": 1,
+      "DefineSceneAndFrameLabelData": 1,
+      "DefineFont": 1,
+      "DefineFontAlignZones": 1,
+      "DefineFontName": 1,
+      "DoAbc": 1,
+      "SymbolClass": 1,
+      "ShowFrame": 1
+    },
+    "symbols": [
+      {
+        "id": 1,
+        "name": "Font_num_HYHHJ"
+      }
+    ]
+  },
+  {
+    "file": "gameUI_bullet.swf",
+    "version": 10,
+    "size": 10076,
+    "counts": {
+      "FileAttributes": 1,
+      "SetBackgroundColor": 1,
+      "DefineSceneAndFrameLabelData": 1,
+      "DefineShape": 34,
+      "DefineSprite": 43,
+      "PlaceObject": 214,
+      "ShowFrame": 85,
+      "RemoveObject": 2,
+      "DoAbc": 1,
+      "SymbolClass": 1
+    },
+    "symbols": [
+      {
+        "id": 77,
+        "name": "bullet010"
+      },
+      {
+        "id": 74,
+        "name": "bullet011"
+      },
+      {
+        "id": 73,
+        "name": "bullet012"
+      },
+      {
+        "id": 72,
+        "name": "bullet013"
+      },
+      {
+        "id": 71,
+        "name": "bullet015"
+      },
+      {
+        "id": 68,
+        "name": "bullet020"
+      },
+      {
+        "id": 67,
+        "name": "bullet021"
+      },
+      {
+        "id": 65,
+        "name": "bullet022"
+      },
+      {
+        "id": 63,
+        "name": "bullet023"
+      },
+      {
+        "id": 61,
+        "name": "bullet024"
+      },
+      {
+        "id": 59,
+        "name": "bullet025"
+      },
+      {
+        "id": 57,
+        "name": "bullet026"
+      },
+      {
+        "id": 53,
+        "name": "bullet040"
+      },
+      {
+        "id": 50,
+        "name": "bullet050"
+      },
+      {
+        "id": 47,
+        "name": "bullet060"
+      },
+      {
+        "id": 44,
+        "name": "bullet100"
+      },
+      {
+        "id": 43,
+        "name": "bullet110"
+      },
+      {
+        "id": 40,
+        "name": "bullet120"
+      },
+      {
+        "id": 37,
+        "name": "bullet130"
+      },
+      {
+        "id": 34,
+        "name": "bullet140"
+      },
+      {
+        "id": 29,
+        "name": "bullet210"
+      },
+      {
+        "id": 24,
+        "name": "bullet211"
+      },
+      {
+        "id": 22,
+        "name": "bullet212"
+      },
+      {
+        "id": 20,
+        "name": "bullet213"
+      },
+      {
+        "id": 13,
+        "name": "bullet214"
+      },
+      {
+        "id": 2,
+        "name": "bullet215"
+      }
+    ]
+  },
+  {
+    "file": "gameUI_dynamic_TheStronghold.swf",
+    "version": 10,
+    "size": 166088,
+    "counts": {
+      "FileAttributes": 1,
+      "SetBackgroundColor": 1,
+      "DefineSceneAndFrameLabelData": 1,
+      "DefineShape": 158,
+      "DefineSprite": 128,
+      "PlaceObject": 936,
+      "ShowFrame": 626,
+      "RemoveObject": 61,
+      "FrameLabel": 4,
+      "DefineFont": 3,
+      "DefineFontAlignZones": 3,
+      "DefineDynamicText": 7,
+      "DefineFontName": 2,
+      "CsmTextSettings": 6,
+      "DefineScalingGrid": 1,
+      "DoAbc": 1,
+      "SymbolClass": 1
+    },
+    "symbols": [
+      {
+        "id": 294,
+        "name": "Test_tips_ui_bg"
+      },
+      {
+        "id": 292,
+        "name": "Test_tips_ui_point"
+      },
+      {
+        "id": 290,
+        "name": "TheStronghold"
+      },
+      {
+        "id": 280,
+        "name": "TheStronghold_fla.TheStronghold_manor_113"
+      },
+      {
+        "id": 25,
+        "name": "TheStronghold_back"
+      },
+      {
+        "id": 22,
+        "name": "TheStronghold_tips_pk"
+      },
+      {
+        "id": 18,
+        "name": "TheStronghold_tips_mine"
+      },
+      {
+        "id": 13,
+        "name": "TheStronghold_tips_mine_help"
+      }
+    ]
+  },
+  {
+    "file": "gameUI_dynamic_TheStronghold_arena.swf",
+    "version": 10,
+    "size": 39919,
+    "counts": {
+      "FileAttributes": 1,
+      "SetBackgroundColor": 1,
+      "DefineSceneAndFrameLabelData": 1,
+      "DefineShape": 24,
+      "DefineSprite": 14,
+      "PlaceObject": 82,
+      "ShowFrame": 15,
+      "DefineScalingGrid": 1,
+      "DefineFont": 3,
+      "DefineFontAlignZones": 3,
+      "DefineFontName": 2,
+      "DefineDynamicText": 18,
+      "CsmTextSettings": 16,
+      "DefineButton": 2,
+      "DoAbc": 1,
+      "SymbolClass": 1
+    },
+    "symbols": [
+      {
+        "id": 60,
+        "name": "The_arena_panel_card"
+      },
+      {
+        "id": 46,
+        "name": "The_arena_panel_card_1"
+      },
+      {
+        "id": 24,
+        "name": "The_arena_data_panel"
+      },
+      {
+        "id": 14,
+        "name": "The_arena_panel"
+      }
+    ]
+  },
+  {
+    "file": "gameUI_dynamic_TheStronghold_tame.swf",
+    "version": 10,
+    "size": 79864,
+    "counts": {
+      "FileAttributes": 1,
+      "SetBackgroundColor": 1,
+      "DefineSceneAndFrameLabelData": 1,
+      "DefineShape": 85,
+      "DefineSprite": 67,
+      "PlaceObject": 266,
+      "ShowFrame": 86,
+      "DefineScalingGrid": 6,
+      "DefineFont": 4,
+      "DefineFontAlignZones": 4,
+      "DefineFontName": 3,
+      "DefineDynamicText": 34,
+      "CsmTextSettings": 33,
+      "DefineButton": 13,
+      "RemoveObject": 11,
+      "FrameLabel": 5,
+      "DoAbc": 1,
+      "SymbolClass": 1
+    },
+    "symbols": [
+      {
+        "id": 202,
+        "name": "TheStronghold_tame"
+      },
+      {
+        "id": 139,
+        "name": "TheStronghold_tame_battlePanel"
+      },
+      {
+        "id": 135,
+        "name": "TheStronghold_tame_defend_btn"
+      },
+      {
+        "id": 128,
+        "name": "TheStronghold_tame_info"
+      },
+      {
+        "id": 90,
+        "name": "TheStronghold_tame_manor_card"
+      },
+      {
+        "id": 77,
+        "name": "TheStronghold_tame_manor_card2"
+      },
+      {
+        "id": 73,
+        "name": "TheStronghold_tame_pkPanel"
+      },
+      {
+        "id": 50,
+        "name": "TheStronghold_tame_wCard_2"
+      },
+      {
+        "id": 39,
+        "name": "TheStronghold_tame_pkPanel_tag"
+      },
+      {
+        "id": 37,
+        "name": "TheStronghold_tame_pkPanel_tag2"
+      },
+      {
+        "id": 35,
+        "name": "TheStronghold_tame_skill_0"
+      },
+      {
+        "id": 28,
+        "name": "TheStronghold_tame_skill_1"
+      },
+      {
+        "id": 26,
+        "name": "TheStronghold_tame_wCard_0"
+      },
+      {
+        "id": 25,
+        "name": "TheStronghold_tame_fla.Timeline_72"
+      },
+      {
+        "id": 16,
+        "name": "TheStronghold_tame_wCard_1"
+      },
+      {
+        "id": 7,
+        "name": "TheStronghold_tame_wCard_3"
+      },
+      {
+        "id": 2,
+        "name": "TheStronghold_tame_wCard_0_lv"
+      }
+    ]
+  },
+  {
+    "file": "gameUI_dynamic_TheWorld.swf",
+    "version": 17,
+    "size": 50908,
+    "counts": {
+      "FileAttributes": 1,
+      "SetBackgroundColor": 1,
+      "DefineSceneAndFrameLabelData": 1,
+      "DefineShape": 20,
+      "DefineSprite": 25,
+      "PlaceObject": 296,
+      "ShowFrame": 61,
+      "RemoveObject": 8,
+      "DefineFont": 1,
+      "DefineFontAlignZones": 1,
+      "DefineFontName": 1,
+      "DefineDynamicText": 50,
+      "CsmTextSettings": 50,
+      "DefineButton": 1,
+      "FrameLabel": 1,
+      "DoAbc": 1,
+      "SymbolClass": 1
+    },
+    "symbols": [
+      {
+        "id": 97,
+        "name": "TheWorld_fun_3"
+      },
+      {
+        "id": 85,
+        "name": "TheWorld_changeMap"
+      },
+      {
+        "id": 75,
+        "name": "TheWorld_fun_0"
+      },
+      {
+        "id": 61,
+        "name": "TheWorld_fun_1"
+      },
+      {
+        "id": 44,
+        "name": "TheWorld_fun_2"
+      },
+      {
+        "id": 10,
+        "name": "TheWorld_fla.Timeline_13"
+      }
+    ]
+  },
+  {
+    "file": "gameUI_effect.swf",
+    "version": 9,
+    "size": 129414,
+    "counts": {
+      "FileAttributes": 1,
+      "SetBackgroundColor": 1,
+      "DefineSceneAndFrameLabelData": 1,
+      "DefineShape": 198,
+      "DefineSprite": 189,
+      "PlaceObject": 3382,
+      "ShowFrame": 1226,
+      "RemoveObject": 385,
+      "DoAbc": 1,
+      "SymbolClass": 1
+    },
+    "symbols": [
+      {
+        "id": 387,
+        "name": "effectCrit"
+      },
+      {
+        "id": 376,
+        "name": "effect201"
+      },
+      {
+        "id": 375,
+        "name": "effect202"
+      },
+      {
+        "id": 374,
+        "name": "effect203"
+      },
+      {
+        "id": 373,
+        "name": "effect204"
+      },
+      {
+        "id": 354,
+        "name": "effect310"
+      },
+      {
+        "id": 342,
+        "name": "pathBurn"
+      },
+      {
+        "id": 338,
+        "name": "statusCold"
+      },
+      {
+        "id": 331,
+        "name": "signShield"
+      },
+      {
+        "id": 328,
+        "name": "statusIntimidate"
+      },
+      {
+        "id": 326,
+        "name": "statusLinks"
+      },
+      {
+        "id": 323,
+        "name": "pathCold"
+      },
+      {
+        "id": 320,
+        "name": "effectSneer"
+      },
+      {
+        "id": 317,
+        "name": "effectSneerOne"
+      },
+      {
+        "id": 314,
+        "name": "teleport"
+      },
+      {
+        "id": 311,
+        "name": "effect030"
+      },
+      {
+        "id": 304,
+        "name": "effectMirror"
+      },
+      {
+        "id": 302,
+        "name": "effectHedian"
+      },
+      {
+        "id": 274,
+        "name": "effect220"
+      },
+      {
+        "id": 271,
+        "name": "effect221"
+      },
+      {
+        "id": 268,
+        "name": "effectRelive"
+      },
+      {
+        "id": 264,
+        "name": "signCure"
+      },
+      {
+        "id": 261,
+        "name": "effectCussBreak"
+      },
+      {
+        "id": 244,
+        "name": "statusReducedDefense"
+      },
+      {
+        "id": 240,
+        "name": "statusSlow"
+      },
+      {
+        "id": 227,
+        "name": "statusShield"
+      },
+      {
+        "id": 219,
+        "name": "statusPoison"
+      },
+      {
+        "id": 212,
+        "name": "effectCureOne"
+      },
+      {
+        "id": 208,
+        "name": "signTransform"
+      },
+      {
+        "id": 202,
+        "name": "effectCuss"
+      },
+      {
+        "id": 191,
+        "name": "effectBoss"
+      },
+      {
+        "id": 187,
+        "name": "effectSuicide"
+      },
+      {
+        "id": 164,
+        "name": "effectBlinkIn"
+      },
+      {
+        "id": 157,
+        "name": "signCloud"
+      },
+      {
+        "id": 154,
+        "name": "effect222"
+      },
+      {
+        "id": 149,
+        "name": "effect223"
+      },
+      {
+        "id": 144,
+        "name": "effectRun"
+      },
+      {
+        "id": 141,
+        "name": "effect300"
+      },
+      {
+        "id": 130,
+        "name": "effectLinks"
+      },
+      {
+        "id": 126,
+        "name": "statusCuss"
+      },
+      {
+        "id": 112,
+        "name": "effectPath"
+      },
+      {
+        "id": 110,
+        "name": "arrowhead"
+      },
+      {
+        "id": 108,
+        "name": "tinyLoading"
+      },
+      {
+        "id": 107,
+        "name": "effect040"
+      },
+      {
+        "id": 103,
+        "name": "effectMagic"
+      },
+      {
+        "id": 101,
+        "name": "effect010"
+      },
+      {
+        "id": 96,
+        "name": "allAttackAOE"
+      },
+      {
+        "id": 82,
+        "name": "allAttack"
+      },
+      {
+        "id": 79,
+        "name": "effectCure"
+      },
+      {
+        "id": 73,
+        "name": "smallLoading"
+      },
+      {
+        "id": 68,
+        "name": "effectCloud"
+      },
+      {
+        "id": 62,
+        "name": "statusSilence"
+      },
+      {
+        "id": 58,
+        "name": "invasion"
+      },
+      {
+        "id": 53,
+        "name": "effect140"
+      },
+      {
+        "id": 46,
+        "name": "effectBlinkOut"
+      },
+      {
+        "id": 37,
+        "name": "effectSummon"
+      },
+      {
+        "id": 33,
+        "name": "statusBurn"
+      },
+      {
+        "id": 21,
+        "name": "effect020"
+      },
+      {
+        "id": 16,
+        "name": "statusLinks_2"
+      },
+      {
+        "id": 10,
+        "name": "statusVertigo"
+      },
+      {
+        "id": 7,
+        "name": "signSummon"
+      },
+      {
+        "id": 4,
+        "name": "statusMCold_SLOWF"
+      }
+    ]
+  },
+  {
+    "file": "gameUI_item.swf",
+    "version": 10,
+    "size": 404501,
+    "counts": {
+      "FileAttributes": 1,
+      "SetBackgroundColor": 1,
+      "DefineSceneAndFrameLabelData": 1,
+      "DefineShape": 316,
+      "DefineSprite": 307,
+      "PlaceObject": 766,
+      "ShowFrame": 839,
+      "RemoveObject": 107,
+      "FrameLabel": 92,
+      "DefineMorphShape": 3,
+      "DefineFont": 1,
+      "DefineFontAlignZones": 1,
+      "DefineFontName": 1,
+      "DefineText": 1,
+      "CsmTextSettings": 1,
+      "DoAbc": 1,
+      "SymbolClass": 1
+    },
+    "symbols": [
+      {
+        "id": 628,
+        "name": "za_huang_jp"
+      },
+      {
+        "id": 626,
+        "name": "za_jin_jp"
+      },
+      {
+        "id": 624,
+        "name": "za_jinyaoshi"
+      },
+      {
+        "id": 622,
+        "name": "za_nv_jp"
+      },
+      {
+        "id": 620,
+        "name": "za_shen_jp"
+      },
+      {
+        "id": 618,
+        "name": "za_tongyaoshi"
+      },
+      {
+        "id": 616,
+        "name": "za_yinyaoshi"
+      },
+      {
+        "id": 614,
+        "name": "za_zhi_jp"
+      },
+      {
+        "id": 612,
+        "name": "qixi1"
+      },
+      {
+        "id": 608,
+        "name": "liuyi3Icon"
+      },
+      {
+        "id": 606,
+        "name": "baoxiang21"
+      },
+      {
+        "id": 604,
+        "name": "haojiao_bnl"
+      },
+      {
+        "id": 602,
+        "name": "za_baozha"
+      },
+      {
+        "id": 600,
+        "name": "bushoujia1"
+      },
+      {
+        "id": 598,
+        "name": "item_fla.jiazi_20"
+      },
+      {
+        "id": 592,
+        "name": "baozhatong1"
+      },
+      {
+        "id": 589,
+        "name": "item_fla.Timeline_24"
+      },
+      {
+        "id": 579,
+        "name": "dicicao1"
+      },
+      {
+        "id": 578,
+        "name": "item_fla.Timeline_32"
+      },
+      {
+        "id": 575,
+        "name": "item_fla.v_31"
+      },
+      {
+        "id": 572,
+        "name": "sl1"
+      },
+      {
+        "id": 569,
+        "name": "za_nianzhuo"
+      },
+      {
+        "id": 567,
+        "name": "bushoujia2"
+      },
+      {
+        "id": 565,
+        "name": "item_fla.jiazi_39"
+      },
+      {
+        "id": 560,
+        "name": "cuantiandan2"
+      },
+      {
+        "id": 556,
+        "name": "baozhatong2"
+      },
+      {
+        "id": 553,
+        "name": "item_fla.Timeline_45"
+      },
+      {
+        "id": 546,
+        "name": "lqxfj"
+      },
+      {
+        "id": 544,
+        "name": "dicicao2"
+      },
+      {
+        "id": 543,
+        "name": "item_fla.Timeline_52"
+      },
+      {
+        "id": 536,
+        "name": "item_fla.Timeline_51"
+      },
+      {
+        "id": 531,
+        "name": "ybb"
+      },
+      {
+        "id": 529,
+        "name": "sl2"
+      },
+      {
+        "id": 525,
+        "name": "chunjie1"
+      },
+      {
+        "id": 524,
+        "name": "item_fla.Timeline_58"
+      },
+      {
+        "id": 521,
+        "name": "baoxiang14"
+      },
+      {
+        "id": 519,
+        "name": "baoxiang13"
+      },
+      {
+        "id": 517,
+        "name": "za_cun"
+      },
+      {
+        "id": 515,
+        "name": "baoxiang7"
+      },
+      {
+        "id": 513,
+        "name": "dalic"
+      },
+      {
+        "id": 511,
+        "name": "drws"
+      },
+      {
+        "id": 508,
+        "name": "bushoujia4"
+      },
+      {
+        "id": 507,
+        "name": "item_fla.jiazi_68"
+      },
+      {
+        "id": 501,
+        "name": "cuantiandan4"
+      },
+      {
+        "id": 497,
+        "name": "baozhatong4"
+      },
+      {
+        "id": 496,
+        "name": "item_fla.GJDBL_74"
+      },
+      {
+        "id": 489,
+        "name": "lqxfj2"
+      },
+      {
+        "id": 487,
+        "name": "dicicao4"
+      },
+      {
+        "id": 486,
+        "name": "item_fla.GJDCC_79"
+      },
+      {
+        "id": 481,
+        "name": "item_fla.GC_78"
+      },
+      {
+        "id": 478,
+        "name": "ybb2"
+      },
+      {
+        "id": 476,
+        "name": "sl4"
+      },
+      {
+        "id": 472,
+        "name": "tuzhi"
+      },
+      {
+        "id": 468,
+        "name": "guoqing1"
+      },
+      {
+        "id": 461,
+        "name": "baoxiang_E"
+      },
+      {
+        "id": 459,
+        "name": "hong3"
+      },
+      {
+        "id": 458,
+        "name": "hong2"
+      },
+      {
+        "id": 452,
+        "name": "hong4"
+      },
+      {
+        "id": 446,
+        "name": "hong1"
+      },
+      {
+        "id": 440,
+        "name": "tt_D"
+      },
+      {
+        "id": 438,
+        "name": "za_huan"
+      },
+      {
+        "id": 436,
+        "name": "za_jinyang"
+      },
+      {
+        "id": 433,
+        "name": "baoxiang80"
+      },
+      {
+        "id": 427,
+        "name": "baoxiang17"
+      },
+      {
+        "id": 425,
+        "name": "baoxiang3"
+      },
+      {
+        "id": 422,
+        "name": "tt_C"
+      },
+      {
+        "id": 420,
+        "name": "za_jinggang"
+      },
+      {
+        "id": 418,
+        "name": "baoxiang_D"
+      },
+      {
+        "id": 416,
+        "name": "juzi"
+      },
+      {
+        "id": 414,
+        "name": "wexp_A"
+      },
+      {
+        "id": 412,
+        "name": "wexp_B"
+      },
+      {
+        "id": 410,
+        "name": "wexp_C"
+      },
+      {
+        "id": 408,
+        "name": "wexp_D"
+      },
+      {
+        "id": 406,
+        "name": "card_E2"
+      },
+      {
+        "id": 404,
+        "name": "card_E1"
+      },
+      {
+        "id": 400,
+        "name": "card_C2"
+      },
+      {
+        "id": 398,
+        "name": "card_C1"
+      },
+      {
+        "id": 396,
+        "name": "card_D2"
+      },
+      {
+        "id": 394,
+        "name": "card_D1"
+      },
+      {
+        "id": 390,
+        "name": "card_A2"
+      },
+      {
+        "id": 388,
+        "name": "card_A1"
+      },
+      {
+        "id": 386,
+        "name": "card_B2"
+      },
+      {
+        "id": 384,
+        "name": "card_B1"
+      },
+      {
+        "id": 382,
+        "name": "za_le"
+      },
+      {
+        "id": 380,
+        "name": "baoxiang_A"
+      },
+      {
+        "id": 378,
+        "name": "mc"
+      },
+      {
+        "id": 375,
+        "name": "tt_A"
+      },
+      {
+        "id": 373,
+        "name": "baoxiang15"
+      },
+      {
+        "id": 371,
+        "name": "baoxiang_B"
+      },
+      {
+        "id": 369,
+        "name": "hong5"
+      },
+      {
+        "id": 359,
+        "name": "za_qiangwei"
+      },
+      {
+        "id": 357,
+        "name": "baoxiang_ql"
+      },
+      {
+        "id": 353,
+        "name": "haojiao_qbt"
+      },
+      {
+        "id": 351,
+        "name": "haojiao_ns"
+      },
+      {
+        "id": 349,
+        "name": "rmbbt"
+      },
+      {
+        "id": 347,
+        "name": "baoxiang4"
+      },
+      {
+        "id": 344,
+        "name": "baoxiang6"
+      },
+      {
+        "id": 342,
+        "name": "baoxiang5"
+      },
+      {
+        "id": 340,
+        "name": "baoxiang11"
+      },
+      {
+        "id": 338,
+        "name": "baoxiang10"
+      },
+      {
+        "id": 333,
+        "name": "shengdan1"
+      },
+      {
+        "id": 330,
+        "name": "tt_B"
+      },
+      {
+        "id": 328,
+        "name": "za_shiguang"
+      },
+      {
+        "id": 326,
+        "name": "baoxiang_C"
+      },
+      {
+        "id": 324,
+        "name": "za_song"
+      },
+      {
+        "id": 322,
+        "name": "texp_A"
+      },
+      {
+        "id": 319,
+        "name": "texp_B"
+      },
+      {
+        "id": 316,
+        "name": "texp_C"
+      },
+      {
+        "id": 313,
+        "name": "tiegao"
+      },
+      {
+        "id": 311,
+        "name": "baoxiang1"
+      },
+      {
+        "id": 308,
+        "name": "baoxiang_tt"
+      },
+      {
+        "id": 305,
+        "name": "baoxiang16"
+      },
+      {
+        "id": 299,
+        "name": "baoxiang_F"
+      },
+      {
+        "id": 297,
+        "name": "baoxiang_JP_1"
+      },
+      {
+        "id": 292,
+        "name": "baoxiang8"
+      },
+      {
+        "id": 289,
+        "name": "za_xingchen"
+      },
+      {
+        "id": 287,
+        "name": "za_yang"
+      },
+      {
+        "id": 285,
+        "name": "baoxiang_DW"
+      },
+      {
+        "id": 280,
+        "name": "baoxiang2"
+      },
+      {
+        "id": 274,
+        "name": "yuanxiao1"
+      },
+      {
+        "id": 271,
+        "name": "item_fla.Timeline_189"
+      },
+      {
+        "id": 265,
+        "name": "bushoujia3"
+      },
+      {
+        "id": 264,
+        "name": "item_fla.jiazi_193"
+      },
+      {
+        "id": 258,
+        "name": "cuantiandan3"
+      },
+      {
+        "id": 253,
+        "name": "baozhatong3"
+      },
+      {
+        "id": 248,
+        "name": "item_fla.Timeline_198"
+      },
+      {
+        "id": 242,
+        "name": "lqxfj1"
+      },
+      {
+        "id": 240,
+        "name": "dicicao3"
+      },
+      {
+        "id": 239,
+        "name": "item_fla.ZJDCC_204"
+      },
+      {
+        "id": 230,
+        "name": "item_fla.Q_203"
+      },
+      {
+        "id": 227,
+        "name": "ybb1"
+      },
+      {
+        "id": 225,
+        "name": "sl3"
+      },
+      {
+        "id": 219,
+        "name": "baoxiang18"
+      },
+      {
+        "id": 215,
+        "name": "gem_hammer"
+      },
+      {
+        "id": 213,
+        "name": "baoxiang_JP_4"
+      },
+      {
+        "id": 211,
+        "name": "baoxiang_sd3"
+      },
+      {
+        "id": 209,
+        "name": "haojiao_sd3"
+      },
+      {
+        "id": 207,
+        "name": "baoxiang_nl"
+      },
+      {
+        "id": 205,
+        "name": "qixi2Icon"
+      },
+      {
+        "id": 203,
+        "name": "gem_opener"
+      },
+      {
+        "id": 201,
+        "name": "baoxiang_sd1"
+      },
+      {
+        "id": 199,
+        "name": "haojiao_sd1"
+      },
+      {
+        "id": 197,
+        "name": "baoxiang_sd2"
+      },
+      {
+        "id": 195,
+        "name": "haojiao_sd2"
+      },
+      {
+        "id": 193,
+        "name": "baoxiang_zn"
+      },
+      {
+        "id": 191,
+        "name": "za_baozhen_drop"
+      },
+      {
+        "id": 189,
+        "name": "za_beizi_drop"
+      },
+      {
+        "id": 187,
+        "name": "za_bitong_drop"
+      },
+      {
+        "id": 185,
+        "name": "baoxiang_dyd"
+      },
+      {
+        "id": 174,
+        "name": "za_gangbi_drop"
+      },
+      {
+        "id": 172,
+        "name": "za_unlock"
+      },
+      {
+        "id": 170,
+        "name": "baoxiang_sj"
+      },
+      {
+        "id": 168,
+        "name": "haojiao_sj"
+      },
+      {
+        "id": 163,
+        "name": "haojiao_tzs"
+      },
+      {
+        "id": 161,
+        "name": "za_tongyang"
+      },
+      {
+        "id": 159,
+        "name": "za_yinyang"
+      },
+      {
+        "id": 157,
+        "name": "za_huizhang"
+      },
+      {
+        "id": 150,
+        "name": "baozhatong5"
+      },
+      {
+        "id": 146,
+        "name": "item_fla.sdfdsfdsf_243"
+      },
+      {
+        "id": 139,
+        "name": "baoxiang101"
+      },
+      {
+        "id": 133,
+        "name": "baozhatong7"
+      },
+      {
+        "id": 132,
+        "name": "item_fla.Timeline_250"
+      },
+      {
+        "id": 125,
+        "name": "baoxiang103"
+      },
+      {
+        "id": 123,
+        "name": "haojiao_lmx"
+      },
+      {
+        "id": 121,
+        "name": "haojiao_tl"
+      },
+      {
+        "id": 119,
+        "name": "za_moyangyang"
+      },
+      {
+        "id": 117,
+        "name": "baoxiang_wz1"
+      },
+      {
+        "id": 115,
+        "name": "baoxiang_wz2"
+      },
+      {
+        "id": 111,
+        "name": "baoxiang_lb1"
+      },
+      {
+        "id": 107,
+        "name": "haojiao_skm"
+      },
+      {
+        "id": 102,
+        "name": "baoxiang_scdg"
+      },
+      {
+        "id": 95,
+        "name": "baoxiang_xxg"
+      },
+      {
+        "id": 93,
+        "name": "baoxiang_xndg"
+      },
+      {
+        "id": 88,
+        "name": "baoxiang_yml"
+      },
+      {
+        "id": 80,
+        "name": "baoxiang102"
+      },
+      {
+        "id": 78,
+        "name": "baozhatong6"
+      },
+      {
+        "id": 74,
+        "name": "item_fla.Timeline_276"
+      },
+      {
+        "id": 67,
+        "name": "baoxiang_xnfd2"
+      },
+      {
+        "id": 66,
+        "name": "baoxiang_xnfd1"
+      },
+      {
+        "id": 64,
+        "name": "baoxiang_xnfd3"
+      },
+      {
+        "id": 59,
+        "name": "baoxiang_bslb"
+      },
+      {
+        "id": 52,
+        "name": "za_dyu_jp"
+      },
+      {
+        "id": 50,
+        "name": "za_fzhen_jp"
+      },
+      {
+        "id": 48,
+        "name": "za_mei_jp"
+      },
+      {
+        "id": 42,
+        "name": "za_mianj_jp"
+      },
+      {
+        "id": 37,
+        "name": "za_song_jp"
+      },
+      {
+        "id": 33,
+        "name": "baoxiang107"
+      },
+      {
+        "id": 31,
+        "name": "za_bpqm"
+      },
+      {
+        "id": 26,
+        "name": "za_dqjz"
+      },
+      {
+        "id": 22,
+        "name": "za_lsbw"
+      },
+      {
+        "id": 20,
+        "name": "za_nnyy"
+      },
+      {
+        "id": 18,
+        "name": "baoxiang111"
+      },
+      {
+        "id": 16,
+        "name": "za_syqs"
+      },
+      {
+        "id": 14,
+        "name": "za_sjmg"
+      },
+      {
+        "id": 12,
+        "name": "za_wsry"
+      },
+      {
+        "id": 10,
+        "name": "za_xazx"
+      },
+      {
+        "id": 8,
+        "name": "baoxiang110"
+      },
+      {
+        "id": 6,
+        "name": "baoxiang109"
+      },
+      {
+        "id": 4,
+        "name": "baoxiang108"
+      },
+      {
+        "id": 2,
+        "name": "za_zcjb"
+      }
+    ]
+  },
+  {
+    "file": "gameUI_landform.swf",
+    "version": 10,
+    "size": 5420,
+    "counts": {
+      "FileAttributes": 1,
+      "SetBackgroundColor": 1,
+      "DefineSceneAndFrameLabelData": 1,
+      "DefineShape": 19,
+      "DefineSprite": 21,
+      "PlaceObject": 82,
+      "ShowFrame": 73,
+      "DoAbc": 1,
+      "SymbolClass": 1
+    },
+    "symbols": [
+      {
+        "id": 40,
+        "name": "FloorGridAllow"
+      },
+      {
+        "id": 38,
+        "name": "FloorGridAllow2"
+      },
+      {
+        "id": 35,
+        "name": "FloorGridRefuse"
+      },
+      {
+        "id": 33,
+        "name": "HaloChoice"
+      },
+      {
+        "id": 31,
+        "name": "pathPath"
+      },
+      {
+        "id": 29,
+        "name": "shadow"
+      },
+      {
+        "id": 27,
+        "name": "SpringIn"
+      },
+      {
+        "id": 22,
+        "name": "SpringInx"
+      },
+      {
+        "id": 14,
+        "name": "SpringOutF"
+      },
+      {
+        "id": 12,
+        "name": "SpringOutFx"
+      },
+      {
+        "id": 10,
+        "name": "SpringOutT"
+      },
+      {
+        "id": 8,
+        "name": "SpringOutTx"
+      },
+      {
+        "id": 6,
+        "name": "WoodenBox"
+      }
+    ]
+  },
+  {
+    "file": "gameUI_material.swf",
+    "version": 11,
+    "size": 413819,
+    "counts": {
+      "FileAttributes": 1,
+      "SetBackgroundColor": 1,
+      "DefineSceneAndFrameLabelData": 1,
+      "DefineShape": 549,
+      "DefineFont": 8,
+      "DefineFontAlignZones": 8,
+      "DefineFontName": 5,
+      "DefineDynamicText": 258,
+      "CsmTextSettings": 227,
+      "DefineSprite": 524,
+      "PlaceObject": 2153,
+      "ShowFrame": 816,
+      "DefineScalingGrid": 36,
+      "RemoveObject": 60,
+      "DefineButton": 64,
+      "DefineText": 2,
+      "DoAbc": 1,
+      "SymbolClass": 1
+    },
+    "symbols": [
+      {
+        "id": 1404,
+        "name": "UI_btn_dreamMap"
+      },
+      {
+        "id": 1395,
+        "name": "UI_btn_worldMap_dream"
+      },
+      {
+        "id": 1393,
+        "name": "UI_dream_list_mapChange_card"
+      },
+      {
+        "id": 1390,
+        "name": "UI_dream_tools_bg_card"
+      },
+      {
+        "id": 1388,
+        "name": "UI_panel_build_tower_dream"
+      },
+      {
+        "id": 1380,
+        "name": "UI_panel_dream_a"
+      },
+      {
+        "id": 1377,
+        "name": "UI_panel_dream_b"
+      },
+      {
+        "id": 1373,
+        "name": "UI_panel_dream_c"
+      },
+      {
+        "id": 1364,
+        "name": "UI_panel_dream_list"
+      },
+      {
+        "id": 1353,
+        "name": "material_fla.Timeline_49"
+      },
+      {
+        "id": 1350,
+        "name": "material_fla.Timeline_48"
+      },
+      {
+        "id": 1332,
+        "name": "UI_btn_dream_list"
+      },
+      {
+        "id": 1327,
+        "name": "UI_panel_dream_list_card0"
+      },
+      {
+        "id": 1323,
+        "name": "UI_panel_dream_list_card1"
+      },
+      {
+        "id": 1314,
+        "name": "UI_panel_dream_list_mapChange"
+      },
+      {
+        "id": 1312,
+        "name": "UI_panel_dream_listAward"
+      },
+      {
+        "id": 1291,
+        "name": "UI_panel_dream_listAward_card"
+      },
+      {
+        "id": 1289,
+        "name": "UI_panel_dream_tag"
+      },
+      {
+        "id": 1285,
+        "name": "UI_panel_gameInfo_dream"
+      },
+      {
+        "id": 1272,
+        "name": "UI_panel_gameInfo_pass_dream"
+      },
+      {
+        "id": 1254,
+        "name": "任务噩梦道具相关"
+      },
+      {
+        "id": 1252,
+        "name": "任务噩梦相关"
+      },
+      {
+        "id": 1250,
+        "name": "UI_panel_award_info_qq_1"
+      },
+      {
+        "id": 1249,
+        "name": "UI_panel_award_info_qq_2"
+      },
+      {
+        "id": 1248,
+        "name": "UI_panel_award_info_qq_3"
+      },
+      {
+        "id": 1247,
+        "name": "UI_panel_tips_award_up_qq"
+      },
+      {
+        "id": 1246,
+        "name": "change_tag"
+      },
+      {
+        "id": 1242,
+        "name": "change_tagxx"
+      },
+      {
+        "id": 1240,
+        "name": "UI_panel_change"
+      },
+      {
+        "id": 1209,
+        "name": "UI_panel_change_card"
+      },
+      {
+        "id": 1206,
+        "name": "UI_panel_change_target"
+      },
+      {
+        "id": 1204,
+        "name": "UI_friend_ComeBack"
+      },
+      {
+        "id": 1147,
+        "name": "UI_friend_invite_card"
+      },
+      {
+        "id": 1141,
+        "name": "UI_friend_oldplayer"
+      },
+      {
+        "id": 1136,
+        "name": "UI_ad_clip_0"
+      },
+      {
+        "id": 1132,
+        "name": "UI_ad_icon_normal"
+      },
+      {
+        "id": 1129,
+        "name": "UI_panel_ad_fun"
+      },
+      {
+        "id": 1114,
+        "name": "UI_panel_ad_normal"
+      },
+      {
+        "id": 1110,
+        "name": "UI_task_icon_0"
+      },
+      {
+        "id": 1108,
+        "name": "UI_task_aim_visit_friend_get_bonus"
+      },
+      {
+        "id": 1106,
+        "name": "UI_task_aim_gem"
+      },
+      {
+        "id": 1104,
+        "name": "UI_task_aim_kill_cycle_wolf"
+      },
+      {
+        "id": 1102,
+        "name": "UI_task_aim_timer"
+      },
+      {
+        "id": 1098,
+        "name": "UI_task_aim_timer_award"
+      },
+      {
+        "id": 1094,
+        "name": "UI_task_aim_properties"
+      },
+      {
+        "id": 1092,
+        "name": "UI_task_aim_is_end"
+      },
+      {
+        "id": 1090,
+        "name": "UI_task_aim_defend"
+      },
+      {
+        "id": 1088,
+        "name": "UI_task_more_bg"
+      },
+      {
+        "id": 1086,
+        "name": "UI_task_aim_kill_spy_wolf"
+      },
+      {
+        "id": 1081,
+        "name": "UI_task_aim_mine"
+      },
+      {
+        "id": 1079,
+        "name": "UI_task_aim_wolf_skill"
+      },
+      {
+        "id": 1077,
+        "name": "UI_task_aim_wolf"
+      },
+      {
+        "id": 1074,
+        "name": "UI_task_clock"
+      },
+      {
+        "id": 1069,
+        "name": "UI_task_aim_send_invite"
+      },
+      {
+        "id": 1065,
+        "name": "UI_task_aim_status_0"
+      },
+      {
+        "id": 1063,
+        "name": "UI_task_aim_use_snare"
+      },
+      {
+        "id": 1061,
+        "name": "UI_task_aim_build"
+      },
+      {
+        "id": 1059,
+        "name": "UI_task_aim_status_00"
+      },
+      {
+        "id": 1056,
+        "name": "UI_task_aim_catch_slave"
+      },
+      {
+        "id": 1054,
+        "name": "UI_panel_log"
+      },
+      {
+        "id": 1034,
+        "name": "UI_panel_log_card"
+      },
+      {
+        "id": 1031,
+        "name": "UI_panel_eog"
+      },
+      {
+        "id": 990,
+        "name": "UI_panel_eog_card0"
+      },
+      {
+        "id": 981,
+        "name": "UI_panel_eog_card1"
+      },
+      {
+        "id": 969,
+        "name": "UI_panel_friend_list"
+      },
+      {
+        "id": 957,
+        "name": "TheStronghold_tame_manor"
+      },
+      {
+        "id": 954,
+        "name": "UI_camp_exp_tower"
+      },
+      {
+        "id": 952,
+        "name": "UI_camp_exp_wolf"
+      },
+      {
+        "id": 950,
+        "name": "UI_panel_build_tower_tame"
+      },
+      {
+        "id": 938,
+        "name": "UI_panel_tame_arenaAward"
+      },
+      {
+        "id": 893,
+        "name": "UI_panel_tame_gameInfo_friend"
+      },
+      {
+        "id": 892,
+        "name": "UI_panel_tame_mine"
+      },
+      {
+        "id": 874,
+        "name": "UI_panel_tameUI"
+      },
+      {
+        "id": 873,
+        "name": "material_fla.Timeline_277"
+      },
+      {
+        "id": 866,
+        "name": "UI_panel_tameUI_del_barrier"
+      },
+      {
+        "id": 853,
+        "name": "UI_panel_tameUI_expBook"
+      },
+      {
+        "id": 852,
+        "name": "UI_panel_tameUI_other"
+      },
+      {
+        "id": 851,
+        "name": "UI_panel_tameUI_skill"
+      },
+      {
+        "id": 848,
+        "name": "UI_panel_tameUI_skill_up"
+      },
+      {
+        "id": 839,
+        "name": "UI_panel_tameUI_wolfs"
+      },
+      {
+        "id": 831,
+        "name": "material_fla.Timeline_309"
+      },
+      {
+        "id": 825,
+        "name": "UI_panel_bg1"
+      },
+      {
+        "id": 823,
+        "name": "UI_panel_bg2"
+      },
+      {
+        "id": 821,
+        "name": "UI_bar_happy"
+      },
+      {
+        "id": 816,
+        "name": "UI_btn_free"
+      },
+      {
+        "id": 814,
+        "name": "UI_btn_catch"
+      },
+      {
+        "id": 811,
+        "name": "UI_btn_steal"
+      },
+      {
+        "id": 806,
+        "name": "UI_btn_audio"
+      },
+      {
+        "id": 805,
+        "name": "UI_btn_audio_close"
+      },
+      {
+        "id": 803,
+        "name": "UI_btn_build"
+      },
+      {
+        "id": 802,
+        "name": "UI_btn_change"
+      },
+      {
+        "id": 798,
+        "name": "UI_btn_close"
+      },
+      {
+        "id": 795,
+        "name": "UI_btn_coinBrush"
+      },
+      {
+        "id": 793,
+        "name": "UI_btn_eachOtherGifts"
+      },
+      {
+        "id": 791,
+        "name": "UI_btn_gemGroup"
+      },
+      {
+        "id": 789,
+        "name": "UI_btn_goHome"
+      },
+      {
+        "id": 787,
+        "name": "UI_btn_log"
+      },
+      {
+        "id": 786,
+        "name": "UI_tag_5"
+      },
+      {
+        "id": 783,
+        "name": "UI_btn_mapWolfInfo"
+      },
+      {
+        "id": 781,
+        "name": "UI_btn_music"
+      },
+      {
+        "id": 780,
+        "name": "UI_btn_music_close"
+      },
+      {
+        "id": 778,
+        "name": "UI_btn_refining"
+      },
+      {
+        "id": 776,
+        "name": "UI_btn_scaleMax"
+      },
+      {
+        "id": 774,
+        "name": "UI_btn_scaleMin"
+      },
+      {
+        "id": 772,
+        "name": "UI_btn_shop"
+      },
+      {
+        "id": 771,
+        "name": "UI_btn_slave"
+      },
+      {
+        "id": 769,
+        "name": "UI_btn_speedup"
+      },
+      {
+        "id": 768,
+        "name": "UI_btn_speedup_close"
+      },
+      {
+        "id": 764,
+        "name": "UI_btn_task_more"
+      },
+      {
+        "id": 759,
+        "name": "UI_btn_worldMap"
+      },
+      {
+        "id": 739,
+        "name": "material_fla.UI_btn_worldMap_0_350"
+      },
+      {
+        "id": 721,
+        "name": "UI_btn_worldMap_1"
+      },
+      {
+        "id": 719,
+        "name": "UI_icon_bg"
+      },
+      {
+        "id": 717,
+        "name": "UI_icon_coin"
+      },
+      {
+        "id": 715,
+        "name": "UI_icon_coinNull"
+      },
+      {
+        "id": 712,
+        "name": "UI_icon_coinQ"
+      },
+      {
+        "id": 706,
+        "name": "UI_icon_exp"
+      },
+      {
+        "id": 704,
+        "name": "UI_icon_integral"
+      },
+      {
+        "id": 702,
+        "name": "UI_login_award_card"
+      },
+      {
+        "id": 696,
+        "name": "UI_numStyle_coin"
+      },
+      {
+        "id": 685,
+        "name": "UI_numStyle_gold"
+      },
+      {
+        "id": 674,
+        "name": "UI_panel_ad_fun_card"
+      },
+      {
+        "id": 670,
+        "name": "UI_panel_boss"
+      },
+      {
+        "id": 657,
+        "name": "UI_panel_build"
+      },
+      {
+        "id": 655,
+        "name": "material_fla.Timeline_389"
+      },
+      {
+        "id": 648,
+        "name": "material_fla.Timeline_386"
+      },
+      {
+        "id": 641,
+        "name": "UI_panel_build_card"
+      },
+      {
+        "id": 638,
+        "name": "UI_panel_build_tower"
+      },
+      {
+        "id": 616,
+        "name": "UI_panel_build_tower_had"
+      },
+      {
+        "id": 606,
+        "name": "UI_panel_build_tower_ing"
+      },
+      {
+        "id": 582,
+        "name": "UI_panel_friend_card"
+      },
+      {
+        "id": 563,
+        "name": "UI_panel_friend_card_add2"
+      },
+      {
+        "id": 557,
+        "name": "UI_panel_gameInfo_friend"
+      },
+      {
+        "id": 556,
+        "name": "UI_panel_gameInfo_pass"
+      },
+      {
+        "id": 533,
+        "name": "UI_panel_gameInfo_self"
+      },
+      {
+        "id": 530,
+        "name": "material_fla.Timeline_418"
+      },
+      {
+        "id": 509,
+        "name": "material_fla.Timeline_75"
+      },
+      {
+        "id": 493,
+        "name": "UI_panel_normal"
+      },
+      {
+        "id": 487,
+        "name": "UI_panel_refining"
+      },
+      {
+        "id": 484,
+        "name": "UI_icon_dreamGold"
+      },
+      {
+        "id": 481,
+        "name": "UI_icon_gold"
+      },
+      {
+        "id": 469,
+        "name": "material_fla.Timeline_429"
+      },
+      {
+        "id": 455,
+        "name": "UI_panel_shop_card"
+      },
+      {
+        "id": 450,
+        "name": "UI_panel_shop_goods"
+      },
+      {
+        "id": 440,
+        "name": "material_fla.Timeline_40"
+      },
+      {
+        "id": 432,
+        "name": "UI_panel_shopping"
+      },
+      {
+        "id": 429,
+        "name": "material_fla.Timeline_453"
+      },
+      {
+        "id": 428,
+        "name": "material_fla.Timeline_452"
+      },
+      {
+        "id": 427,
+        "name": "material_fla.Timeline_449"
+      },
+      {
+        "id": 426,
+        "name": "material_fla.Timeline_446"
+      },
+      {
+        "id": 425,
+        "name": "material_fla.Timeline_443"
+      },
+      {
+        "id": 418,
+        "name": "UI_panel_slave"
+      },
+      {
+        "id": 411,
+        "name": "UI_panel_slave_card"
+      },
+      {
+        "id": 394,
+        "name": "UI_panel_slave_card_0"
+      },
+      {
+        "id": 391,
+        "name": "UI_panel_slave_card_1"
+      },
+      {
+        "id": 385,
+        "name": "UI_panel_slave_card_2"
+      },
+      {
+        "id": 378,
+        "name": "UI_panel_slave_card_3"
+      },
+      {
+        "id": 368,
+        "name": "UI_panel_slave_card_4"
+      },
+      {
+        "id": 364,
+        "name": "UI_panel_slave_goods"
+      },
+      {
+        "id": 357,
+        "name": "UI_panel_system"
+      },
+      {
+        "id": 356,
+        "name": "UI_panel_task_more"
+      },
+      {
+        "id": 347,
+        "name": "UI_panel_TheWorld"
+      },
+      {
+        "id": 344,
+        "name": "UI_panel_tips_addFriend"
+      },
+      {
+        "id": 341,
+        "name": "UI_panel_tips_award"
+      },
+      {
+        "id": 340,
+        "name": "UI_panel_tips_award_any"
+      },
+      {
+        "id": 336,
+        "name": "UI_panel_tips_award_clip"
+      },
+      {
+        "id": 335,
+        "name": "material_fla.Timeline_495"
+      },
+      {
+        "id": 333,
+        "name": "UI_panel_tips_award_onlyLook"
+      },
+      {
+        "id": 329,
+        "name": "UI_panel_tips_award_passLevel"
+      },
+      {
+        "id": 324,
+        "name": "UI_panel_tips_award_up"
+      },
+      {
+        "id": 313,
+        "name": "UI_panel_tips_feed"
+      },
+      {
+        "id": 310,
+        "name": "UI_panel_tips_feed_1"
+      },
+      {
+        "id": 307,
+        "name": "UI_panel_tips_loginEveryDay"
+      },
+      {
+        "id": 293,
+        "name": "UI_panel_tips_loginEveryDay_isFan"
+      },
+      {
+        "id": 237,
+        "name": "UI_panel_tips_new"
+      },
+      {
+        "id": 214,
+        "name": "UI_panel_tips_small"
+      },
+      {
+        "id": 211,
+        "name": "UI_panel_tips_small_lr"
+      },
+      {
+        "id": 206,
+        "name": "UI_panel_tips_task_award"
+      },
+      {
+        "id": 203,
+        "name": "UI_panel_tips_task_info"
+      },
+      {
+        "id": 188,
+        "name": "UI_panel_tips_unlock"
+      },
+      {
+        "id": 175,
+        "name": "UI_panel_tips_unlock_card"
+      },
+      {
+        "id": 171,
+        "name": "UI_panel_tips_unlock_card2"
+      },
+      {
+        "id": 163,
+        "name": "UI_panel_tips_yes"
+      },
+      {
+        "id": 154,
+        "name": "UI_panel_tools"
+      },
+      {
+        "id": 153,
+        "name": "material_fla.Timeline_281"
+      },
+      {
+        "id": 146,
+        "name": "material_fla.Timeline_284"
+      },
+      {
+        "id": 139,
+        "name": "UI_btn_dream_bg"
+      },
+      {
+        "id": 137,
+        "name": "material_fla.Timeline_550"
+      },
+      {
+        "id": 130,
+        "name": "material_fla.Timeline_549"
+      },
+      {
+        "id": 123,
+        "name": "UI_btn_tools"
+      },
+      {
+        "id": 110,
+        "name": "material_fla.Timeline_548"
+      },
+      {
+        "id": 101,
+        "name": "UI_panel_tools_card"
+      },
+      {
+        "id": 98,
+        "name": "UI_radio_1"
+      },
+      {
+        "id": 95,
+        "name": "UI_sign_0"
+      },
+      {
+        "id": 93,
+        "name": "UI_sign_1"
+      },
+      {
+        "id": 91,
+        "name": "UI_slave_img1"
+      },
+      {
+        "id": 88,
+        "name": "UI_slave_img2"
+      },
+      {
+        "id": 85,
+        "name": "UI_slave_img3"
+      },
+      {
+        "id": 82,
+        "name": "UI_slave_img4"
+      },
+      {
+        "id": 79,
+        "name": "UI_slave_img5"
+      },
+      {
+        "id": 72,
+        "name": "UI_tag_0"
+      },
+      {
+        "id": 68,
+        "name": "UI_tag_3"
+      },
+      {
+        "id": 64,
+        "name": "UI_tag_5_0"
+      },
+      {
+        "id": 62,
+        "name": "UI_tips_award_card"
+      },
+      {
+        "id": 55,
+        "name": "UI_tips_award_card_2"
+      },
+      {
+        "id": 53,
+        "name": "UI_tools_dalic"
+      },
+      {
+        "id": 48,
+        "name": "UI_tools_lqxfj"
+      },
+      {
+        "id": 39,
+        "name": "UI_tools_tempTest"
+      },
+      {
+        "id": 37,
+        "name": "UI_tools_ybb"
+      },
+      {
+        "id": 23,
+        "name": "UI_user_ImgBox"
+      },
+      {
+        "id": 5,
+        "name": "UI_tame_GoShop_btn"
+      }
+    ]
+  },
+  {
+    "file": "gameUI_qqvip.swf",
+    "version": 10,
+    "size": 44139,
+    "counts": {
+      "FileAttributes": 1,
+      "SetBackgroundColor": 1,
+      "DefineSceneAndFrameLabelData": 1,
+      "DefineShape": 59,
+      "DefineSprite": 42,
+      "PlaceObject": 150,
+      "ShowFrame": 116,
+      "DefineScalingGrid": 6,
+      "DefineFont": 1,
+      "DefineFontAlignZones": 1,
+      "DefineFontName": 1,
+      "DefineText": 6,
+      "CsmTextSettings": 6,
+      "DefineButton": 4,
+      "DefineBitmap": 3,
+      "DoAbc": 1,
+      "SymbolClass": 1
+    },
+    "symbols": [
+      {
+        "id": 115,
+        "name": "qq_icon"
+      },
+      {
+        "id": 114,
+        "name": "QQ_every_icon_off"
+      },
+      {
+        "id": 113,
+        "name": "QQ_every_icon_on"
+      },
+      {
+        "id": 112,
+        "name": "QQ_vip_status"
+      },
+      {
+        "id": 95,
+        "name": "QQ_vip_status_1"
+      },
+      {
+        "id": 83,
+        "name": "QQ_newbie_icon_off"
+      },
+      {
+        "id": 80,
+        "name": "QQ_newbie_icon_on"
+      },
+      {
+        "id": 67,
+        "name": "QQ_8sell"
+      },
+      {
+        "id": 65,
+        "name": "QQ_panel_vipEveryDay"
+      },
+      {
+        "id": 60,
+        "name": "QQ_panel_vipAwardInfo"
+      },
+      {
+        "id": 50,
+        "name": "QQ_panel_vipNewbie"
+      },
+      {
+        "id": 49,
+        "name": "QQ_btn_ktyhz"
+      },
+      {
+        "id": 47,
+        "name": "QQ_btn_kthz"
+      },
+      {
+        "id": 41,
+        "name": "QQ_btn_xfhz"
+      },
+      {
+        "id": 20,
+        "name": "QQ_panel_vip_year"
+      },
+      {
+        "id": 13,
+        "name": "QQ_panelBg"
+      },
+      {
+        "id": 11,
+        "name": "QQ_hztq_card"
+      },
+      {
+        "id": 9,
+        "name": "QQ_newbie_card"
+      },
+      {
+        "id": 6,
+        "name": "QQ_everyDay_card"
+      }
+    ]
+  },
+  {
+    "file": "gameUI_sheep.swf",
+    "version": 10,
+    "size": 12766,
+    "counts": {
+      "FileAttributes": 1,
+      "SetBackgroundColor": 1,
+      "DefineSceneAndFrameLabelData": 1,
+      "DefineShape": 30,
+      "DefineSprite": 36,
+      "PlaceObject": 257,
+      "ShowFrame": 209,
+      "RemoveObject": 5,
+      "DoAbc": 1,
+      "SymbolClass": 1
+    },
+    "symbols": [
+      {
+        "id": 66,
+        "name": "sheepHigh"
+      },
+      {
+        "id": 61,
+        "name": "sheepFear"
+      },
+      {
+        "id": 56,
+        "name": "sheepCry"
+      },
+      {
+        "id": 44,
+        "name": "sheepAnger"
+      },
+      {
+        "id": 36,
+        "name": "sheepAfraid"
+      },
+      {
+        "id": 20,
+        "name": "sleepSheep"
+      },
+      {
+        "id": 13,
+        "name": "dreamSheep"
+      }
+    ]
+  },
+  {
+    "file": "gameUI_skill.swf",
+    "version": 9,
+    "size": 20616,
+    "counts": {
+      "FileAttributes": 1,
+      "SetBackgroundColor": 1,
+      "DefineSceneAndFrameLabelData": 1,
+      "DefineShape": 52,
+      "DefineSprite": 102,
+      "PlaceObject": 185,
+      "ShowFrame": 109,
+      "DefineButton": 1,
+      "DoAbc": 1,
+      "SymbolClass": 1
+    },
+    "symbols": [
+      {
+        "id": 155,
+        "name": "fly"
+      },
+      {
+        "id": 152,
+        "name": "slowf"
+      },
+      {
+        "id": 149,
+        "name": "isolation"
+      },
+      {
+        "id": 146,
+        "name": "resistCrit"
+      },
+      {
+        "id": 145,
+        "name": "resistFrost"
+      },
+      {
+        "id": 144,
+        "name": "resistSilence"
+      },
+      {
+        "id": 143,
+        "name": "resistPoison"
+      },
+      {
+        "id": 142,
+        "name": "resistLight"
+      },
+      {
+        "id": 141,
+        "name": "resistFire"
+      },
+      {
+        "id": 140,
+        "name": "resistBeat"
+      },
+      {
+        "id": 139,
+        "name": "resistVertigo"
+      },
+      {
+        "id": 138,
+        "name": "strsmooth"
+      },
+      {
+        "id": 133,
+        "name": "airborne"
+      },
+      {
+        "id": 130,
+        "name": "weakCrit"
+      },
+      {
+        "id": 126,
+        "name": "weakFrost"
+      },
+      {
+        "id": 122,
+        "name": "weakSilence"
+      },
+      {
+        "id": 119,
+        "name": "weakPoison"
+      },
+      {
+        "id": 115,
+        "name": "weakLight"
+      },
+      {
+        "id": 106,
+        "name": "weakFire"
+      },
+      {
+        "id": 102,
+        "name": "weakBeat"
+      },
+      {
+        "id": 97,
+        "name": "weakVertigo"
+      },
+      {
+        "id": 89,
+        "name": "revive"
+      },
+      {
+        "id": 84,
+        "name": "reborn"
+      },
+      {
+        "id": 78,
+        "name": "burst"
+      },
+      {
+        "id": 73,
+        "name": "sprint"
+      },
+      {
+        "id": 68,
+        "name": "morph"
+      },
+      {
+        "id": 63,
+        "name": "taunt"
+      },
+      {
+        "id": 58,
+        "name": "divide"
+      },
+      {
+        "id": 55,
+        "name": "shield"
+      },
+      {
+        "id": 51,
+        "name": "links"
+      },
+      {
+        "id": 43,
+        "name": "massTreatment"
+      },
+      {
+        "id": 38,
+        "name": "blink"
+      },
+      {
+        "id": 30,
+        "name": "cloud"
+      },
+      {
+        "id": 27,
+        "name": "invisible"
+      },
+      {
+        "id": 24,
+        "name": "summon"
+      },
+      {
+        "id": 16,
+        "name": "skill_A"
+      },
+      {
+        "id": 14,
+        "name": "skill_B"
+      },
+      {
+        "id": 12,
+        "name": "skill_C"
+      },
+      {
+        "id": 10,
+        "name": "skill_X"
+      },
+      {
+        "id": 8,
+        "name": "skill_Z"
+      },
+      {
+        "id": 6,
+        "name": "skill_bg"
+      },
+      {
+        "id": 4,
+        "name": "skill_0"
+      }
+    ]
+  },
+  {
+    "file": "gameUI_tower.swf",
+    "version": 10,
+    "size": 104332,
+    "counts": {
+      "FileAttributes": 1,
+      "SetBackgroundColor": 1,
+      "DefineSceneAndFrameLabelData": 1,
+      "DefineShape": 107,
+      "DefineSprite": 124,
+      "PlaceObject": 351,
+      "ShowFrame": 194,
+      "RemoveObject": 43,
+      "DefineButton": 2,
+      "FrameLabel": 1,
+      "DoAbc": 1,
+      "SymbolClass": 1
+    },
+    "symbols": [
+      {
+        "id": 233,
+        "name": "panlong"
+      },
+      {
+        "id": 229,
+        "name": "qiang"
+      },
+      {
+        "id": 226,
+        "name": "denglou"
+      },
+      {
+        "id": 219,
+        "name": "levelBubble"
+      },
+      {
+        "id": 217,
+        "name": "upgradeTower"
+      },
+      {
+        "id": 213,
+        "name": "paota"
+      },
+      {
+        "id": 196,
+        "name": "niulang"
+      },
+      {
+        "id": 191,
+        "name": "bodongta"
+      },
+      {
+        "id": 170,
+        "name": "zhangai_shitou2"
+      },
+      {
+        "id": 167,
+        "name": "zhinv"
+      },
+      {
+        "id": 157,
+        "name": "sandanta"
+      },
+      {
+        "id": 134,
+        "name": "shaota"
+      },
+      {
+        "id": 117,
+        "name": "xiangqianta"
+      },
+      {
+        "id": 92,
+        "name": "zhangai_fanyinglu"
+      },
+      {
+        "id": 81,
+        "name": "zhangai_huoshan2"
+      },
+      {
+        "id": 79,
+        "name": "zhangai_hedianchang1"
+      },
+      {
+        "id": 69,
+        "name": "zhangai_hedianchang2"
+      },
+      {
+        "id": 56,
+        "name": "zhangai_shitou1"
+      },
+      {
+        "id": 53,
+        "name": "zhangai_shitou3"
+      },
+      {
+        "id": 50,
+        "name": "zhangai_shitou4"
+      },
+      {
+        "id": 47,
+        "name": "zhangai_shu1"
+      },
+      {
+        "id": 43,
+        "name": "zhangai_shu2"
+      },
+      {
+        "id": 39,
+        "name": "zhangai_shu3"
+      },
+      {
+        "id": 32,
+        "name": "zhangai_shu4"
+      },
+      {
+        "id": 24,
+        "name": "zhangai_huoshan1"
+      },
+      {
+        "id": 18,
+        "name": "wushi"
+      },
+      {
+        "id": 13,
+        "name": "yiji"
+      },
+      {
+        "id": 6,
+        "name": "tower_fla.Timeline_119"
+      }
+    ]
+  },
+  {
+    "file": "gameUI_wolf.swf",
+    "version": 10,
+    "size": 64451,
+    "counts": {
+      "FileAttributes": 1,
+      "SetBackgroundColor": 1,
+      "DefineSceneAndFrameLabelData": 1,
+      "DefineShape": 106,
+      "DefineSprite": 33,
+      "PlaceObject": 1512,
+      "ShowFrame": 729,
+      "RemoveObject": 489,
+      "RawBody": 2,
+      "DefineMorphShape": 17,
+      "FrameLabel": 2,
+      "DefineScalingGrid": 2,
+      "DoAbc": 1,
+      "SymbolClass": 1
+    },
+    "symbols": [
+      {
+        "id": 158,
+        "name": "aiming"
+      },
+      {
+        "id": 156,
+        "name": "BloodSlot"
+      },
+      {
+        "id": 151,
+        "name": "hammer"
+      },
+      {
+        "id": 150,
+        "name": "spyWolf"
+      },
+      {
+        "id": 72,
+        "name": "balloon"
+      },
+      {
+        "id": 68,
+        "name": "torch"
+      },
+      {
+        "id": 66,
+        "name": "cannon"
+      }
+    ]
+  }
+]

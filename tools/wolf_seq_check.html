@@ -1,0 +1,42 @@
+<!doctype html><meta charset="utf-8"><title>wolf seq check</title>
+<style>body{margin:0;background:#8ec73e;font:12px sans-serif}canvas{display:block}</style>
+<!-- 检查「每只狼的行走帧数都不一样」这条：
+     把帧数最少/最多的一批狼按行走帧顺序整条铺开，合格的画法应该每一格都有狼、
+     且不会被截断。早期写死 24 列的版本，帧数 <24 的狼后半段会整格空白（于是掉回手搓模型）。
+     用法: chrome --headless=new --allow-file-access-from-files --screenshot=out.png \
+                 --window-size=1500,760 "file:///.../tools/wolf_seq_check.html" -->
+<canvas id="c" width="1500" height="760"></canvas>
+<script>
+(async () => {
+  const load = (src) => new Promise((res, rej) => {
+    const s = document.createElement('script'); s.src = src + '?' + Date.now();
+    s.onload = res; s.onerror = () => rej(src); document.body.appendChild(s);
+  });
+  window.SVA_WOLF_DIR = '../assets/wolf/';
+  for (const f of ['data', 'core']) await load('../js/' + f + '.js');
+  await load('../assets/wolf/flips.js');
+  await load('../js/art_wolf_origin.js');
+  const SV = window.SV;
+  const ctx = document.getElementById('c').getContext('2d');
+  ctx.fillStyle = '#8ec73e'; ctx.fillRect(0, 0, 1500, 760);
+
+  // 帧数最少的一批最容易被写死的 24 列坑到
+  const ids = ['daomu4', 'nrzzm', 'renzhel', 'tksjblt', 'pkygl', 'jxl', 'sujiangl',
+               'bdl', 'yll', 'xuel', 'yangpil', 'dqcyl', 'jslw', 'amstl', 'hlbb1', 'meinvl'];
+  const cell = 54, cs = 44;
+  const OW = window.SVAWolfOrigin;
+  ids.forEach((id) => OW.load(id));                       // 先把图集拉起来
+  await new Promise((r) => setTimeout(r, 2000));
+  ids.forEach((id, r) => {
+    const p = OW.resolve(id);
+    const cols = OW.colsOf(id);
+    ctx.fillStyle = '#1d2b12'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'left';
+    ctx.fillText(id + '  cols=' + cols + (p && p.id !== id ? '  (→' + p.id + ')' : ''), 4, 40 + r * 46);
+    for (let i = 0; i < cols; i++) {
+      OW.draw(ctx, {id: id, dir: (r % 2 ? 'r' : 'd'), frame: i, x: 150 + i * cell + cs / 2,
+                    y: 42 + r * 46, size: cs});
+    }
+  });
+  document.title = 'wolf seq done';
+})();
+</script>

@@ -1,0 +1,15 @@
+<!doctype html><meta charset="utf-8"><title>wolf sprite</title>
+<style>body{margin:0;background:#f0e6cc}canvas{display:block}</style>
+<canvas id="c" width="600" height="600"></canvas>
+<script src="../js/art_wolf.js"></script>
+<script>
+const q = new URLSearchParams(location.search);
+const ctx = document.getElementById('c').getContext('2d');
+SVAWolf.draw(ctx, {
+  x: 300, y: 560, size: 520,
+  dir: q.get('dir') || 'e',
+  phase: parseFloat(q.get('phase') || '0.25'),
+  state: q.get('state') || 'walk'
+});
+document.title = 'ready';
+</script>

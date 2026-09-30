@@ -1,0 +1,58 @@
+<!doctype html><meta charset="utf-8"><title>全部狼模型 · 逐只核对</title>
+<style>
+  body { margin: 0; background: #6a8f3a; font: 12px "Microsoft YaHei", sans-serif; }
+  canvas { display: block; }
+</style>
+<!-- 把 assets/wolf 里烘好的**全部原作图集**按名字铺开，每只画「正面 d」和「侧面 r」两帧。
+     这是「逐个核对」用的底图：和 B 站实机截图并排比对时，对着这里找对应的一格。
+     用法: chrome --headless=new --allow-file-access-from-files --screenshot=out.png \
+                 --window-size=1560,2400 "file:///.../tools/wolf_all_check.html"
+     参数: ?fit=1 只画已接入游戏的狼（默认全画）  ?cell=64 每格像素 -->
+<canvas id="c"></canvas>
+<script src="../js/data.js"></script>
+<script src="../js/core.js"></script>
+<script src="../assets/wolf/flips.js"></script>
+<script src="../js/art_wolf_origin.js"></script>
+<script src="../assets/wolf/index.js"></script>
+<script>
+(async () => {
+  window.SVA_WOLF_DIR = '../assets/wolf/';
+  const SV = window.SV, OW = window.SVAWolfOrigin;
+  const q = new URLSearchParams(location.search);
+  const CELL = parseInt(q.get('cell') || '64', 10);
+  const ids = (window.SVA_WOLF_INDEX || []).slice().sort();
+  ids.forEach(id => OW.load(id));
+  await new Promise(r => setTimeout(r, 2500));            // 图集加载
+
+  const nameOf = (id) => {
+    const d = SV.D.wolves[id];
+    return d ? d.n : '?';
+  };
+  const cols = 8, cw = 190, ch = CELL + 46;
+  const rows = Math.ceil(ids.length / cols);
+  const cv = document.getElementById('c');
+  cv.width = cols * cw; cv.height = rows * ch + 30;
+  const ctx = cv.getContext('2d');
+  ctx.fillStyle = '#6a8f3a'; ctx.fillRect(0, 0, cv.width, cv.height);
+  ctx.fillStyle = '#12200a'; ctx.font = 'bold 16px sans-serif'; ctx.textAlign = 'left';
+  ctx.fillText('原作图集 ' + ids.length + ' 只（左：正面 d　右：侧面 r）', 8, 20);
+
+  ids.forEach((id, i) => {
+    const x = (i % cols) * cw, y = 30 + Math.floor(i / cols) * ch;
+    ctx.fillStyle = 'rgba(255,255,255,0.72)';
+    ctx.fillRect(x + 4, y + 2, cw - 10, ch - 8);
+    const p = OW.resolve(id);
+    const real = p ? p.id : id;
+    ctx.save();
+    OW.draw(ctx, {id: id, dir: 'd', frame: 2, x: x + CELL * 0.62, y: y + CELL + 14, size: CELL});
+    OW.draw(ctx, {id: id, dir: 'r', frame: 2, x: x + CELL * 1.72, y: y + CELL + 14, size: CELL});
+    ctx.restore();
+    ctx.fillStyle = '#1d2b12'; ctx.font = 'bold 12px "Microsoft YaHei",sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText(nameOf(id), x + 8, y + CELL + 28);
+    ctx.fillStyle = '#4a5a35'; ctx.font = '11px monospace';
+    ctx.fillText(id + (real !== id ? ' →' + real : '') + '  ' + OW.colsOf(id) + 'f', x + 8, y + CELL + 42);
+  });
+  document.title = 'wolves ' + ids.length + ' done';
+})();
+</script>

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><title>cover</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#123;font-family:"Microsoft YaHei UI","Microsoft YaHei","Noto Sans SC",sans-serif}
+#c{position:relative;width:1920px;height:100vh;overflow:hidden}
+#bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:0 50%}
+.shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 38%,rgba(10,20,0,.55) 100%),radial-gradient(ellipse at 72% 82%,rgba(0,0,0,.35),rgba(0,0,0,0) 60%)}
+.gold{font-weight:900;color:#ffd23f;letter-spacing:8px;line-height:1.02;
+  text-shadow:0 8px 0 #7a3f00,0 -2px 0 #fff2a8,4px 0 0 #7a3f00,-4px 0 0 #7a3f00,0 0 44px rgba(255,170,0,.65);
+  -webkit-text-stroke:3px #7a3f00;paint-order:stroke fill}
+.white{font-weight:900;color:#fff;text-shadow:0 4px 0 #000,3px 0 0 #000,-3px 0 0 #000,0 0 26px rgba(0,0,0,.8);-webkit-text-stroke:2px #1a0d00;paint-order:stroke fill}
+.pill{display:inline-block;font-weight:900;border-radius:999px;padding:8px 30px 10px;border:6px solid #7a4a10;box-shadow:0 8px 0 rgba(0,0,0,.35);font-size:46px;color:#3a1f00;background:linear-gradient(180deg,#ffe36a,#ffb92a)}
+.pill.g{background:linear-gradient(180deg,#9be26b,#4fae2e);border-color:#2d6a16;color:#fff;text-shadow:0 3px 0 rgba(0,0,0,.5)}
+.pill.b{background:linear-gradient(180deg,#8fd0ff,#3f8fe0);border-color:#1d4f8f;color:#fff;text-shadow:0 3px 0 rgba(0,0,0,.5)}
+.pill.r{background:linear-gradient(180deg,#ff8a6a,#e0402a);border-color:#7d1d10;color:#fff;text-shadow:0 3px 0 rgba(0,0,0,.5)}
+.abs{position:absolute}
+</style></head>
+<body>
+<div id="c">
+  <img id="bg" src="../intro/img/title.png">
+  <div class="shade"></div>
+  <!-- 右上角：测试版 + 演示时长 -->
+  <div class="abs" style="right:56px;top:46px;display:flex;flex-direction:column;align-items:flex-end;gap:16px">
+    <span class="pill r" style="transform:rotate(3deg)">测试版</span>
+    <span class="pill b" style="transform:rotate(-2deg)">含 2 分钟实机演示</span>
+  </div>
+  <!-- 主标题 -->
+  <div class="abs" style="right:70px;bottom:250px;text-align:right">
+    <div class="gold" style="font-size:190px">塔防游戏源码</div>
+  </div>
+  <div class="abs" style="right:80px;bottom:150px;text-align:right">
+    <div class="white" style="font-size:78px;letter-spacing:4px">造墙绕路 · 六色宝石 · 132 种狼</div>
+  </div>
+  <div class="abs" style="right:80px;bottom:44px;display:flex;gap:22px;justify-content:flex-end">
+    <span class="pill g">纯前端 HTML5</span>
+    <span class="pill">46 张关卡</span>
+    <span class="pill g">双击即玩</span>
+  </div>
+</div>
+</body></html>

@@ -1,0 +1,72 @@
+<!doctype html><meta charset="utf-8"><title>battle check</title>
+<style>html,body{margin:0;background:#2b3a20}canvas{display:block;width:1280px;height:720px}</style>
+<canvas id="c" width="1280" height="720"></canvas>
+<script>
+(async () => {
+  const load = (src) => new Promise((res, rej) => {
+    const s = document.createElement('script'); s.src = src + '?' + Date.now();
+    s.onload = res; s.onerror = () => rej(src); document.body.appendChild(s);
+  });
+  for (const f of ['data', 'core', 'battle', 'combat', 'ai', 'art_terrain', 'art_units', 'art_chars', 'render'])
+    await load('../js/' + f + '.js');
+
+  // 原版矢量：塔 + 羊 + 原作狼模型
+  window.SVA_ORIGINAL_ART = {tower: true, sheep: true, wolf: true};
+  window.SVA_WOLF_DIR = '../assets/wolf/';
+  window.SVA_MAP_DIR = '../assets/map/';
+  await load('../assets/map/fields.js');       // 场地矩形/代表色（build_maps.py 标定）
+  for (const f of ['../assets/art/sheep.js', '../assets/art/tower.js', '../assets/art/building.js',
+                   '../assets/art/obstacle.js', '../assets/art/landform.js', '../js/art_original.js',
+                   '../assets/art/wolfui.js', '../js/art_wolf.js', '../assets/wolf/flips.js', '../js/art_wolf_origin.js', '../js/art_map_original.js',
+                   '../js/art_units_original.js', '../js/art_original_pack.js'])
+    await load(f);
+  // ?nosketch=1 关掉手搓兜底，只有原作图集能画出来 —— 用来判定画面里的狼到底是谁画的
+  if (new URLSearchParams(location.search).get('nosketch') === '1') window.SVAWolf = null;
+
+  const q = new URLSearchParams(location.search);
+  const mapIdx = parseInt(q.get('map') || '0', 10);
+  const seconds = parseFloat(q.get('sec') || '16');
+  const maxTowers = parseInt(q.get('towers') || '8', 10);
+  const stock = [];
+  for (let c = 0; c < 6; c++) stock.push([0, 0, 9, 9, 9]);
+
+  const B = new SV.Battle({mapIdx: mapIdx, seed: 7, silver: 9999999, gemStock: stock,
+                           playerLevel: 60, lives: 30, autoWave: true});
+  if (window.SVAMapArt) { SVAMapArt.prefetch(B.map); await new Promise(r => setTimeout(r, 1200)); }
+  const TYPES = ['sentry', 'scatter', 'cannon', 'pulse', 'inlay'];
+  let placed = 0;
+  for (let y = 0; y < B.rows && placed < maxTowers; y++) {
+    for (let x = 0; x < B.cols && placed < maxTowers; x++) {
+      if (!B.cellFree(x, y)) continue;
+      if (B.map.type[y * B.cols + x] !== 1) continue;      // 1 = 可建
+      const type = TYPES[placed % TYPES.length];
+      const lv = [1, 20, 45, 80, 100][placed % 5];
+      try { if (B.build('tower', x, y, {type: type, lv: lv, gem: {c: placed % 6, t: 3}})) placed++; } catch (e) {}
+    }
+  }
+  B.startBattle();
+  for (let i = 0; i < seconds * 60; i++) B.update(1 / 60);
+
+  // 让场上的狼图集先加载完再画
+  const ids = {};
+  for (const w of B.wolves) if (w.def && w.def.id && !w.dead) ids[w.def.id] = 1;
+  for (const id in ids) SVAWolfOrigin.load(id);
+  await new Promise(r => setTimeout(r, 2500));
+  for (let i = 0; i < 30; i++) B.update(1 / 60);
+
+  const R = new SV.Renderer(document.getElementById('c'));
+  R.setBattle(B);
+  R.draw(seconds, {hover: null, ghost: null, ghostValid: false, selected: null,
+                   hoverB: null, focus: null, showPath: false, showGrid: false});
+  window.battleReady = true;
+  const live = B.wolves.filter(w => !w.dead);
+  const ready = live.filter(w => SVAWolfOrigin.ready(SVAWolfOrigin.idOf(w.def))).length;
+  document.title = 'battle ready wolves=' + live.length + ' origReady=' + ready +
+                   ' towers=' + B.buildings.filter(b => b.kind === 'tower').length +
+                   ' sketch=' + (window.SVAWolf ? 1 : 0) +
+                   ' mapart=' + (window.SVAMapArt ? (SVAMapArt.field(B.map) || 'none') : 'off') +
+                   ' mapimg=' + (window.SVAMapArt ? (SVAMapArt.ready(B.map) ? 'ok' : 'notloaded') : 'off') +
+                   ' bg=' + (R.bg ? (R.bg.canvas.width + 'x' + R.bg.canvas.height) : 'none') +
+                   ' theme=' + B.map.theme;
+})().catch(e => { document.title = 'ERR ' + e; console.error(e); });
+</script>

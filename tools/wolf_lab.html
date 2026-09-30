@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<title>狼模型 · 校验台</title>
+<style>
+  body { margin: 0; background: #dfe6c4; font: 12px/1.4 "Microsoft YaHei", sans-serif; color: #333; }
+  h2 { margin: 12px 10px 4px; font-size: 15px; }
+  .grid { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 10px 8px; }
+  .cell { background: #fff8; border-radius: 6px; padding: 4px; text-align: center; }
+  canvas { display: block; background: #f6f0dc; border-radius: 4px; }
+  .lbl { font-size: 11px; color: #444; margin-top: 2px; }
+  .big canvas { background: #efe6cc; }
+</style>
+<body><div id="out"></div>
+<script src="../assets/art/tower.js"></script>
+<script src="../js/art_original.js"></script>
+<script src="../js/art_wolf.js"></script>
+<script>
+const out = document.getElementById('out');
+const REF = ['#2b3548', '#3d4a63'];
+
+function tile(size, label, fn, cls) {
+  const box = document.createElement('div');
+  box.className = 'cell' + (cls ? ' ' + cls : '');
+  const cv = document.createElement('canvas');
+  const dpr = 2;
+  cv.width = size * dpr; cv.height = size * dpr;
+  cv.style.width = cv.style.height = size + 'px';
+  const ctx = cv.getContext('2d');
+  ctx.scale(dpr, dpr);
+  fn(ctx, size);
+  const l = document.createElement('div');
+  l.className = 'lbl'; l.textContent = label;
+  box.appendChild(cv); box.appendChild(l);
+  return box;
+}
+
+function section(title, tiles, cls) {
+  const h = document.createElement('h2'); h.textContent = title; out.appendChild(h);
+  const g = document.createElement('div'); g.className = 'grid' + (cls ? ' ' + cls : '');
+  tiles.forEach(t => g.appendChild(t));
+  out.appendChild(g);
+}
+
+/* 1. 八个朝向 */
+const dirs = ['s','se','e','ne','n','nw','w','sw'];
+section('八个朝向', dirs.map(d => tile(96, d, (ctx, s) =>
+  SVAWolf.draw(ctx, {x: s/2, y: s-4, size: s*0.86, dir: d, phase: 0.25, state: 'walk'}))));
+
+/* 2. 走路循环（右下朝向） */
+section('行走循环（右下方）', Array.from({length: 8}, (_, i) => tile(84, 'p' + (i/8).toFixed(2),
+  (ctx, s) => SVAWolf.draw(ctx, {x: s/2, y: s-4, size: s*0.88, dir: 'se', phase: i/8, state: 'walk'}))));
+
+/* 3. 状态：待机 / 走 / 攻击 / 死亡 */
+section('状态（右下）', ['idle','walk','attack','die'].map(st => tile(96, st, (ctx, s) =>
+  SVAWolf.draw(ctx, {x: s/2, y: s-4, size: s*0.86, dir: 'se', phase: 0.3, state: st}))));
+
+/* 4. 配色变体（对应原作各类狼） */
+const pals = {
+  '普通狼': {},
+  '冰狼':   {furDark:'#26405c', furMid:'#33587d', furFace:'#8fb6d8', furLight:'#dff0ff', belly:'#f2fbff'},
+  '火狼':   {furDark:'#4a2020', furMid:'#6d2b26', furFace:'#c07a5c', furLight:'#f0c9a8', belly:'#ffe3cd'},
+  '毒狼':   {furDark:'#243a24', furMid:'#33603a', furFace:'#89b07a', furLight:'#d8ecc2', belly:'#eef7dc'},
+  '闪电狼': {furDark:'#2f2a55', furMid:'#463d7d', furFace:'#9b93c8', furLight:'#e2ddfa', belly:'#f2efff'},
+  'BOSS':   {furDark:'#241d2c', furMid:'#3c2f4a', furFace:'#8d7796', furLight:'#e6d7ea', belly:'#f7eef9'}
+};
+section('配色变体（右下朝向）', Object.entries(pals).map(([name, pal]) => tile(96, name, (ctx, s) =>
+  SVAWolf.draw(ctx, {x: s/2, y: s-4, size: s*0.86, dir: 'se', phase: 0.25, pal: pal}))));
+
+/* 5. 战场尺度：与格子/塔同屏 */
+const big = document.createElement('canvas');
+big.width = 720; big.height = 200;
+{ const ctx = big.getContext('2d'); ctx.scale(1,1);
+  for (let i = 0; i < 12; i++) { ctx.fillStyle = (i%2)?'#e9e0bd':'#e3d9b1'; ctx.fillRect(i*60, 0, 60, 200); }
+  SVAArt && SVAArt.draw(ctx, 'tower', 'shaota', {frame: 1, x: 480, y: 150, w: 56, anchor: 'bottom'});
+  SVAArt && SVAArt.draw(ctx, 'tower', 'paota', {frame: 3, x: 560, y: 150, w: 56, anchor: 'bottom'});
+  const d = ['e','se','s','sw','w','nw','n','ne'];
+  for (let i = 0; i < 8; i++) SVAWolf.draw(ctx, {x: 40 + i*54, y: 150, size: 44, dir: d[i], phase: i/8, state: 'walk'});
+}
+section('战场尺度（与塔同格）', [tile(720, '1 格 = 60px', (ctx) => ctx.drawImage(big, 0, 0))]);
+
+/* 6. 与原作截图对照（左边是原作截图放大，右边是手搓模型） */
+{
+  const h = document.createElement('h2');
+  h.textContent = '与原作实机截图对照（左：原作放大 600%，右：手搓模型）';
+  out.appendChild(h);
+  const g = document.createElement('div'); g.className = 'grid';
+  const a = document.createElement('img');
+  a.src = '_refs/zoom_wolves.png';
+  a.style.cssText = 'width:520px;border-radius:6px;background:#fff;padding:4px';
+  g.appendChild(a);
+  const cv = document.createElement('canvas');
+  cv.width = 520; cv.height = 260; cv.style.cssText = 'background:#efe6cc;border-radius:6px';
+  const ctx = cv.getContext('2d');
+  ctx.fillStyle = '#f0e7cd'; ctx.fillRect(0, 0, 520, 260);
+  for (let i = 0; i < 3; i++)
+    SVAWolf.draw(ctx, {x: 110 + i * 150, y: 230, size: 150, dir: 'e', phase: i * 0.12, state: 'walk'});
+  g.appendChild(cv);
+  out.appendChild(g);
+}
+</script>
+</body>
+</html>

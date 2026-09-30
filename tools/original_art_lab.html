@@ -1,0 +1,39 @@
+<!doctype html><meta charset="utf-8"><title>原版矢量接入校验</title>
+<style>body{margin:0;background:#8ec73e}canvas{display:block}</style>
+<canvas id="c" width="1400" height="900"></canvas>
+<script>
+(async () => {
+  const files = ['data', 'core', 'battle', 'combat', 'art_terrain', 'art_units', 'art_chars'];
+  for (const f of files) await new Promise((res, rej) => { const s = document.createElement('script'); s.src = '../js/' + f + '.js?' + Date.now(); s.onload = res; s.onerror = () => rej(f); document.body.appendChild(s); });
+  const extra = ['../assets/art/sheep.js', '../assets/art/tower.js', '../js/art_original.js', '../js/art_wolf.js', '../js/art_original_pack.js'];
+  for (const f of extra) await new Promise((res, rej) => { const s = document.createElement('script'); s.src = f + '?' + Date.now(); s.onload = res; s.onerror = () => rej(f); document.body.appendChild(s); });
+
+  const SV = window.SV, Art = SV.Art;
+  const cv = document.getElementById('c'), ctx = cv.getContext('2d');
+  const types = SV.TOWER_ORDER, cs = 78;
+  cv.width = 1400; cv.height = types.length * cs * 1.8 + 40;
+  ctx.fillStyle = '#8ec73e'; ctx.fillRect(0, 0, cv.width, cv.height);
+  const frac = [0.0, 0.29, 0.3, 0.54, 0.55, 0.79, 0.8, 1.0];
+  types.forEach((tp, r) => {
+    frac.forEach((f, c) => {
+      const T = SV.D.towers[tp];
+      const gem = c % 6 < 6 ? {c: c % 6, t: 1 + (c % 5)} : null;
+      const b = {type: tp, lv: Math.max(1, Math.round(T.max * f)), gem, id: c, aim: -0.5, recoil: 0, disT: 0};
+      Art.drawTower(ctx, b, cs, cs * 0.9 + c * cs * 1.6, cs * 1.3 + r * cs * 1.8, 0.5, {sel: true});
+      ctx.fillStyle = '#1d2b12'; ctx.font = '10px sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText('lv' + b.lv, cs * 0.9 + c * cs * 1.6, cs * 1.3 + r * cs * 1.8 + 14);
+    });
+    ctx.fillStyle = '#1d2b12'; ctx.font = 'bold 13px sans-serif'; ctx.textAlign = 'left';
+    ctx.fillText(tp, 8, cs * 1.3 + r * cs * 1.8);
+  });
+  // 羊
+  const moods = ['happy', 'idle', 'scared', 'cry', 'angry', 'sleep'];
+  moods.forEach((m, i) => {
+    Art.drawSheep(ctx, 140 + i * 150, cv.height - 40, 78, 0.3 + i * 0.4, {mood: m, bell: true, dir: 1});
+    ctx.fillStyle = '#1d2b12'; ctx.font = '11px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText(m, 140 + i * 150, cv.height - 6);
+  });
+  window.labDone = true;
+  document.title = 'lab done';
+})();
+</script>

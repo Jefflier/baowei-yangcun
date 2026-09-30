@@ -1,0 +1,26 @@
+[
+ {
+  "host": "app16488.imgcache.qzoneapp.com",
+  "url": "http://app16488.imgcache.qzoneapp.com/app16488/static/images/swf/*Top.swf",
+  "timestamp": "20200909120959",
+  "status": "403",
+  "mime": "text/html",
+  "length": "606"
+ },
+ {
+  "host": "qqtdsheep.qzoneapp.com",
+  "url": "http://qqtdsheep.qzoneapp.com:80/",
+  "timestamp": "20120517183848",
+  "status": "200",
+  "mime": "text/html",
+  "length": "1576"
+ },
+ {
+  "host": "qqtdsheep.qzoneapp.com",
+  "url": "http://qqtdsheep.qzoneapp.com:80/robots.txt",
+  "timestamp": "20110521021611",
+  "status": "500",
+  "mime": "text/html",
+  "length": "472"
+ }
+]

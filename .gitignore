@@ -1,0 +1,22 @@
+# 下载/同步产生的重复副本（与原文件逐字节相同）
+* (1)
+* (1).*
+
+# 工具的临时目录：抽帧、参考图、缓存（约 950 MB）
+tools/_preview/
+tools/_video/
+tools/_refs/
+tools/_wolfwork/
+tools/_work/
+__pycache__/
+*.pyc
+
+# 宣传视频：成片和临时帧（可用 video/tools 重新生成）
+video/output/
+video/_work/
+video/_work_cover/
+
+# 系统文件
+Thumbs.db
+desktop.ini
+.DS_Store

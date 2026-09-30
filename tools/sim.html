@@ -1,0 +1,13 @@
+<!doctype html><meta charset="utf-8"><title>sim</title>
+<body style="font:13px monospace;white-space:pre">loading...
+<script>
+(async()=>{
+  const files=['data','core','battle','combat','ai'];
+  for(const f of files){
+    await new Promise((res,rej)=>{const s=document.createElement('script');s.src='../js/'+f+'.js?'+Date.now();s.onload=res;s.onerror=()=>rej(f);document.body.appendChild(s);});
+  }
+  window.runSim = function(idx,o){ try{ return SV.simulate(idx,o||{}); }catch(e){ return {error:String(e.stack||e)}; } };
+  document.body.firstChild.textContent='sim page ready';
+  window.simReady=true;
+})();
+</script>

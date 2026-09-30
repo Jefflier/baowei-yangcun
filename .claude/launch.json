@@ -1,0 +1,6 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    { "name": "game", "runtimeExecutable": "python", "runtimeArgs": ["tools/devserver.py"], "port": 8123, "autoPort": true }
+  ]
+}

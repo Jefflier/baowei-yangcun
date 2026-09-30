@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<title>原版矢量美术 · 校验台</title>
+<style>
+  body { margin: 0; background: #e8dcb8; font: 12px/1.4 "Microsoft YaHei", sans-serif; color: #333; }
+  h2 { margin: 14px 10px 6px; font-size: 15px; }
+  .grid { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 10px 10px; }
+  .cell { background: #fff; border-radius: 6px; padding: 4px; text-align: center; box-shadow: 0 1px 3px #0002; }
+  canvas { display: block; background: #fbf6e6; border-radius: 4px; }
+  .lbl { font-size: 11px; color: #555; margin-top: 2px; }
+</style>
+<body>
+<div id="out"></div>
+<script src="../assets/art/sheep.js"></script>
+<script src="../assets/art/tower.js"></script>
+<script src="../assets/art/building.js"></script>
+<script src="../assets/art/obstacle.js"></script>
+<script src="../assets/art/landform.js"></script>
+<script src="../assets/art/skill.js"></script>
+<script src="../assets/art/bullet.js"></script>
+<script src="../assets/art/effect.js"></script>
+<script src="../js/art_original.js"></script>
+<script>
+const out = document.getElementById('out');
+
+function section(title, items, size, framePick) {
+  const h = document.createElement('h2');
+  h.textContent = title + '（' + items.length + '）';
+  out.appendChild(h);
+  const g = document.createElement('div');
+  g.className = 'grid';
+  for (const it of items) {
+    const box = document.createElement('div');
+    box.className = 'cell';
+    const cv = document.createElement('canvas');
+    const dpr = 2;
+    cv.width = size * dpr; cv.height = size * dpr;
+    cv.style.width = cv.style.height = size + 'px';
+    const ctx = cv.getContext('2d');
+    ctx.scale(dpr, dpr);
+    const frame = framePick ? framePick(it) : 0;
+    SVAArt.draw(ctx, it.lib, it.name, {frame: frame, x: size / 2, y: size - 6, w: size - 14, anchor: 'bottom'});
+    const lbl = document.createElement('div');
+    lbl.className = 'lbl';
+    lbl.textContent = it.name + (it.frames > 1 ? ' ·f' + frame : '');
+    box.appendChild(cv); box.appendChild(lbl);
+    g.appendChild(box);
+  }
+  out.appendChild(g);
+}
+
+const flat = (lib) => SVAArt.list(lib).map(o => Object.assign({lib: lib}, o));
+
+section('羊（原作 7 种表情/状态，逐帧取中间帧）', flat('sheep'), 110,
+        it => Math.min(2, it.frames - 1));
+section('▸ 羊 · 全部动画帧', SVAArt.list('sheep').flatMap(o =>
+          Array.from({length: o.frames}, (_, f) => ({lib: 'sheep', name: o.name, frames: o.frames, forceFrame: f}))),
+        96, it => it.forceFrame);
+section('防御塔（石/蓝/黄/红/金 五级）', SVAArt.list('tower').flatMap(o =>
+          Array.from({length: o.frames}, (_, f) => ({lib: 'tower', name: o.name, frames: o.frames, forceFrame: f}))),
+        96, it => it.forceFrame);
+section('辅助建筑 / 机关', flat('building'), 96);
+section('障碍物', flat('obstacle'), 96);
+section('地形与路径', flat('landform'), 96);
+section('技能图标', flat('skill'), 64);
+section('子弹', flat('bullet'), 56);
+section('特效（首帧）', flat('effect'), 72);
+document.title = '原版矢量美术 · 校验台 (' + document.querySelectorAll('canvas').length + ' 项)';
+</script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!doctype html><meta charset="utf-8"><title>狼 · 与 B站实拍逐只核对</title>
+<style>
+ body{margin:0;background:#151a13;color:#dfe8d4;font:14px/1.6 "Microsoft YaHei",sans-serif}
+ .wrap{max-width:1980px;margin:0 auto;padding:18px}
+ h1{font-size:22px;margin:6px 0 2px} h2{font-size:17px;margin:22px 0 8px;color:#ffe08a}
+ .note{color:#9fb08c;font-size:13px;margin:4px 0 14px}
+ table{border-collapse:collapse;width:100%;font-size:13px}
+ th,td{border:1px solid #2c3626;padding:3px 7px;text-align:left;vertical-align:top}
+ th{background:#232c1d;color:#ffe08a} tr:nth-child(even){background:#1b2217}
+ .s{color:#a9bd93;font-size:12px}
+ img{display:block;max-width:100%;margin:8px 0;border:1px solid #2c3626}
+ code{background:#232c1d;padding:1px 4px;border-radius:3px}
+ a{color:#9fd0ff}
+</style>
+<div class="wrap">
+<h1>狼模型 · 与 B 站实机视频逐只核对</h1>
+<div class="note">底片来自 B 站 <b>BV1CusDeKEN8《童年QQ空间神作保卫羊村全地图通关合集》</b>（45 分P，148 分钟）。
+分P 顺序是 UP 主自己的通关顺序，不是关卡号顺序；每 P 右上角飘带写着村名，据此对到本作的 46 张图。</div>
+
+<h2>1. 覆盖情况</h2>
+<table>
+<tr><th>项</th><th>数字</th><th>说明</th></tr>
+<tr><td>视频分P</td><td>45</td><td>45 P 各一张图（p10 是第 10 关沃夫沼泽，上一轮误认成大厅）</td></tr>
+<tr><td>视频覆盖的地图</td><td>45 / 46</td><td>只缺 第20关 苏兰德城（无限进度图）</td></tr>
+<tr><td>视频里出现过的狼种</td><td>128 / 132</td><td>按各图的狼表取并集</td></tr>
+<tr><td>其中有原作模型的</td><td>126 / 128</td><td>模型来自原站 gameUI/dynamic/&lt;id&gt;.swf</td></tr>
+<tr><td>没有原作模型、退回程序化绘制</td><td>2</td><td>玩具小丑（wjxcl_B，第 41 关）、吸血鬼狼（xxgl_B，第 42 关）</td></tr>
+<tr><td>视频里没出现过的狼种</td><td>4</td><td>特洛伊木狼(daomu5X)、天空萝莉(daomu6X)、飞行员吉贝丽塔(fsyjblt)、珍宝杰克(zbjkX)</td></tr>
+<tr><td>抠出来的实拍狼</td><td>789 张</td><td>血条定位 + GrabCut 收紧，分布在 45 个分P</td></tr>
+</table>
+
+<h2>2. 逐只对照（左：我们的模型 d/正面、r/侧面；右：视频里抠出来的同一只）</h2>
+<div class="note">自动比对只是**建议**（模糊的一帧里两只同族狼本来就难分），最终以肉眼看图为准。
+带 <code>*</code> 的是花名册外的候选。</div>
+<img src="_video/_report/sheet_00.png">
+
+<h2>3. 自动匹配的汇总表</h2>
+<div class="note">「实拍处数」＝花名册内匹配分 ≥0.75 的抠图数量；分数越低越可能是认错或帧里被塔挡住。</div>
+<table><tr><th>狼</th><th>id</th><th>模型</th><th>实拍处数</th><th>最像的几帧</th></tr>
+<tr><td><b>大灰狼</b></td><td>dahuil</td><td>dahuil</td><td>12</td><td class="s">p23 银蛇之巅 0.92, p03 卡西村 0.91, p02 比丘村 0.88</td></tr>
+<tr><td><b>忍者狼</b></td><td>renzhel</td><td>renzhel</td><td>3</td><td class="s">p12 埃特纳村 0.81, p16 雷尼尔村 0.81, p12 埃特纳村 0.80</td></tr>
+<tr><td><b>忍者红太狼</b></td><td>daomu4</td><td>daomu4</td><td>2</td><td class="s">p20 钓鱼岛 0.75, p09 拉帕斯村 0.73</td></tr>
+<tr><td><b>男忍佐佐木</b></td><td>nrzzm</td><td>nrzzm</td><td>2</td><td class="s">p12 埃特纳村 0.72, p12 埃特纳村 0.71</td></tr>
+<tr><td><b>山贼狼</b></td><td>shanzeil</td><td>shanzeil</td><td>2</td><td class="s">p41 凌绽雪原 0.76, p17 拉卡维村 0.75</td></tr>
+<tr><td><b>包租狼</b></td><td>baozul</td><td>baozul</td><td>1</td><td class="s">p03 卡西村 0.75</td></tr>
+<tr><td><b>冰霜恶狼</b></td><td>bsel</td><td>bsel</td><td>1</td><td class="s">p13 莫诺雷村 0.75</td></tr>
+<tr><td><b>搬运狼</b></td><td>byl1</td><td>byl1</td><td>1</td><td class="s">p30 泰威尔镇 0.74</td></tr>
+<tr><td><b>盗墓老大</b></td><td>daomu1</td><td>daomu1</td><td>1</td><td class="s">p24 特洛伊岛 0.73</td></tr>
+<tr><td><b>天空萝莉</b></td><td>daomu6</td><td>daomu6</td><td>1</td><td class="s">p33 鲁姆车间 0.70</td></tr>
+<tr><td><b>电狼巴克利</b></td><td>dlbkl</td><td>dlbkl</td><td>1</td><td class="s">p32 泰勒斯镇 0.74</td></tr>
+<tr><td><b>恶狼将军</b></td><td>eljj</td><td>eljj</td><td>1</td><td class="s">p20 钓鱼岛 0.77</td></tr>
+<tr><td><b>防毒狼</b></td><td>fdl</td><td>fdl</td><td>1</td><td class="s">p31 斯贝斯镇 0.72</td></tr>
+<tr><td><b>护盾狼</b></td><td>hudunl</td><td>hudunl</td><td>1</td><td class="s">p39 楼兰城 0.78</td></tr>
+<tr><td><b>杰克兄弟</b></td><td>jkxd</td><td>jkxd</td><td>1</td><td class="s">p03 卡西村 0.80</td></tr>
+<tr><td><b>杰克兄弟</b></td><td>jkxd2</td><td>jkxd2</td><td>1</td><td class="s">p03 卡西村 0.74</td></tr>
+<tr><td><b>驾驶员柯丽德</b></td><td>jsykld</td><td>jsykld</td><td>1</td><td class="s">p39 楼兰城 0.76</td></tr>
+<tr><td><b>机械狼</b></td><td>jxl</td><td>jxl</td><td>1</td><td class="s">p25 齿轮工厂 0.75</td></tr>
+<tr><td><b>沙漠狼</b></td><td>shamol</td><td>shamol</td><td>1</td><td class="s">p39 楼兰城 0.74</td></tr>
+<tr><td><b>神偷狼</b></td><td>shentoul</td><td>shentoul</td><td>1</td><td class="s">p31 斯贝斯镇 0.71</td></tr>
+<tr><td><b>弹簧狼</b></td><td>tanhuangl</td><td>tanhuangl</td><td>1</td><td class="s">p34 克勒蒙村 0.71</td></tr>
+<tr><td><b>猥琐狼</b></td><td>weisuol</td><td>weisuol</td><td>1</td><td class="s">p19 塔特村 0.72</td></tr>
+<tr><td><b>巫术姊妹</b></td><td>wszm2</td><td>wszm2</td><td>1</td><td class="s">p18 坦克尔村 0.75</td></tr>
+<tr><td><b>珍宝杰克</b></td><td>zbjk</td><td>zbjk</td><td>1</td><td class="s">p24 特洛伊岛 0.76</td></tr>
+<tr><td><b>自爆狼</b></td><td>zibaol</td><td>zibaol</td><td>1</td><td class="s">p23 银蛇之巅 0.77</td></tr>
+</table>
+
+<h2>4. 按分P 的原始核对卡片</h2>
+<div class="note">左边是该关花名册（会出现的狼 + 我们的模型），右边是这一 P 抠出来的实拍。一眼能看出的对不上就在这儿。</div>
+<img src="_video/_report/parts_00.png">
+<img src="_video/_report/parts_01.png">
+<img src="_video/_report/parts_02.png">
+<img src="_video/_report/parts_03.png">
+<img src="_video/_report/parts_04.png">
+<img src="_video/_report/parts_05.png">
+<img src="_video/_report/parts_06.png">
+<img src="_video/_report/parts_07.png">
+<img src="_video/_report/parts_08.png">
+<img src="_video/_report/parts_09.png">
+</div>

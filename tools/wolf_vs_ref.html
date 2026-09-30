@@ -1,0 +1,31 @@
+<!doctype html><meta charset="utf-8"><title>狼：手搓 vs 原作截图</title>
+<style>
+  body{margin:0;background:#f3ecd8;font:13px "Microsoft YaHei",sans-serif}
+  .row{display:flex;gap:12px;padding:10px;align-items:flex-end}
+  canvas{background:#f6f0dc}
+  .cap{color:#333}
+</style>
+<body>
+<div class="row">
+  <div><img src="_video/wolf2_zoom.png" width="420"><div class="cap">原作实机截图（放大 1200%）· 侧向右</div></div>
+  <div><canvas id="a" width="420" height="300"></canvas><div class="cap">手搓 · dir=e</div></div>
+  <div><canvas id="b" width="420" height="300"></canvas><div class="cap">手搓 · dir=se</div></div>
+</div>
+<div class="row">
+  <div><canvas id="c" width="900" height="200"></canvas><div class="cap">行走循环（dir=e）</div></div>
+</div>
+<script src="../js/art_wolf.js"></script>
+<script>
+function one(id, dir, phase, state) {
+  const cv = document.getElementById(id), ctx = cv.getContext('2d');
+  ctx.clearRect(0, 0, cv.width, cv.height);
+  SVAWolf.draw(ctx, {x: cv.width/2, y: cv.height - 14, size: 260, dir: dir, phase: phase, state: state || 'walk'});
+}
+one('a','e',0.25); one('b','se',0.25);
+const c = document.getElementById('c'), cx = c.getContext('2d');
+for (let i = 0; i < 6; i++)
+  SVAWolf.draw(cx, {x: 80 + i*150, y: 180, size: 150, dir: 'e', phase: i/6, state: 'walk'});
+document.title = 'ready';
+</script>
+</body>
+</html>

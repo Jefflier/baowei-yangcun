@@ -1,0 +1,50 @@
+<!doctype html><meta charset="utf-8"><title>场景校验：原版塔/羊 + 程序化狼</title>
+<style>body{margin:0;background:#3a4a2a}canvas{display:block}</style>
+<canvas id="c" width="1280" height="620"></canvas>
+<script>
+(async () => {
+  const files = ['data', 'core', 'battle', 'combat', 'art_terrain', 'art_units', 'art_chars'];
+  for (const f of files) await new Promise((res, rej) => { const s = document.createElement('script'); s.src = '../js/' + f + '.js?' + Date.now(); s.onload = res; s.onerror = () => rej(f); document.body.appendChild(s); });
+  // ?wolf=1 切到手搓狼模型（默认保留游戏原有的程序化狼）
+  window.SVA_ORIGINAL_ART = {tower: true, sheep: true,
+                             wolf: new URLSearchParams(location.search).get('wolf') === '1'};
+  for (const f of ['../assets/art/sheep.js', '../assets/art/tower.js', '../assets/art/building.js', '../assets/art/obstacle.js', '../js/art_original.js', '../js/art_wolf.js', '../js/art_wolf_origin.js', '../js/art_original_pack.js'])
+    await new Promise((res, rej) => { const s = document.createElement('script'); s.src = f + '?' + Date.now(); s.onload = res; s.onerror = () => rej(f); document.body.appendChild(s); });
+
+  const SV = window.SV, Art = SV.Art;
+  const cv = document.getElementById('c'), ctx = cv.getContext('2d');
+  const m = new SV.MapModel(21);          // 生命森林某图，有树林和出狼口
+  const cs = 34;
+  const bg = Art.buildBackground(m, cs, 0, 0);
+  ctx.drawImage(bg.canvas, 0, 0);
+  Art.drawAnimated(ctx, {cs: cs, ox: bg.ox, oy: bg.oy, anim: bg.anim}, m, 0.5);
+
+  const X = (gx) => bg.ox + (gx + 0.5) * cs, Y = (gy) => bg.oy + (gy + 0.5) * cs;
+  const types = SV.TOWER_ORDER, frac = [0.1, 0.42, 0.6, 0.92, 1.0];
+  types.forEach((tp, i) => {
+    const T = SV.D.towers[tp];
+    for (let k = 0; k < 5; k++) {
+      const b = {type: tp, lv: Math.max(1, Math.round(T.max * frac[k])), gem: {c: i, t: 1 + k}, id: i * 5 + k, aim: -0.5, recoil: 0, disT: 0};
+      Art.drawTower(ctx, b, cs, X(2 + k * 2), Y(2 + i * 2), 0.5, {});
+    }
+  });
+  // 羊 + 狼（狼当前用的是程序化实现，把 SVA_ORIGINAL_ART.wolf 设为 true 可切到手搓模型）
+  const moods = ['happy', 'scared', 'cry', 'sleep'];
+  moods.forEach((mm, i) => Art.drawSheep(ctx, X(16 + i * 2), Y(2 + i * 2), cs * 0.62, 0.4 * i, {mood: mm, bell: true, dir: 1}));
+  const ids = Object.keys(SV.D.wolves).slice(0, 10);
+  ids.forEach((id, i) => {
+    const def = SV.wolfDef(id);
+    const w = {def: def, x: 0, y: 0, dir: i % 2 ? 1 : 2, walk: 0.4 + i * 0.07, fly: !!def.fly, uid: i,
+               hp: def.a, maxhp: def.a, slows: [], poisons: [], burnT: 0, stunT: 0, curse: null,
+               shield: 0, silT: 0, invis: false, hitFlash: 0, elite: false, boss: !!def.boss, noBar: true};
+    Art.drawWolf(ctx, w, X(16 + (i % 4) * 2), Y(12 + Math.floor(i / 4) * 2), cs, 0.5, false);
+  });
+  // 原版辅助建筑 / 障碍 / 机关
+  const OB = [['zhangai_shu3'], ['zhangai_shitou4'], ['zhangai_huoshan1'], ['zhangai_fanyinglu']];
+  OB.forEach((o, i) => SVAArt.draw(ctx, 'obstacle', o[0], {frame: 0, x: X(2 + i * 3), y: Y(14), scale: cs / 60, anchor: 'bottom'}));
+  ['panlong', 'niulang', 'zhinv', 'denglou'].forEach((b, i) =>
+    SVAArt.draw(ctx, 'building', b, {frame: 0, x: X(17 + (i % 2) * 3), y: Y(16 + Math.floor(i / 2) * 3), scale: cs / 58, anchor: 'bottom'}));
+  window.labDone = true;
+  document.title = 'scene done';
+})();
+</script>
