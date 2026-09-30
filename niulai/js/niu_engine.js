@@ -97,8 +97,8 @@
     this.gate = { x: gx / this.goals.length + 0.9, y: gy / this.goals.length };
 
     this.occ = new Array(n).fill(null);
-    this.blds = []; this.cows = []; this.proj = []; this.fx = []; this.rollers = []; this.ev = [];
-    this.uid = 1; this.t = 0;
+    this.blds = []; this.cows = []; this.proj = []; this.fx = []; this.rollers = []; this.ev = []; this.calmers = [];
+    this.uid = 1; this.t = 0; this.sayWall = this.sayTrip = -99;
     this.gold = L.gold; this.maxHp = D.CITY_HP; this.hp = this.maxHp;
     this.k = 0; this.N = L.waves; this.endless = !!L.endless;
     this.spawnQ = []; this.nextT = -1; this.waveCache = {};
@@ -325,6 +325,8 @@
       b.hp = 0;
       this.stats.destroyed++;
       this.fx.push({ k: 'rubble', x: b.x + 0.5, y: b.y + 0.5, t: 0, T: 0.8, what: b.kind });
+      // 《牛来》：「牛来撞树上了，那哭的不应该是树吗？」
+      if (b.kind === 'wall' && src && src.def && this.t - this.sayWall > 12) { this.sayWall = this.t; this.fx.push({ k: 'say', x: b.x + 0.5, y: b.y + 0.5, txt: '撞墙上了，哭的不应该是墙吗？', t: 0, T: 2.8 }); }
       this.removeB(b);
       this.emit('destroy', { b });
     }
@@ -468,14 +470,27 @@
     if (S.heal) {
       if ((c.sk.heal -= dt) <= 0) {
         c.sk.heal = S.heal.cd;
-        let any = false;
+        let any = false, stood = false;
         for (const o of this.cows) {
-          if (!o.alive || o === c || o.hp >= o.maxHp) continue;
+          if (!o.alive || o === c) continue;
           if (Math.hypot(o.x - c.x, o.y - c.y) > S.heal.r) continue;
+          if (o.def.sk && o.def.sk.trip && !o.stood) { o.stood = true; if (!stood) { stood = true; this.fx.push({ k: 'say', x: o.x, y: o.y, txt: '站起来了！', t: 0, T: 1.6 }); } }
+          if (o.hp >= o.maxHp) continue;
           o.hp = Math.min(o.maxHp, o.hp + o.maxHp * S.heal.pct * (o.boss ? 0.2 : 1)); any = true;
           this.fx.push({ k: 'heal', x: o.x, y: o.y, t: 0, T: 0.7 });
         }
         if (any) { this.fx.push({ k: 'ring', c: '#7dff9a', x: c.x, y: c.y, r: S.heal.r, t: 0, T: 0.6 }); this.emit('heal', { c }); }
+      }
+    }
+    if (S.trip) {                  // 牛来：被石头绊倒（站起来之后就不摔了）
+      if (c.trip > 0) c.trip -= dt;
+      else if ((c.sk.trip -= dt) <= 0) {
+        c.sk.trip = S.trip.cd;
+        if (c.moving && !c.stood && c.ram <= 0 && this.rng.next() < S.trip.p) {
+          c.trip = S.trip.t; c.stun = Math.max(c.stun, S.trip.t);
+          if (this.t - this.sayTrip > 3) { this.sayTrip = this.t; this.fx.push({ k: 'say', x: c.x, y: c.y, txt: '被石头绊倒了', t: 0, T: 1.3 }); }
+          this.emit('trip', { c });
+        }
       }
     }
     if (S.charge) {

@@ -55,6 +55,18 @@ kbd { display: inline-block; min-width: 18px; padding: 0 4px; border-radius: 4px
   text-shadow: 0 8px 0 #a8301c, 0 14px 22px rgba(0,0,0,.3); -webkit-text-stroke: 3px #6a1a0a; transform: rotate(-3deg); }
 #scr-title .logo .sub { margin: 18px 0 0 8px; display: inline-block; padding: 6px 16px; border-radius: 12px; background: rgba(60,30,10,.75); color: #ffe27a; font-size: 20px; font-weight: 800; letter-spacing: 2px; }
 #scr-title .menu { position: absolute; left: 90px; top: 330px; display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
+#scr-title .poster { position: absolute; left: 740px; top: 58px; width: 196px; padding: 9px 9px 7px; background: #fbf7ea; border: 1px solid #cdbd92; box-shadow: 0 8px 20px rgba(0,0,0,.28); transform: rotate(4deg); text-align: center; }
+#scr-title .poster::before, #scr-title .poster::after { content: ''; position: absolute; top: -9px; width: 58px; height: 20px; background: rgba(255,250,210,.75); box-shadow: 0 1px 2px rgba(0,0,0,.12); }
+#scr-title .poster::before { left: -14px; transform: rotate(-32deg); }
+#scr-title .poster::after { right: -14px; transform: rotate(30deg); }
+#scr-title .poster .pic { position: relative; height: 150px; overflow: hidden; background: radial-gradient(circle at 50% 38%, #fffdf4 0 22%, #efe6cc 60%, #d9cba4); }
+#scr-title .poster .pic::before { content: ''; position: absolute; left: -10px; right: -10px; bottom: -18px; height: 60px; border-radius: 50%; background: radial-gradient(ellipse at 50% 30%, rgba(40,50,40,.45), rgba(40,50,40,0) 70%); }
+#scr-title .poster .pic img { position: absolute; }
+#scr-title .poster .pic .mom { width: 118px; left: 70px; top: 8px; }
+#scr-title .poster .pic .kid { width: 96px; left: -2px; top: 48px; }
+#scr-title .poster .pt { margin-top: 6px; font: 900 24px/1.1 "STKaiti", "KaiTi", "Kaiti SC", serif; letter-spacing: 4px; color: #2a2a22; }
+#scr-title .poster .pc { margin-top: 2px; font-size: 11px; color: #8a7a5a; font-weight: 700; }
+.artsel { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 10px 0 4px; }
 #scr-title .foot { position: absolute; left: 0; right: 0; bottom: 10px; text-align: center; color: rgba(40,60,20,.85); font-size: 12px; font-weight: 700; }
 
 /* ---------- 选关 ---------- */

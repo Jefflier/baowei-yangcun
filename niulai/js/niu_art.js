@@ -1,6 +1,9 @@
 /* ============================================================
  * 牛来攻城 —— 美术
- *   牛：纯手搓的 Q 版矢量（侧身 + 正脸大头），12 种各有造型，按帧烘进离屏画布缓存
+ *   牛有两套画法，设置里切换：
+ *     「正片」（默认）：致敬电影《牛来》的 SketchUp 方块建模，见 niu_su.js
+ *     「海报」：手搓的 Q 版矢量（侧身 + 正脸大头）——海报仅供参考，以正片为准
+ *   两套都按帧烘进离屏画布缓存
  *   塔 / 石墙 / 盘龙柱 / 织女 / 牛郎 / 树石 / 羊 / 气球：直接用保卫羊村导出的原作矢量（SVAArt），
  *     同样按比例烘进缓存；缺素材时退回程序化画法
  * 坐标约定：画牛时原点 = 两脚中间的地面，朝右；1 单位 ≈ 牛身长的 1%
@@ -54,6 +57,14 @@
   };
   Art.STY = STY;
 
+  // 'su' = 正片（方块建模），'poster' = 海报（Q 版）
+  Art.style = 'su';
+  Art.setStyle = function (st) { if (st !== Art.style) { Art.style = st; Art.clearCache(); } };
+  Art.cowRaw = function (ctx, id, p, o) {
+    if (Art.style === 'su' && NL.SU) NL.SU.cow(ctx, id, p, o);
+    else Art.cowPoster(ctx, id, p, o);
+  };
+
   function leg(ctx, x, y, ang, len, w, fill, hoof, line) {
     ctx.save(); ctx.translate(x, y); ctx.rotate(ang);
     rr(ctx, -w / 2, -2, w, len + 2, w * 0.45); fillStroke(ctx, fill, line, 1.8);
@@ -61,8 +72,8 @@
     ctx.restore();
   }
 
-  /* 画一头牛（原点在脚下，朝右）。p = 走路相位 0..2π，o: {flash, walk, charge, enrage, t} */
-  Art.cowRaw = function (ctx, id, p, o) {
+  /* 画一头海报牛（原点在脚下，朝右）。p = 走路相位 0..2π，o: {flash, walk, charge, enrage, t} */
+  Art.cowPoster = function (ctx, id, p, o) {
     o = o || {};
     const S = STY[id] || STY.huang;
     const line = shade(S.body, -0.55), bodyC = S.body;
@@ -250,11 +261,11 @@
   };
 
   /* ---------- 牛的精灵缓存 ---------- */
-  const BOUNDS = { x0: -72, x1: 100, y0: -120, y1: 14 };
+  const BOUNDS = { x0: -92, x1: 112, y0: -150, y1: 16 };
   const cowCache = new Map();
   Art.cowScale = function (id, cell) { const C = NL.D.cows[id]; return cell * 0.9 * (C ? C.size : 1) / 100; };
   Art.clearCache = function () { cowCache.clear(); spriteCache.clear(); iconCache.clear(); };
-  // frame 0..7 走路帧；v 变体：'' / 'c'(冲锋) / 'e'(狂暴) / 'i'(待机)；flash 白闪
+  // frame 0..7 走路帧；v 变体（可组合）：c 冲锋 / e 狂暴 / i 待机 / u 站起来 / t 绊倒 / d 四脚朝天；flash 白闪
   Art.cowSprite = function (id, frame, v, flash, cell) {
     const key = id + '|' + frame + '|' + v + '|' + (flash ? 1 : 0) + '|' + cell;
     let s = cowCache.get(key);
@@ -265,7 +276,8 @@
     const c = cv.getContext('2d');
     c.scale(sc * pr, sc * pr); c.translate(-BOUNDS.x0, -BOUNDS.y0);
     c.lineJoin = 'round'; c.lineCap = 'round';
-    Art.cowRaw(c, id, frame / 8 * TAU, { walk: v !== 'i', charge: v === 'c', enrage: v === 'e', t: frame * 0.13 });
+    const has = ch => v.indexOf(ch) >= 0;
+    Art.cowRaw(c, id, frame / 8 * TAU, { frame, walk: !has('i') && !has('t') && !has('d'), charge: has('c'), enrage: has('e'), up: has('u'), trip: has('t'), dead: has('d'), t: frame * 0.13 });
     if (flash) { c.setTransform(1, 0, 0, 1, 0, 0); c.globalCompositeOperation = 'source-atop'; c.fillStyle = 'rgba(255,255,255,0.42)'; c.fillRect(0, 0, cv.width, cv.height); }
     s = { cv, dx: BOUNDS.x0 * sc, dy: BOUNDS.y0 * sc, w: w / pr, h: h / pr };
     if (cowCache.size > 1600) cowCache.clear();
@@ -518,12 +530,16 @@
     iconCache.set(k, url);
     return url;
   };
-  Art.cowIcon = function (id, size) {
-    return Art.icon('cow_' + id, size, size, (c, w, h) => {
-      const sc = w * 0.84 / 130 / (NL.D.cows[id].size > 1.5 ? 1.2 : 1);
-      c.translate(w * 0.46, h * 0.86); c.scale(sc, sc);
+  // style 省略 = 当前画法；传 'poster' 可以强制画海报版（标题页的「海报」）
+  Art.cowIcon = function (id, size, style) {
+    const st = style || Art.style, su = st === 'su';
+    return Art.icon('cow_' + st + '_' + id, size, size, (c, w, h) => {
+      const tall = su && ['naiu', 'qingniu', 'mowang'].indexOf(id) >= 0;      // 站着的牛更高
+      const sc = w * 0.84 / 130 / (NL.D.cows[id].size > 1.5 ? 1.2 : 1) * (tall ? 0.92 : 1);
+      c.translate(w * (su ? 0.42 : 0.46), h * (tall ? 0.92 : 0.86)); c.scale(sc, sc);
       if (STY[id] && STY[id].fly) { c.save(); c.translate(0, -8); }
-      Art.cowRaw(c, id, 0.8, { walk: false, t: 0.5 });
+      const save = Art.style; Art.style = st;
+      try { Art.cowRaw(c, id, 0.8, { frame: 0, walk: false, t: 0.5 }); } finally { Art.style = save; }
       if (STY[id] && STY[id].fly) c.restore();
     });
   };

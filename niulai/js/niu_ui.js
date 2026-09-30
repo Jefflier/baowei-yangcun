@@ -41,7 +41,8 @@
     get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
     set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { } }
   };
-  UI.save = Object.assign({ stars: {}, best: 0, seen: {}, sfx: 0.6, bgm: 0.35, tut: 0 }, store.get(SAVE_KEY, {}) || {});
+  UI.save = Object.assign({ stars: {}, best: 0, seen: {}, sfx: 0.6, bgm: 0.35, tut: 0, art: 'su' }, store.get(SAVE_KEY, {}) || {});
+  Art.setStyle(UI.save.art === 'poster' ? 'poster' : 'su');
   UI.persist = () => store.set(SAVE_KEY, UI.save);
   UI.maxCleared = () => { let m = 0; for (const L of D.levels) if (UI.save.stars[L.id] > 0) m = Math.max(m, L.id); return m; };
   UI.levelOpen = L => L.endless ? UI.maxCleared() >= D.ENDLESS_UNLOCK : (L.id === 1 || UI.save.stars[L.id - 1] > 0);
@@ -152,7 +153,12 @@
         h('button', { class: 'btn green', onclick: () => { UI.sfx('click'); UI.help(); } }, '❓ 玩法'),
         h('button', { class: 'btn gray', onclick: () => { UI.sfx('click'); UI.settings(); } }, '⚙ 设置'))
     ));
-    s.appendChild(h('div', { class: 'foot' }, '基于《保卫羊村·怀旧服》单机复刻的引擎制作 · 塔、墙、雕像、羊与音效为原作素材 · 牛是手搓的 · 非商业粉丝作品 · ',
+    // 致敬《牛来》：海报是精致的 Q 版，正片是方块建模
+    s.appendChild(h('div', { class: 'poster' },
+      h('div', { class: 'pic' }, h('img', { class: 'kid', src: Art.cowIcon('calf', 120, 'poster') }), h('img', { class: 'mom', src: Art.cowIcon('naiu', 120, 'poster') })),
+      h('div', { class: 'pt', text: '牛 来 攻 城' }),
+      h('div', { class: 'pc', text: '* 海报仅供参考，以正片为准' })));
+    s.appendChild(h('div', { class: 'foot' }, '基于《保卫羊村·怀旧服》单机复刻的引擎制作 · 塔、墙、雕像、羊与音效为原作素材 · 牛的建模致敬动画电影《牛来》（设置里可以换回 Q 版海报牛）· 非商业粉丝作品 · ',
       h('a', { href: document.querySelector('script[src]') ? '../index.html' : '保卫羊村怀旧服.html', style: { color: '#2a5a10' }, text: '回到《保卫羊村》' })));
     UI.show('title');
     UI.bgm('calm');
@@ -712,8 +718,13 @@
     const m = UI.modal([h('h2', { text: '设置' }),
       mk('音效', 'sfx', () => { if (A) A.setVol(UI.save.sfx, null); UI.sfx('coin'); }),
       mk('音乐', 'bgm', () => { if (A) A.setVol(null, UI.save.bgm); }),
+      h('div', { class: 'artsel' }, h('b', { text: '牛的建模' }),
+        ...[['su', '正片（致敬《牛来》）'], ['poster', '海报（Q 版）']].map(([k, label]) => h('button', {
+          class: 'btn sm ' + (Art.style === k ? 'green' : 'gray'),
+          onclick: () => { UI.save.art = k; UI.persist(); Art.setStyle(k); UI.closeModal(m); UI.settings(); }
+        }, label))),
       h('p', { class: 'small muted', text: '音效与战斗音乐来自《保卫羊村》原作；牛叫是 Web Audio 现合成的。' }),
-      h('div', { class: 'acts' }, h('button', { class: 'btn', onclick: () => { if (confirm('确定清空所有进度？')) { UI.save = { stars: {}, best: 0, seen: {}, sfx: UI.save.sfx, bgm: UI.save.bgm, tut: 0 }; UI.persist(); UI.closeAll(); UI.toTitle(); } } }, '清空进度'), h('button', { class: 'btn green', onclick: () => UI.closeModal(m) }, '好的'))], { dismiss: true });
+      h('div', { class: 'acts' }, h('button', { class: 'btn', onclick: () => { if (confirm('确定清空所有进度？')) { UI.save = { stars: {}, best: 0, seen: {}, sfx: UI.save.sfx, bgm: UI.save.bgm, tut: 0, art: UI.save.art }; UI.persist(); UI.closeAll(); UI.toTitle(); } } }, '清空进度'), h('button', { class: 'btn green', onclick: () => UI.closeModal(m) }, '好的'))], { dismiss: true });
   };
   UI.help = function () {
     const m = UI.modal([h('h2', { text: '玩法' }),

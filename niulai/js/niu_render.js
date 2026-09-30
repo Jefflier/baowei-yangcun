@@ -252,6 +252,8 @@
     for (const f of g.fx) this.fx(c, g, f, t);
     // 叠加层
     for (const cw of g.cows) if (cw.alive) this.cowOverlay(c, g, cw, S, t);
+    this.lines(c, g, t);
+    for (const f of g.fx) if (f.k === 'say') this.say(c, f);
     for (const b of g.blds) if (b.kind !== 'hay' && (b.hp < b.maxHp || b.dis > 0)) this.bOverlay(c, b, t);
     this.selection(c, g, S, t);
     this.ghost(c, g, S, t);
@@ -407,15 +409,22 @@
     if (cw.chargeT > 0) { c.fillStyle = 'rgba(200,170,120,0.45)'; for (let k = 1; k <= 3; k++) { ell(c, X - cw.dir * k * 9, gy - 3, 7 - k, 4 - k * 0.8); c.fill(); } }
     const moving = cw.moving && cw.stun <= 0;
     const frame = moving ? Math.floor(cw.walk * 7) % 8 : Math.floor(t * 3 + cw.uid) % 8;
-    const v = cw.chargeT > 0 ? 'c' : cw.enraged ? 'e' : moving || cw.fly ? '' : 'i';
-    const rot = cw.ram > 0 ? 0.1 : cw.eat > 0 ? 0.14 : 0;
+    let v = cw.trip > 0 ? 't' : cw.chargeT > 0 ? 'c' : cw.enraged ? 'e' : moving || cw.fly ? '' : 'i';
+    if (cw.stood) v += 'u';
+    const rot = cw.trip > 0 ? 0 : cw.ram > 0 ? 0.1 : cw.eat > 0 ? 0.14 : 0;
     Art.drawCow(c, cw.id, X, Y, frame, cw.dir, v, cw.flash > 0, CW, rot);
     if (cw.fly) Art.drawBalloon(c, X - cw.dir * 4, Y - CH * 0.95 * sz, CW * 0.62, t);
     if (cw.frozen > 0) { c.fillStyle = 'rgba(170,225,255,0.45)'; c.strokeStyle = 'rgba(255,255,255,0.9)'; c.lineWidth = 1.5; rr(c, X - CW * 0.48 * sz, Y - CH * 1.1 * sz, CW * 0.96 * sz, CH * 1.1 * sz, 6); c.fill(); c.stroke(); }
   };
+  // 血条的高度：海报牛按老规矩，正片牛按模型高度（站着的牛更高）
+  R.cowTop = function (cw, Y) {
+    const sz = D.cows[cw.id].size, k = CH * 1.25 * sz + (cw.id === 'qingniu' ? 10 : 0);
+    if (Art.style !== 'su' || !NL.SU) return Y - k;
+    return Y - Math.max(k, NL.SU.top(cw.id, cw.stood) * Art.cowScale(cw.id, CW) * 0.95 + 4);
+  };
   R.cowOverlay = function (c, g, cw, S, t) {
     const { X, Y } = this.cowPos(cw, t);
-    const sz = D.cows[cw.id].size, top = Y - CH * 1.25 * sz - (cw.id === 'qingniu' ? 10 : 0);
+    const sz = D.cows[cw.id].size, top = this.cowTop(cw, Y);
     if (cw.hp < cw.maxHp && !cw.boss) hpBar(c, X, top, 26 * Math.max(0.8, sz), 4, cw.hp / cw.maxHp, '#ff5a3a');
     if (cw.boss) {
       hpBar(c, X, top, 60, 6, cw.hp / cw.maxHp, cw.enraged ? '#ff2a2a' : '#ffb02a');
@@ -436,13 +445,50 @@
       c.restore();
     }
   };
+  /* ---------- 台词气泡 ---------- */
+  function bubble(c, X, Y, txt, a) {
+    c.save(); c.globalAlpha *= Math.max(0, Math.min(1, a));
+    c.font = 'bold 12px "Microsoft YaHei",sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle';
+    const w = c.measureText(txt).width + 14, h = 20;
+    const x0 = Math.max(4, Math.min(W - w - 4, X - w / 2)), y0 = Math.max(OY, Y - h - 8);
+    c.fillStyle = '#fffef4'; c.strokeStyle = '#2a1a0a'; c.lineWidth = 1.5;
+    rr(c, x0, y0, w, h, 8); c.fill(); c.stroke();
+    const tx = Math.max(x0 + 8, Math.min(x0 + w - 12, X - 3));
+    c.beginPath(); c.moveTo(tx, y0 + h - 0.5); c.lineTo(tx + 3, y0 + h + 7); c.lineTo(tx + 8, y0 + h - 0.5); c.fill();
+    c.beginPath(); c.moveTo(tx, y0 + h); c.lineTo(tx + 3, y0 + h + 7); c.lineTo(tx + 8, y0 + h); c.stroke();
+    c.fillStyle = '#2a1a0a'; c.fillText(txt, x0 + w / 2, y0 + h / 2 + 1);
+    c.restore();
+  }
+  R.say = function (c, f) {
+    const k = f.t / f.T;
+    bubble(c, sx(f.x), sy(f.y) - CH * 0.9 - k * 10, f.txt, Math.min(k * 8, (1 - k) * 5));
+  };
+  // 牛来一家三口隔一阵冒一句台词（同屏最多 3 个气泡）
+  R.lines = function (c, g, t) {
+    let n = 0;
+    for (const cw of g.cows) {
+      const L = cw.alive && !cw.fly && D.cows[cw.id].lines;
+      if (!L || n >= 3) continue;
+      const P = 7, ph = t + cw.uid * 2.37, cyc = Math.floor(ph / P), f = ph - cyc * P, h = hash(cw.uid, cyc, 3);
+      if (f > 2.4 || h > 0.3) continue;
+      n++;
+      const { X, Y } = this.cowPos(cw, t);
+      bubble(c, X, this.cowTop(cw, Y) - 4, L[Math.floor(h * 100) % L.length], Math.min(f * 6, (2.4 - f) * 4));
+    }
+  };
+
   R.death = function (c, f, t) {
     const k = Math.min(1, f.t / f.T);
     let X = sx(f.x), Y = sy(f.y) + CH * 0.28;
     if (f.fly) Y -= CH * 1.0 * Math.max(0, 1 - k * 2.5);
-    const rot = Math.min(1, k * 3) * (Math.PI / 2) * 0.95;
     const a = k > 0.6 ? (1 - k) / 0.4 : 1;
-    Art.drawCow(c, f.id, X, Y - Math.sin(Math.min(1, k * 3) * Math.PI) * 8, 0, f.dir, 'i', k < 0.1, CW, -rot, a);
+    if (Art.style === 'su') {
+      // 正片：愣 0.15 秒，然后没有任何过渡，「啪」地四脚朝天
+      Art.drawCow(c, f.id, X, Y - (k < 0.15 ? 0 : Math.max(0, Math.sin((k - 0.15) * 14)) * 5 * (1 - k)), 0, f.dir, k < 0.15 ? 'i' : 'd', k < 0.1, CW, 0, a);
+    } else {
+      const rot = Math.min(1, k * 3) * (Math.PI / 2) * 0.95;
+      Art.drawCow(c, f.id, X, Y - Math.sin(Math.min(1, k * 3) * Math.PI) * 8, 0, f.dir, 'i', k < 0.1, CW, -rot, a);
+    }
     if (f.boss && k < 0.8) { c.fillStyle = 'rgba(255,220,120,' + (0.6 * (1 - k)) + ')'; ell(c, X, Y - 20, 40 + k * 60, 30 + k * 40); c.fill(); }
     // 赏金
     if (f.gold) {

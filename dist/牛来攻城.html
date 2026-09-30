@@ -63,6 +63,18 @@ kbd { display: inline-block; min-width: 18px; padding: 0 4px; border-radius: 4px
   text-shadow: 0 8px 0 #a8301c, 0 14px 22px rgba(0,0,0,.3); -webkit-text-stroke: 3px #6a1a0a; transform: rotate(-3deg); }
 #scr-title .logo .sub { margin: 18px 0 0 8px; display: inline-block; padding: 6px 16px; border-radius: 12px; background: rgba(60,30,10,.75); color: #ffe27a; font-size: 20px; font-weight: 800; letter-spacing: 2px; }
 #scr-title .menu { position: absolute; left: 90px; top: 330px; display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
+#scr-title .poster { position: absolute; left: 740px; top: 58px; width: 196px; padding: 9px 9px 7px; background: #fbf7ea; border: 1px solid #cdbd92; box-shadow: 0 8px 20px rgba(0,0,0,.28); transform: rotate(4deg); text-align: center; }
+#scr-title .poster::before, #scr-title .poster::after { content: ''; position: absolute; top: -9px; width: 58px; height: 20px; background: rgba(255,250,210,.75); box-shadow: 0 1px 2px rgba(0,0,0,.12); }
+#scr-title .poster::before { left: -14px; transform: rotate(-32deg); }
+#scr-title .poster::after { right: -14px; transform: rotate(30deg); }
+#scr-title .poster .pic { position: relative; height: 150px; overflow: hidden; background: radial-gradient(circle at 50% 38%, #fffdf4 0 22%, #efe6cc 60%, #d9cba4); }
+#scr-title .poster .pic::before { content: ''; position: absolute; left: -10px; right: -10px; bottom: -18px; height: 60px; border-radius: 50%; background: radial-gradient(ellipse at 50% 30%, rgba(40,50,40,.45), rgba(40,50,40,0) 70%); }
+#scr-title .poster .pic img { position: absolute; }
+#scr-title .poster .pic .mom { width: 118px; left: 70px; top: 8px; }
+#scr-title .poster .pic .kid { width: 96px; left: -2px; top: 48px; }
+#scr-title .poster .pt { margin-top: 6px; font: 900 24px/1.1 "STKaiti", "KaiTi", "Kaiti SC", serif; letter-spacing: 4px; color: #2a2a22; }
+#scr-title .poster .pc { margin-top: 2px; font-size: 11px; color: #8a7a5a; font-weight: 700; }
+.artsel { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 10px 0 4px; }
 #scr-title .foot { position: absolute; left: 0; right: 0; bottom: 10px; text-align: center; color: rgba(40,60,20,.85); font-size: 12px; font-weight: 700; }
 
 /* ---------- 选关 ---------- */
@@ -893,7 +905,8 @@ window.SVAArt = (function () {
   /* ---------- 牛群 ----------
    * hp 基础血量  spd 移速  siege 撞墙每秒伤害  pow 冲进城门扣的城防  gold 赏金  pts 波次预算里的分量
    * res 伤害倍率（phys 物理 / fire 火 / ice 冰 / elec 雷 / poison 毒）  armor 物理伤害每下减免
-   * slowRes 减速抗性（0~1）  siegeAI 用「攻城流场」（专挑薄墙撞）  sk 技能  max 一波里同一群最多几头（多出的预算换成小黄牛/小牛犊） */
+   * slowRes 减速抗性（0~1）  siegeAI 用「攻城流场」（专挑薄墙撞）  sk 技能  max 一波里同一群最多几头（多出的预算换成小黄牛/牛来）
+   * lines 头顶偶尔冒出来的台词（牛来一家三口的台词出自动画电影《牛来》） */
   D.cows = {
     huang: {
       n: '小黄牛', hp: 50, spd: 1.0, siege: 10, pow: 1, gold: 7, size: 1.0, pts: 1,
@@ -901,21 +914,25 @@ window.SVAArt = (function () {
       quote: '哞！进城吃草去！'
     },
     calf: {
-      n: '小牛犊', hp: 24, spd: 1.45, siege: 4, pow: 1, gold: 3, size: 0.72, pts: 0.5,
-      desc: '初生牛犊不怕虎，跑得飞快，但一撞墙就头晕。',
-      quote: '妈妈等等我——'
+      n: '牛来', hp: 24, spd: 1.45, siege: 4, pow: 1, gold: 3, size: 0.72, pts: 0.5,
+      sk: { trip: { cd: 4, p: 0.3, t: 0.8 } },
+      desc: '主角小牛犊，跑得飞快，但走着走着会被石头绊倒（趴 0.8 秒）。被牛妈妈奶过之后会站起来直立行走，从此不再摔跤。',
+      quote: '妈妈——！',
+      lines: ['妈妈！', '妈妈——！', '牛来了！']
     },
     naiu: {
-      n: '奶牛', hp: 120, spd: 0.8, siege: 8, pow: 1, gold: 12, size: 1.1, pts: 2, max: 14,
+      n: '牛妈妈', hp: 120, spd: 0.8, siege: 8, pow: 1, gold: 12, size: 1.1, pts: 2, max: 14,
       sk: { heal: { cd: 4, r: 1.7, pct: 0.1 } },
-      desc: '边走边给同伴补奶：每 4 秒为身边的牛回复 10% 生命。看见就先打它！',
-      quote: '喝奶长力气～'
+      desc: '直立行走，背上焊着一个忽大忽小的搪瓷杯（物理意义不明）。每 4 秒给身边的牛回复 10% 生命，身边的牛来也会跟着站起来。看见就先打她！',
+      quote: '今天是昨天的将来。',
+      lines: ['今天是昨天的将来', '牛来，站起来！']
     },
     douniu: {
-      n: '斗牛', hp: 90, spd: 0.95, siege: 22, pow: 2, gold: 12, size: 1.05, pts: 2, max: 16,
+      n: '牛爸爸', hp: 90, spd: 0.95, siege: 22, pow: 2, gold: 12, size: 1.05, pts: 2, max: 16,
       sk: { charge: { cd: 5, t: 1.2, mul: 2.2, ram: 3 } },
-      desc: '看到红色就上头。每隔几秒猛冲一段，冲锋中撞墙伤害 ×3。',
-      quote: '红布在哪？！'
+      desc: '牛来他爸，人生信条是跑得快。每隔几秒猛冲一段，冲锋中撞墙伤害 ×3。',
+      quote: '跑不快的肥牛是要成为盘中餐的！',
+      lines: ['跑不快的肥牛是要成为盘中餐的']
     },
     shuiniu: {
       n: '水牛', hp: 200, spd: 0.75, siege: 16, pow: 2, gold: 16, size: 1.2, pts: 3, max: 18,
@@ -1078,7 +1095,7 @@ window.SVAArt = (function () {
       id: 2, n: '青草坡', theme: 'grass', gold: 300, waves: 10, pts: 6, growth: 1.19, hp: 1.05, hpk: 0.09, hpk2: 0.005,
       cows: [['huang', 1], ['calf', 2], ['naiu', 4]],
       unlock: ['scatter', 'hay', 'gunmu'],
-      intro: '奶牛会给同伴补血。新到手的「草垛」能让牛停下来吃草；城头的「滚木礌石」冷却好了就砸！',
+      intro: '牛妈妈会给同伴补血，还会让牛来站起来。新到手的「草垛」能让牛停下来吃草；城头的「滚木礌石」冷却好了就砸！',
       map: [
         'SS.......T..........',
         'S...................',
@@ -1098,7 +1115,7 @@ window.SVAArt = (function () {
       id: 3, n: '小河湾', theme: 'river', gold: 340, waves: 12, pts: 7, growth: 1.18, hp: 1.1, hpk: 0.09, hpk2: 0.005,
       cows: [['huang', 1], ['calf', 1], ['naiu', 2], ['douniu', 5]],
       unlock: ['cannon', 'frost'],
-      intro: '牛只能从两座桥过河。斗牛会冲锋，冲锋中撞墙格外疼——试试炮塔和冰晶塔。',
+      intro: '牛只能从两座桥过河。牛爸爸会冲锋（「跑不快的肥牛是要成为盘中餐的」），冲锋中撞墙格外疼——试试炮塔和冰晶塔。',
       map: [
         'T........~~.......TT',
         '.........~~.........',
@@ -1395,8 +1412,8 @@ window.SVAArt = (function () {
     this.gate = { x: gx / this.goals.length + 0.9, y: gy / this.goals.length };
 
     this.occ = new Array(n).fill(null);
-    this.blds = []; this.cows = []; this.proj = []; this.fx = []; this.rollers = []; this.ev = [];
-    this.uid = 1; this.t = 0;
+    this.blds = []; this.cows = []; this.proj = []; this.fx = []; this.rollers = []; this.ev = []; this.calmers = [];
+    this.uid = 1; this.t = 0; this.sayWall = this.sayTrip = -99;
     this.gold = L.gold; this.maxHp = D.CITY_HP; this.hp = this.maxHp;
     this.k = 0; this.N = L.waves; this.endless = !!L.endless;
     this.spawnQ = []; this.nextT = -1; this.waveCache = {};
@@ -1623,6 +1640,8 @@ window.SVAArt = (function () {
       b.hp = 0;
       this.stats.destroyed++;
       this.fx.push({ k: 'rubble', x: b.x + 0.5, y: b.y + 0.5, t: 0, T: 0.8, what: b.kind });
+      // 《牛来》：「牛来撞树上了，那哭的不应该是树吗？」
+      if (b.kind === 'wall' && src && src.def && this.t - this.sayWall > 12) { this.sayWall = this.t; this.fx.push({ k: 'say', x: b.x + 0.5, y: b.y + 0.5, txt: '撞墙上了，哭的不应该是墙吗？', t: 0, T: 2.8 }); }
       this.removeB(b);
       this.emit('destroy', { b });
     }
@@ -1766,14 +1785,27 @@ window.SVAArt = (function () {
     if (S.heal) {
       if ((c.sk.heal -= dt) <= 0) {
         c.sk.heal = S.heal.cd;
-        let any = false;
+        let any = false, stood = false;
         for (const o of this.cows) {
-          if (!o.alive || o === c || o.hp >= o.maxHp) continue;
+          if (!o.alive || o === c) continue;
           if (Math.hypot(o.x - c.x, o.y - c.y) > S.heal.r) continue;
+          if (o.def.sk && o.def.sk.trip && !o.stood) { o.stood = true; if (!stood) { stood = true; this.fx.push({ k: 'say', x: o.x, y: o.y, txt: '站起来了！', t: 0, T: 1.6 }); } }
+          if (o.hp >= o.maxHp) continue;
           o.hp = Math.min(o.maxHp, o.hp + o.maxHp * S.heal.pct * (o.boss ? 0.2 : 1)); any = true;
           this.fx.push({ k: 'heal', x: o.x, y: o.y, t: 0, T: 0.7 });
         }
         if (any) { this.fx.push({ k: 'ring', c: '#7dff9a', x: c.x, y: c.y, r: S.heal.r, t: 0, T: 0.6 }); this.emit('heal', { c }); }
+      }
+    }
+    if (S.trip) {                  // 牛来：被石头绊倒（站起来之后就不摔了）
+      if (c.trip > 0) c.trip -= dt;
+      else if ((c.sk.trip -= dt) <= 0) {
+        c.sk.trip = S.trip.cd;
+        if (c.moving && !c.stood && c.ram <= 0 && this.rng.next() < S.trip.p) {
+          c.trip = S.trip.t; c.stun = Math.max(c.stun, S.trip.t);
+          if (this.t - this.sayTrip > 3) { this.sayTrip = this.t; this.fx.push({ k: 'say', x: c.x, y: c.y, txt: '被石头绊倒了', t: 0, T: 1.3 }); }
+          this.emit('trip', { c });
+        }
       }
     }
     if (S.charge) {
@@ -2132,7 +2164,10 @@ window.SVAArt = (function () {
 <script>
 /* ============================================================
  * 牛来攻城 —— 美术
- *   牛：纯手搓的 Q 版矢量（侧身 + 正脸大头），12 种各有造型，按帧烘进离屏画布缓存
+ *   牛有两套画法，设置里切换：
+ *     「正片」（默认）：致敬电影《牛来》的 SketchUp 方块建模，见 niu_su.js
+ *     「海报」：手搓的 Q 版矢量（侧身 + 正脸大头）——海报仅供参考，以正片为准
+ *   两套都按帧烘进离屏画布缓存
  *   塔 / 石墙 / 盘龙柱 / 织女 / 牛郎 / 树石 / 羊 / 气球：直接用保卫羊村导出的原作矢量（SVAArt），
  *     同样按比例烘进缓存；缺素材时退回程序化画法
  * 坐标约定：画牛时原点 = 两脚中间的地面，朝右；1 单位 ≈ 牛身长的 1%
@@ -2186,6 +2221,14 @@ window.SVAArt = (function () {
   };
   Art.STY = STY;
 
+  // 'su' = 正片（方块建模），'poster' = 海报（Q 版）
+  Art.style = 'su';
+  Art.setStyle = function (st) { if (st !== Art.style) { Art.style = st; Art.clearCache(); } };
+  Art.cowRaw = function (ctx, id, p, o) {
+    if (Art.style === 'su' && NL.SU) NL.SU.cow(ctx, id, p, o);
+    else Art.cowPoster(ctx, id, p, o);
+  };
+
   function leg(ctx, x, y, ang, len, w, fill, hoof, line) {
     ctx.save(); ctx.translate(x, y); ctx.rotate(ang);
     rr(ctx, -w / 2, -2, w, len + 2, w * 0.45); fillStroke(ctx, fill, line, 1.8);
@@ -2193,8 +2236,8 @@ window.SVAArt = (function () {
     ctx.restore();
   }
 
-  /* 画一头牛（原点在脚下，朝右）。p = 走路相位 0..2π，o: {flash, walk, charge, enrage, t} */
-  Art.cowRaw = function (ctx, id, p, o) {
+  /* 画一头海报牛（原点在脚下，朝右）。p = 走路相位 0..2π，o: {flash, walk, charge, enrage, t} */
+  Art.cowPoster = function (ctx, id, p, o) {
     o = o || {};
     const S = STY[id] || STY.huang;
     const line = shade(S.body, -0.55), bodyC = S.body;
@@ -2382,11 +2425,11 @@ window.SVAArt = (function () {
   };
 
   /* ---------- 牛的精灵缓存 ---------- */
-  const BOUNDS = { x0: -72, x1: 100, y0: -120, y1: 14 };
+  const BOUNDS = { x0: -92, x1: 112, y0: -150, y1: 16 };
   const cowCache = new Map();
   Art.cowScale = function (id, cell) { const C = NL.D.cows[id]; return cell * 0.9 * (C ? C.size : 1) / 100; };
   Art.clearCache = function () { cowCache.clear(); spriteCache.clear(); iconCache.clear(); };
-  // frame 0..7 走路帧；v 变体：'' / 'c'(冲锋) / 'e'(狂暴) / 'i'(待机)；flash 白闪
+  // frame 0..7 走路帧；v 变体（可组合）：c 冲锋 / e 狂暴 / i 待机 / u 站起来 / t 绊倒 / d 四脚朝天；flash 白闪
   Art.cowSprite = function (id, frame, v, flash, cell) {
     const key = id + '|' + frame + '|' + v + '|' + (flash ? 1 : 0) + '|' + cell;
     let s = cowCache.get(key);
@@ -2397,7 +2440,8 @@ window.SVAArt = (function () {
     const c = cv.getContext('2d');
     c.scale(sc * pr, sc * pr); c.translate(-BOUNDS.x0, -BOUNDS.y0);
     c.lineJoin = 'round'; c.lineCap = 'round';
-    Art.cowRaw(c, id, frame / 8 * TAU, { walk: v !== 'i', charge: v === 'c', enrage: v === 'e', t: frame * 0.13 });
+    const has = ch => v.indexOf(ch) >= 0;
+    Art.cowRaw(c, id, frame / 8 * TAU, { frame, walk: !has('i') && !has('t') && !has('d'), charge: has('c'), enrage: has('e'), up: has('u'), trip: has('t'), dead: has('d'), t: frame * 0.13 });
     if (flash) { c.setTransform(1, 0, 0, 1, 0, 0); c.globalCompositeOperation = 'source-atop'; c.fillStyle = 'rgba(255,255,255,0.42)'; c.fillRect(0, 0, cv.width, cv.height); }
     s = { cv, dx: BOUNDS.x0 * sc, dy: BOUNDS.y0 * sc, w: w / pr, h: h / pr };
     if (cowCache.size > 1600) cowCache.clear();
@@ -2650,12 +2694,16 @@ window.SVAArt = (function () {
     iconCache.set(k, url);
     return url;
   };
-  Art.cowIcon = function (id, size) {
-    return Art.icon('cow_' + id, size, size, (c, w, h) => {
-      const sc = w * 0.84 / 130 / (NL.D.cows[id].size > 1.5 ? 1.2 : 1);
-      c.translate(w * 0.46, h * 0.86); c.scale(sc, sc);
+  // style 省略 = 当前画法；传 'poster' 可以强制画海报版（标题页的「海报」）
+  Art.cowIcon = function (id, size, style) {
+    const st = style || Art.style, su = st === 'su';
+    return Art.icon('cow_' + st + '_' + id, size, size, (c, w, h) => {
+      const tall = su && ['naiu', 'qingniu', 'mowang'].indexOf(id) >= 0;      // 站着的牛更高
+      const sc = w * 0.84 / 130 / (NL.D.cows[id].size > 1.5 ? 1.2 : 1) * (tall ? 0.92 : 1);
+      c.translate(w * (su ? 0.42 : 0.46), h * (tall ? 0.92 : 0.86)); c.scale(sc, sc);
       if (STY[id] && STY[id].fly) { c.save(); c.translate(0, -8); }
-      Art.cowRaw(c, id, 0.8, { walk: false, t: 0.5 });
+      const save = Art.style; Art.style = st;
+      try { Art.cowRaw(c, id, 0.8, { frame: 0, walk: false, t: 0.5 }); } finally { Art.style = save; }
       if (STY[id] && STY[id].fly) c.restore();
     });
   };
@@ -2668,6 +2716,408 @@ window.SVAArt = (function () {
       else if (kind === 'hay') Art.drawHay(c, w / 2, h * 0.72, w * 0.95, 1, 0);
       else Art.drawStatue(c, kind, w / 2, h * 0.9, w * 0.72);
     });
+  };
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+<script>
+/* ============================================================
+ * 牛来攻城 —— 「正片」牛：致敬动画电影《牛来》的 SketchUp 建模
+ *   电影海报是唯美水墨，正片是建筑软件里拉出来的方块牛。这里照着来：
+ *   · 每头牛由长方体 / 低面数棱柱拼成，平涂着色 + 黑色描边（SketchUp 默认样式）
+ *   · 按面的平均深度排序（画家算法）；零件直接互相插着，没有脖子没有关节，于是会自然地穿模
+ *   · 个别面「法线反了」，露出 SketchUp 的蓝灰色背面；翅膀、披风是单面片，转过去也是蓝的
+ *   · 走路只有 4 个关键帧（8 帧缓存两两相同 = 卡顿），腿是直棍，脚会离地
+ *   · 牛妈妈直立行走，背上焊着一个忽大忽小的杯子；被她奶过的牛来也会站起来
+ *   · 倒下时没有过渡，直接四脚朝天，头插进地里
+ * 模型空间：x 朝前（牛头方向）、y 朝上、z 朝镜头；原点 = 两脚中间的地面；1 单位 ≈ 牛身长的 1%
+ * 画到 ctx 上时和 Q 版牛同一套约定（朝右、原点在脚下、y 向下），缓存 / 图标 / 渲染都不用改
+ * ============================================================ */
+(function (root) {
+  'use strict';
+  const NL = root.NL = root.NL || {};
+  const SU = NL.SU = {};
+  const TAU = Math.PI * 2;
+
+  /* ---------- 相机：绕 y 转一点露出正脸，再俯视一点露出背 ---------- */
+  const YAW = -0.62, PITCH = 0.34;
+  const cY = Math.cos(YAW), sY = Math.sin(YAW), cP = Math.cos(PITCH), sP = Math.sin(PITCH);
+  function view(p) {
+    const x = p[0] * cY + p[2] * sY, z = -p[0] * sY + p[2] * cY, y = p[1];
+    return [x, y * cP - z * sP, y * sP + z * cP];
+  }
+  const LIGHT = nrm([-0.35, 0.8, 0.5]);
+  const BACK = '#a4b1c0';      // SketchUp 默认材质的背面色
+  const EDGE = '#151515';
+
+  /* ---------- 向量 / 矩阵（3×4） ---------- */
+  function sub(a, b) { return [a[0] - b[0], a[1] - b[1], a[2] - b[2]]; }
+  function cross(a, b) { return [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]]; }
+  function dot(a, b) { return a[0] * b[0] + a[1] * b[1] + a[2] * b[2]; }
+  function nrm(a) { const d = Math.hypot(a[0], a[1], a[2]) || 1; return [a[0] / d, a[1] / d, a[2] / d]; }
+  // Newell 法求多边形法线（顶点从法线那一侧看是逆时针）
+  function newell(P) {
+    let x = 0, y = 0, z = 0;
+    for (let i = 0; i < P.length; i++) {
+      const a = P[i], b = P[(i + 1) % P.length];
+      x += (a[1] - b[1]) * (a[2] + b[2]); y += (a[2] - b[2]) * (a[0] + b[0]); z += (a[0] - b[0]) * (a[1] + b[1]);
+    }
+    const d = Math.hypot(x, y, z);
+    return d < 1e-9 ? null : [x / d, y / d, z / d];
+  }
+  function centroid(P) { let x = 0, y = 0, z = 0; for (const p of P) { x += p[0]; y += p[1]; z += p[2]; } return [x / P.length, y / P.length, z / P.length]; }
+  function mul(A, B) {
+    const r = new Array(12);
+    for (let i = 0; i < 3; i++) {
+      const a0 = A[i * 4], a1 = A[i * 4 + 1], a2 = A[i * 4 + 2];
+      for (let j = 0; j < 3; j++) r[i * 4 + j] = a0 * B[j] + a1 * B[4 + j] + a2 * B[8 + j];
+      r[i * 4 + 3] = a0 * B[3] + a1 * B[7] + a2 * B[11] + A[i * 4 + 3];
+    }
+    return r;
+  }
+  function ap(M, p) { return [M[0] * p[0] + M[1] * p[1] + M[2] * p[2] + M[3], M[4] * p[0] + M[5] * p[1] + M[6] * p[2] + M[7], M[8] * p[0] + M[9] * p[1] + M[10] * p[2] + M[11]]; }
+
+  // 2D 小工具（贴图用，面内坐标：u 向右、v 向上、原点在面心）
+  function ngon(cx, cy, r, n, rot, ry) { const P = []; for (let i = 0; i < n; i++) { const a = (rot || 0) + i / n * TAU; P.push([cx + Math.cos(a) * r, cy + Math.sin(a) * (ry || r)]); } return P; }
+  function rect(x0, y0, x1, y1) { return [[x0, y0], [x1, y0], [x1, y1], [x0, y1]]; }
+
+  /* ============================================================
+   * 场景：搭积木 + 画家算法
+   * ============================================================ */
+  function Scene() { this.items = []; this.M = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0]; this.st = []; this.marks = {}; }
+  const SP = Scene.prototype;
+  SP.push = function () { this.st.push(this.M); return this; };
+  SP.pop = function () { this.M = this.st.pop(); return this; };
+  SP.at = function (x, y, z) { this.M = mul(this.M, [1, 0, 0, x, 0, 1, 0, y, 0, 0, 1, z]); return this; };
+  SP.rx = function (a) { const c = Math.cos(a), s = Math.sin(a); this.M = mul(this.M, [1, 0, 0, 0, 0, c, -s, 0, 0, s, c, 0]); return this; };
+  SP.ry = function (a) { const c = Math.cos(a), s = Math.sin(a); this.M = mul(this.M, [c, 0, s, 0, 0, 1, 0, 0, -s, 0, c, 0]); return this; };
+  SP.rz = function (a) { const c = Math.cos(a), s = Math.sin(a); this.M = mul(this.M, [c, -s, 0, 0, s, c, 0, 0, 0, 0, 1, 0]); return this; };
+  SP.sc = function (k) { this.M = mul(this.M, [k, 0, 0, 0, 0, k, 0, 0, 0, 0, k, 0]); return this; };
+  SP.mark = function (name, p) { this.marks[name] = view(ap(this.M, p)); return this; };
+
+  // 闭合凸体：把每个面的顶点顺序统一成「从外面看逆时针」（按面心相对体心的方向判断），这样才能剔除背面
+  SP.solid = function (polys, col, o) {
+    o = o || {};
+    const P = polys.map(poly => poly.map(p => ap(this.M, p)));
+    const C = centroid([].concat(...P));
+    return P.map((poly, i) => {
+      const n = newell(poly);
+      if (n && dot(n, sub(centroid(poly), C)) < 0) poly.reverse();
+      const f = { p: poly, col: (o.cols && o.cols[i]) || col, rev: !!(o.rev && o.rev.indexOf(i) >= 0), cull: true, dec: [] };
+      this.items.push(f);
+      return f;
+    });
+  };
+  // 长方体；返回 6 个面 { px nx py ny pz nz }（rev 用下标 0..5 按这个顺序）
+  SP.box = function (x0, y0, z0, x1, y1, z1, col, o) {
+    const f = this.solid([
+      [[x1, y0, z1], [x1, y0, z0], [x1, y1, z0], [x1, y1, z1]],
+      [[x0, y0, z0], [x0, y0, z1], [x0, y1, z1], [x0, y1, z0]],
+      [[x0, y1, z1], [x1, y1, z1], [x1, y1, z0], [x0, y1, z0]],
+      [[x0, y0, z0], [x1, y0, z0], [x1, y0, z1], [x0, y0, z1]],
+      [[x0, y0, z1], [x1, y0, z1], [x1, y1, z1], [x0, y1, z1]],
+      [[x1, y0, z0], [x0, y0, z0], [x0, y1, z0], [x1, y1, z0]]
+    ], col, o);
+    return { px: f[0], nx: f[1], py: f[2], ny: f[3], pz: f[4], nz: f[5] };
+  };
+  // a→b 的 n 棱柱 / 棱台 / 棱锥（r1 = 0）；返回 [底, 顶, 侧面…]
+  SP.tube = function (a, b, r0, r1, n, col, o) {
+    const d = nrm(sub(b, a)), up = Math.abs(d[1]) < 0.9 ? [0, 1, 0] : [1, 0, 0];
+    const e1 = nrm(cross(d, up)), e2 = cross(e1, d);
+    const ring = (c, r) => {
+      const R = [];
+      for (let i = 0; i < n; i++) { const t = (i + 0.5) / n * TAU, u = Math.cos(t) * r, v = Math.sin(t) * r; R.push([c[0] + e1[0] * u + e2[0] * v, c[1] + e1[1] * u + e2[1] * v, c[2] + e1[2] * u + e2[2] * v]); }
+      return R;
+    };
+    const A = ring(a, r0), B = ring(b, r1), cone = r1 < 0.01, polys = [A.slice()];
+    if (!cone) polys.push(B.slice());
+    for (let i = 0; i < n; i++) { const j = (i + 1) % n; polys.push(cone ? [A[i], A[j], b] : [A[i], A[j], B[j], B[i]]); }
+    return this.solid(polys, col, o);
+  };
+  // 单面片（不剔除，转到背面就是 SketchUp 的蓝灰色）
+  SP.plane = function (pts, col, o) { const f = { p: pts.map(p => ap(this.M, p)), col, rev: !!(o && o.rev), cull: false, dec: [] }; this.items.push(f); return f; };
+  // 线（鼻环、金刚琢）：w 是描边粗细的倍数
+  SP.wire = function (pts, col, w, closed) { this.items.push({ wire: true, p: pts.map(p => ap(this.M, p)), col, w, closed }); return this; };
+  // 贴图：贴在某个面上的平面多边形。可以贴出面外——贴歪了也是正片的一部分
+  SP.decal = function (f, pts, col, o) {
+    const n = newell(f.p); if (!n) return;
+    const C = centroid(f.p);
+    let V = sub([0, 1, 0], [n[0] * n[1], n[1] * n[1], n[2] * n[1]]);                      // 世界「上」投影到面内
+    if (Math.hypot(V[0], V[1], V[2]) < 0.2) V = sub([1, 0, 0], [n[0] * n[0], n[1] * n[0], n[2] * n[0]]);   // 顶面 / 底面：拿 x 当「上」
+    V = nrm(V);
+    const U = cross(V, n), off = (o && o.off) || 0.25;
+    f.dec.push({ p: pts.map(q => [C[0] + U[0] * q[0] + V[0] * q[1] + n[0] * off, C[1] + U[1] * q[0] + V[1] * q[1] + n[1] * off, C[2] + U[2] * q[0] + V[2] * q[1] + n[2] * off]), col, line: o && o.line });
+  };
+
+  const rgbCache = new Map();
+  function rgb(h) {
+    let c = rgbCache.get(h);
+    if (!c) { let s = h.replace('#', ''); if (s.length === 3) s = s.split('').map(q => q + q).join(''); c = [0, 2, 4].map(i => parseInt(s.slice(i, i + 2), 16)); rgbCache.set(h, c); }
+    return c;
+  }
+  function lit(h, n) {
+    const c = rgb(h), k = 0.64 + 0.36 * Math.max(0, dot(n, LIGHT)) + 0.05 * Math.max(0, n[2]);
+    return 'rgb(' + Math.min(255, Math.round(c[0] * k)) + ',' + Math.min(255, Math.round(c[1] * k)) + ',' + Math.min(255, Math.round(c[2] * k)) + ')';
+  }
+  function path(ctx, V, close) { ctx.beginPath(); ctx.moveTo(V[0][0], -V[0][1]); for (let i = 1; i < V.length; i++) ctx.lineTo(V[i][0], -V[i][1]); if (close) ctx.closePath(); }
+
+  SP.draw = function (ctx, lw) {
+    const list = [];
+    for (const f of this.items) {
+      const V = f.p.map(view);
+      if (f.wire) { list.push({ f, V, z: centroid(V)[2] + 2 }); continue; }
+      const n = newell(V);
+      if (!n) continue;
+      const front = n[2] > 0;
+      if (!front && f.cull) continue;
+      list.push({ f, V, n: front ? n : [-n[0], -n[1], -n[2]], front, z: centroid(V)[2] });
+    }
+    list.sort((a, b) => a.z - b.z);
+    ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+    for (const it of list) {
+      const f = it.f;
+      if (f.wire) {
+        path(ctx, it.V, f.closed);
+        ctx.strokeStyle = EDGE; ctx.lineWidth = lw * (f.w + 1.6); ctx.stroke();
+        ctx.strokeStyle = f.col; ctx.lineWidth = lw * f.w; ctx.stroke();
+        continue;
+      }
+      const back = it.front === f.rev;          // 反面朝外 = 蓝灰
+      path(ctx, it.V, true);
+      ctx.fillStyle = lit(back ? BACK : f.col, it.n); ctx.fill();
+      ctx.strokeStyle = EDGE; ctx.lineWidth = lw; ctx.stroke();
+      if (it.front) for (const d of f.dec) {
+        path(ctx, d.p.map(view), true);
+        ctx.fillStyle = lit(d.col, it.n); ctx.fill();
+        if (d.line) { ctx.lineWidth = lw * 0.8; ctx.stroke(); }
+      }
+    }
+  };
+
+  /* ============================================================
+   * 牛的积木
+   * ============================================================ */
+  // 4 个关键帧：迈左腿 / 并腿 / 迈右腿 / 并腿。点头和腿不同步（故意的）
+  const SWING = [0.5, 0.05, -0.5, -0.05], BOB = [0, 2, 0, 2], NOD = [0, 0.08, -0.03, -0.09], TAIL = [0.3, 0, -0.3, 0.05];
+  const CUP = [0.55, 1.35, 0.8, 1.7, 0.6, 1.15, 0.95, 1.5];        // 杯子每一帧的大小（物理意义不明）
+
+  function sym(fn) { fn(1); fn(-1); }
+
+  function eyes(S, f, P, pose) {
+    const E = P.eyes || {};
+    const white = E.white || '#ffffff', pup = pose.enrage ? '#ff2a1a' : (E.pupil || '#111111');
+    const r1 = E.r1 || 5, r2 = E.r2 || 3.7;                        // 一只大一只小
+    S.decal(f, ngon(-6, 4.6, r1, 7, 0.3), white, { line: true });
+    S.decal(f, ngon(5.8, 3.6, r2, 6, 0.1), white, { line: true });
+    S.decal(f, ngon(-6 + r1 * 0.35, 4.6 + r1 * 0.3, r1 * 0.42, 5), pup, { off: 0.45 });   // 两只眼睛各看各的
+    S.decal(f, ngon(5.8 - r2 * 0.4, 3.6 - r2 * 0.35, r2 * 0.48, 5), pup, { off: 0.45 });
+    if (E.sleepy) S.decal(f, rect(-11.5, 4.8, 10.5, 10.5), P.headC || P.col, { off: 0.6 });
+    if (E.brow) { S.decal(f, [[-11.5, 11], [-2.4, 8.2], [-2.4, 6.6], [-11.5, 9.2]], '#111111', { off: 0.6 }); S.decal(f, [[11, 9.6], [2.2, 7.4], [2.2, 5.8], [11, 7.8]], '#111111', { off: 0.6 }); }
+  }
+
+  function horns(S, P, hl, hh) {
+    const c = P.hornC || '#eee3c8';
+    switch (P.horn) {
+      case 'small': sym(s => S.tube([7, hh - 1, s * 6], [9, hh + 9, s * 11], 2.6, 1, 4, c)); break;
+      case 'nub': sym(s => S.box(5, hh - 1, s > 0 ? 4 : -8, 9, hh + 3, s > 0 ? 8 : -4, c)); break;
+      case 'long': sym(s => { S.tube([8, hh - 3, s * 7], [16, hh + 3, s * 19], 3.2, 2.2, 4, c); S.tube([16, hh + 3, s * 19], [25, hh + 14, s * 21], 2.2, 0.01, 4, c); }); break;
+      case 'crescent': sym(s => { S.tube([6, hh - 3, s * 8], [2, hh + 1, s * 22], 3.6, 2.8, 5, c); S.tube([2, hh + 1, s * 22], [5, hh + 11, s * 28], 2.8, 2, 5, c); S.tube([5, hh + 11, s * 28], [13, hh + 17, s * 22], 2, 0.01, 5, c); }); break;
+      case 'yak': sym(s => { S.tube([6, hh - 2, s * 8], [6, hh + 3, s * 17], 3, 2.2, 4, c); S.tube([6, hh + 3, s * 17], [10, hh + 14, s * 17], 2.2, 0.01, 4, c); }); break;
+      case 'metal': sym(s => S.tube([7, hh - 1, s * 7], [10, hh + 10, s * 13], 3, 0.01, 4, '#b8c2cc')); break;
+      case 'blade': sym(s => {
+        S.tube([7, hh - 1, s * 7], [10, hh + 8, s * 12], 2.6, 1.2, 4, c);
+        S.push().at(10, hh + 7, s * 12); S.plane([[0, 0, 0], [4, 1, 0], [7, 15, 0], [-1, 3, 0]], '#dfe6ee'); S.pop();
+      }); break;
+      case 'single': S.tube([10, hh - 2, 0], [17, hh + 17, 0], 4, 0.01, 5, c); break;
+      case 'demon': sym(s => { S.tube([6, hh - 2, s * 8], [0, hh + 5, s * 22], 4.2, 3.4, 5, c); S.tube([0, hh + 5, s * 22], [4, hh + 20, s * 27], 3.4, 2.4, 5, c); S.tube([4, hh + 20, s * 27], [15, hh + 29, s * 21], 2.4, 0.01, 5, c); }); break;
+    }
+  }
+
+  // 头：原点 = 头盒子的后下角中线；朝 +x。没有脖子，直接插在身子上
+  function head(S, P, pose) {
+    const hl = P.hl || 26, hh = P.hh || 25, hw = P.hw || 24;
+    S.box(3, hh - 7, hw / 2 - 1, 9, hh - 3, hw / 2 + 8, P.ear || P.col, { rev: P.earRev ? [4, 2] : null });
+    S.box(3, hh - 7, -hw / 2 - 8, 9, hh - 3, -hw / 2 + 1, P.ear || P.col);
+    const hd = S.box(0, 0, -hw / 2, hl, hh, hw / 2, P.headC || P.col, { rev: P.headRev });
+    const sn = S.box(hl - 3, 1, -hw / 2 + 2.5, hl + 7, 11, hw / 2 - 2.5, P.snout);
+    S.decal(sn.px, rect(-5, -0.5, -2.6, 2.6), '#2a1616');                  // 鼻孔是方的
+    S.decal(sn.px, rect(2, 0, 4.4, 3.1), '#2a1616');
+    S.decal(sn.px, [[-5, -3.2], [5, -1.8], [5, -1], [-5, -2.4]], '#5a2626'); // 嘴是歪的
+    eyes(S, hd.px, P, pose);
+    if (P.band) { S.decal(hd.px, rect(-11.5, 7.6, 11.5, 10.2), '#e8b830', { off: 0.7 }); S.decal(hd.px, ngon(0, 8.9, 2, 6), '#c9303a', { off: 0.9 }); }
+    if (P.helmet) S.box(-1, hh - 5, -hw / 2 - 1.5, hl * 0.72, hh + 3, hw / 2 + 1.5, '#a3adb6');
+    if (P.ram) {                                                              // 攻城锤：木头 + 铁箍 + 铁锤头，用皮带捆在头上
+      S.tube([hl * 0.2, hh + 4, 0], [hl + 24, hh + 4, 0], 5.5, 5.5, 6, '#9a6a3a');
+      S.tube([hl + 2, hh + 4, 0], [hl + 6, hh + 4, 0], 6.4, 6.4, 6, '#7a828a');
+      S.tube([hl + 22, hh + 4, 0], [hl + 32, hh + 4, 0], 7.8, 7.8, 6, '#7a828a');
+      S.box(9, -1, -hw / 2 - 1, 12, hh + 1, hw / 2 + 1, '#4a2a10');
+    }
+    if (P.ring) S.wire(ngon(0, 0, 3.4, 8).map(q => [hl + 7.6, 1 + q[1] * 0.9, q[0]]), '#f0c030', 1.5, true);
+    horns(S, P, hl, hh);
+    if (P.goldRing) {                                                         // 金刚琢：在头顶转
+      const a = [0.25, -0.1, 0.3, -0.2, 0.15, -0.05, 0.35, 0][pose.frame];
+      S.push().at(6, hh + 30, 0).rz(a);
+      S.wire(ngon(0, 0, 12, 10).map(q => [q[0], 0, q[1]]), '#e8b830', 3, true);
+      S.pop();
+    }
+  }
+
+  // 四条腿的牛
+  function quad(S, P, pose) {
+    const L = P.L || 76, H = P.H || 32, W = P.W || 30, LH = P.LH || 24, lw = P.lw || 8;
+    const k = pose.k, walk = pose.walk, sw = walk ? SWING[k] : 0, bob = walk ? BOB[k] : 0;
+    const y0 = LH, y1 = LH + H;
+    // 腿：一根直棍，没有膝盖，绕胯转（脚会离地）
+    [[L / 2 - 10, W / 2 - 5, 1], [L / 2 - 10, -W / 2 + 5, -1], [-L / 2 + 10, W / 2 - 5, -1], [-L / 2 + 10, -W / 2 + 5, 1]].forEach(([lx, lz, s], i) => {
+      let a = sw * s;
+      if (pose.charge) a = i < 2 ? 0.75 : -0.75;
+      if (P.splay) a = (i < 2 ? 0.95 : -0.95) + [0, 0.15, 0, -0.15][k] * s;
+      S.push().at(lx, y0 + 6 + bob, lz).rz(a);
+      if (P.splay) S.rx(lz > 0 ? -0.4 : 0.4);
+      S.box(-lw / 2, -(LH + 6), -lw / 2, lw / 2, 0, lw / 2, P.leg || P.col);
+      S.box(-lw / 2 - 0.7, -(LH + 6), -lw / 2 - 0.7, lw / 2 + 0.7, -(LH + 1), lw / 2 + 0.7, P.hoof);
+      S.pop();
+    });
+    S.push().at(0, bob, 0);
+    const body = S.box(-L / 2, y0, -W / 2, L / 2, y1, W / 2, P.col, { rev: P.bodyRev });
+    if (P.spots) for (const sp of P.spots) S.decal(body.pz, sp, P.spotC);
+    if (P.mud) { S.decal(body.pz, [[-L / 2 + 4, -H / 2 + 1], [-4, -H / 2 + 5], [8, -H / 2 + 2], [L / 2 - 6, -H / 2 + 6], [L / 2 - 6, -H / 2], [-L / 2 + 4, -H / 2]], '#6a4a2c'); }
+    if (P.armor) {
+      const ar = S.box(-L / 2 - 2.5, y0 + H * 0.35, -W / 2 - 2.5, L / 2 + 1.5, y1 + 3, W / 2 + 2.5, '#a3adb6');
+      for (let u = -L / 2 + 6; u < L / 2 - 2; u += 10) S.decal(ar.pz, rect(u, 3, u + 2.4, 5.4), '#4a545c');
+    }
+    if (P.fringe) for (let i = 0; i < 7; i++) { const x0 = -L / 2 + i * L / 7; S.box(x0, y0 - 9 - (i % 2) * 4, W / 2 - 1, x0 + L / 7 - 1.5, y0 + 10, W / 2 + 1.5, P.fringe); }
+    if (P.snow) S.box(-14, y1 - 0.5, -9, 12, y1 + 3.5, 10, '#fbfdff');
+    if (P.wings) {                                                             // 单面片的翅膀：远处那只转过去就是蓝的
+      const fl = [0, 6, 2, 8, 0, 6, 2, 8][pose.frame];
+      sym(s => S.plane([[-12, y1, s * (W / 2 - 3)], [8, y1, s * (W / 2 - 3)], [2, y1 + 18 + fl, s * (W / 2 + 18)], [-18, y1 + 12 + fl, s * (W / 2 + 12)]], '#ffffff'));
+    }
+    // 尾巴
+    S.push().at(-L / 2 + 1, y1 - 3, 0).rx(walk ? TAIL[k] : 0.1);
+    S.tube([0, 0, 0], [-7, -20, 0], 1.8, 1.4, 4, P.col);
+    S.box(-10, -27, -2.5, -4, -19, 2.5, P.tuft || P.hoof);
+    S.mark('tail', [-7, -25, 0]);
+    S.pop();
+    // 头：直接插在身子前上角
+    S.push().at(L / 2 + (P.hx != null ? P.hx : -6), y1 + (P.hy != null ? P.hy : -9), 0).rz(pose.charge ? -0.45 : (walk ? NOD[k] : 0));
+    head(S, P, pose);
+    S.pop();
+    S.pop();
+  }
+
+  // 站起来的牛（牛妈妈、站起来的牛来、两个 BOSS）
+  function biped(S, P, pose) {
+    const T = P.T || 26, TH = P.TH || 44, W = P.W || 26, LH = P.LH || 28, lw = P.lw || 9;
+    const k = pose.k, walk = pose.walk, sw = walk ? SWING[k] * 0.8 : 0, bob = walk ? BOB[k] : 0;
+    const y0 = LH, y1 = LH + TH;
+    sym(s => {                                                                // 后腿：蹄子往前多伸一截，像穿了鞋
+      S.push().at(0, y0 + 5 + bob, s * (W / 2 - 6)).rz(sw * s);
+      S.box(-lw / 2, -(LH + 5), -lw / 2, lw / 2, 0, lw / 2, P.leg || P.col);
+      S.box(-lw / 2 - 0.8, -(LH + 5), -lw / 2 - 0.8, lw / 2 + 3, -LH, lw / 2 + 0.8, P.hoof);
+      S.pop();
+    });
+    S.push().at(0, bob, 0);
+    const body = S.box(-T / 2, y0, -W / 2, T / 2, y1, W / 2, P.col, { rev: P.bodyRev });
+    if (P.belly) S.decal(body.px, rect(-W / 2 + 4, -TH / 2 + 5, W / 2 - 4, TH / 2 - 9), P.belly);
+    if (P.spots) for (const sp of P.spots) S.decal(body.pz, sp, P.spotC);
+    if (P.goldArmor) { const ga = S.box(T / 2 - 3, y0 + TH * 0.42, -W / 2 + 3, T / 2 + 3, y1 - 5, W / 2 - 3, '#e2b030'); S.decal(ga.px, ngon(0, 0, 3.4, 6), '#d8303a', { line: true }); }
+    // 前腿当胳膊：挂在肩膀外面甩；T-pose = 狂暴
+    sym(s => {
+      S.push().at(0, y1 - 5, s * (W / 2 + lw / 2));
+      if (pose.tpose) S.rx(-s * Math.PI / 2); else S.rz(-sw * s * 1.1);
+      S.box(-lw / 2, -30, -lw / 2, lw / 2, 3, lw / 2, P.leg || P.col);
+      S.box(-lw / 2 - 0.7, -30, -lw / 2 - 0.7, lw / 2 + 0.7, -25, lw / 2 + 0.7, P.hoof);
+      S.pop();
+    });
+    if (P.cape) {                                                             // 披风：两片单面片，一片法线是反的
+      const wv = [0, 4, 1, 5, 0, 3, 1, 4][pose.frame];
+      S.plane([[-T / 2 - 1, y1 - 2, W / 2 + 4], [-T / 2 - 1, y1 - 2, 0], [-T / 2 - 12 - wv, 10, 0], [-T / 2 - 10 - wv, 10, W / 2 + 10]], '#c02830');
+      S.plane([[-T / 2 - 1, y1 - 2, 0], [-T / 2 - 1, y1 - 2, -W / 2 - 4], [-T / 2 - 10 - wv, 10, -W / 2 - 10], [-T / 2 - 12 - wv, 10, 0]], '#c02830', { rev: true });
+    }
+    if (P.cup) {                                                              // 背上焊着的杯子，每一帧大小都不一样
+      S.push().at(-T / 2 - 4, y0 + TH * 0.74, W / 2 - 4).rz(0.3).sc(CUP[pose.frame]);
+      const cp = S.tube([0, -10, 0], [0, 10, 0], 8.5, 10, 8, '#f4f4f0');       // 白底红边的搪瓷杯
+      S.decal(cp[1], ngon(0, 0, 8.4, 8), '#6a3a1a');
+      for (let i = 2; i < cp.length; i++) { S.decal(cp[i], rect(-4, 6.5, 4, 9.5), '#d8303a'); S.decal(cp[i], rect(-4, -2, 4, 2), '#d8303a'); }
+      S.box(-14, -5, -1.8, -8, 6, 1.8, '#f4f4f0');
+      S.pop();
+    }
+    S.push().at(-T / 2 + 1, y0 + 8, 0).rz(-0.5).rx(walk ? TAIL[k] : 0.1);
+    S.tube([0, 0, 0], [-4, -20, 0], 1.8, 1.4, 4, P.col);
+    S.box(-7, -27, -2.5, -1, -19, 2.5, P.tuft || P.hoof);
+    S.mark('tail', [-4, -25, 0]);
+    S.pop();
+    S.push().at(-(P.hb != null ? P.hb : 8), y1 - 3, 0).rz(walk ? NOD[k] : 0);
+    head(S, P, pose);
+    S.pop();
+    S.pop();
+  }
+
+  /* ---------- 12 头牛 ---------- */
+  const MD = {
+    huang: { b: quad, col: '#d69a3c', leg: '#c98e33', hoof: '#4a3018', snout: '#eab79c', horn: 'small', tuft: '#7a4a1a', headRev: [2] },
+    calf: {
+      b: quad, L: 54, H: 24, W: 22, LH: 19, lw: 6.5, col: '#e2ae72', leg: '#d69f63', hoof: '#6a4a2a', snout: '#f3c3a8', horn: 'nub', tuft: '#8a5a2a',
+      hl: 24, hh: 23, hw: 22, hx: -8, hy: -8, earRev: true, eyes: { r1: 5, r2: 3.6 },
+      up: { b: biped, T: 20, TH: 30, W: 20, LH: 20, lw: 6.5, hb: 8 }             // 被牛妈妈奶过之后：站起来了
+    },
+    naiu: {
+      b: biped, T: 26, TH: 46, W: 28, LH: 26, col: '#f2f1ea', leg: '#e6e4da', hoof: '#3a3a3a', snout: '#ffb3c0', horn: 'small', tuft: '#222222', cup: true,
+      spotC: '#1e1e1e', spots: [[[-9, 10], [2, 15], [7, 6], [-1, 1], [-10, 3]], [[5, -6], [16, -3], [15, -15], [4, -13]], [[-13, -12], [-6, -9], [-7, -19], [-14, -18]]]
+    },
+    douniu: { b: quad, L: 80, H: 34, W: 30, col: '#3b2b25', leg: '#33241f', hoof: '#140c0a', snout: '#7a5a4c', horn: 'long', hornC: '#f3ead2', tuft: '#140c0a', eyes: { brow: true }, ring: true },
+    shuiniu: { b: quad, L: 84, H: 36, W: 34, LH: 23, col: '#6b7780', leg: '#5d6870', hoof: '#2a2f33', snout: '#454d54', horn: 'crescent', hornC: '#d8cfbb', tuft: '#2a2f33', eyes: { sleepy: true, r1: 3.8, r2: 3.8 }, mud: true },
+    maoniu: { b: quad, L: 82, H: 36, W: 34, LH: 22, col: '#4a3426', leg: '#3e2b1f', hoof: '#1a110b', snout: '#735544', horn: 'yak', hornC: '#efe4c9', tuft: '#2e2016', fringe: '#35251a', snow: true },
+    zhuang: { b: quad, L: 84, H: 36, W: 32, col: '#8e5a34', leg: '#7e4e2c', hoof: '#3a2412', snout: '#d6a282', horn: 'small', eyes: { brow: true }, ram: true, bodyRev: [2] },
+    feitian: {
+      b: quad, L: 70, H: 30, W: 28, LH: 20, col: '#f6eefa', leg: '#efe2f4', hoof: '#8a7a9a', snout: '#ffc2d6', horn: 'small', hornC: '#fff0d0', tuft: '#c9a6e6', splay: true, wings: true,
+      spotC: '#f2a6c8', spots: [[[-20, 4], [-10, 8], [-8, -2], [-18, -4]], [[6, 2], [16, 6], [14, -6]]]
+    },
+    tiejia: { b: quad, L: 80, H: 34, W: 31, col: '#7a6958', leg: '#6d5d4e', hoof: '#2a2a2a', snout: '#b39a86', horn: 'metal', eyes: { brow: true }, armor: true, helmet: true },
+    huoniu: { b: quad, L: 78, H: 33, W: 30, col: '#b8472a', leg: '#a53e24', hoof: '#3a1a10', snout: '#f0a47e', horn: 'blade', tuft: '#ffb43a', eyes: { brow: true }, fire: true },
+    qingniu: { b: biped, T: 30, TH: 50, W: 32, LH: 28, lw: 10, col: '#3f8e98', leg: '#387f88', hoof: '#1e3a40', snout: '#9ad0cf', horn: 'single', tuft: '#23555c', belly: '#6fb7bd', eyes: { brow: true }, band: true, goldRing: true },
+    mowang: {
+      b: biped, T: 32, TH: 52, W: 36, LH: 30, lw: 11, col: '#2e2323', leg: '#281e1e', hoof: '#0f0909', snout: '#6a4a44', horn: 'demon', hornC: '#f2c230', tuft: '#b3202a',
+      eyes: { white: '#ffd23f', pupil: '#1a0a00', brow: true }, ring: true, cape: true, goldArmor: true
+    }
+  };
+  SU.MD = MD;
+  // 模型大概有多高（模型单位），血条 / 台词气泡往上让一让
+  const TOP = { naiu: 110, qingniu: 150, mowang: 150 };
+  SU.top = function (id, up) { return up ? 84 : TOP[id] || 86; };
+
+  function flame(ctx, x, y, s, col, lw) {
+    ctx.beginPath(); ctx.moveTo(x - s * 0.6, y); ctx.lineTo(x - s * 0.35, y - s * 1.1); ctx.lineTo(x - s * 0.05, y - s * 0.5); ctx.lineTo(x + s * 0.25, y - s * 1.6);
+    ctx.lineTo(x + s * 0.6, y - s * 0.3); ctx.lineTo(x + s * 0.4, y + s * 0.35); ctx.lineTo(x - s * 0.4, y + s * 0.35); ctx.closePath();
+    ctx.fillStyle = col; ctx.fill(); ctx.strokeStyle = EDGE; ctx.lineWidth = lw; ctx.stroke();
+  }
+
+  /* 画一头「正片」牛（原点在脚下，朝右）。p = 走路相位 0..2π
+   * o: { frame, walk, charge, enrage, up(站起来), trip(绊倒), dead(四脚朝天) } */
+  SU.cow = function (ctx, id, p, o) {
+    o = o || {};
+    const base = MD[id] || MD.huang;
+    const P = o.up && base.up ? Object.assign({}, base, base.up) : base;
+    const frame = o.frame != null ? o.frame & 7 : Math.round(p / TAU * 8) & 7;
+    const pose = { frame, k: frame >> 1, walk: o.walk !== false && !o.dead, charge: !!o.charge, enrage: !!o.enrage, tpose: !!o.enrage && !!P.cape };
+    const S = new Scene();
+    if (pose.tpose) S.ry(-0.95);                                               // 狂暴：转过来正对镜头摆 T-pose，然后平移着走
+    if (o.dead) {
+      // 没有过渡，直接翻过去：四条腿的四脚朝天（头插进地里），站着的仰面躺平
+      if (P.b === quad) S.at(0, (P.LH || 24) + (P.H || 32), 0).rx(Math.PI);
+      else { const Ht = (P.LH || 28) + (P.TH || 44) + 30; S.at(Ht * 0.45, (P.T || 26) / 2, 0).rz(Math.PI / 2); }
+    } else if (o.trip && !pose.tpose) {
+      const fx = P.b === quad ? (P.L || 76) / 2 - 10 : 4;                    // 绊倒：绕前脚往前栽，脸插进地里
+      S.at(fx, 0, 0).rz(-0.95).at(-fx, 0, 0);
+    }
+    P.b(S, P, pose);
+    const m = ctx.getTransform(), k = Math.hypot(m.a, m.b) || 1;
+    const lw = ((NL.Art && NL.Art.pr) || 1) * 0.9 / k;                       // 描边 ≈ 0.9 个 CSS 像素
+    S.draw(ctx, lw);
+    if (P.fire && S.marks.tail && !o.dead) {
+      const t = S.marks.tail, s = [1, 1.25, 0.9, 1.35, 1.05, 0.85, 1.2, 1][frame];
+      flame(ctx, t[0], -t[1], 10 * s, '#ff7a1a', lw); flame(ctx, t[0], -t[1] + 1, 5.5 * s, '#ffe04a', lw);
+    }
   };
 })(typeof window !== 'undefined' ? window : globalThis);
 
@@ -2927,6 +3377,8 @@ window.SVAArt = (function () {
     for (const f of g.fx) this.fx(c, g, f, t);
     // 叠加层
     for (const cw of g.cows) if (cw.alive) this.cowOverlay(c, g, cw, S, t);
+    this.lines(c, g, t);
+    for (const f of g.fx) if (f.k === 'say') this.say(c, f);
     for (const b of g.blds) if (b.kind !== 'hay' && (b.hp < b.maxHp || b.dis > 0)) this.bOverlay(c, b, t);
     this.selection(c, g, S, t);
     this.ghost(c, g, S, t);
@@ -3082,15 +3534,22 @@ window.SVAArt = (function () {
     if (cw.chargeT > 0) { c.fillStyle = 'rgba(200,170,120,0.45)'; for (let k = 1; k <= 3; k++) { ell(c, X - cw.dir * k * 9, gy - 3, 7 - k, 4 - k * 0.8); c.fill(); } }
     const moving = cw.moving && cw.stun <= 0;
     const frame = moving ? Math.floor(cw.walk * 7) % 8 : Math.floor(t * 3 + cw.uid) % 8;
-    const v = cw.chargeT > 0 ? 'c' : cw.enraged ? 'e' : moving || cw.fly ? '' : 'i';
-    const rot = cw.ram > 0 ? 0.1 : cw.eat > 0 ? 0.14 : 0;
+    let v = cw.trip > 0 ? 't' : cw.chargeT > 0 ? 'c' : cw.enraged ? 'e' : moving || cw.fly ? '' : 'i';
+    if (cw.stood) v += 'u';
+    const rot = cw.trip > 0 ? 0 : cw.ram > 0 ? 0.1 : cw.eat > 0 ? 0.14 : 0;
     Art.drawCow(c, cw.id, X, Y, frame, cw.dir, v, cw.flash > 0, CW, rot);
     if (cw.fly) Art.drawBalloon(c, X - cw.dir * 4, Y - CH * 0.95 * sz, CW * 0.62, t);
     if (cw.frozen > 0) { c.fillStyle = 'rgba(170,225,255,0.45)'; c.strokeStyle = 'rgba(255,255,255,0.9)'; c.lineWidth = 1.5; rr(c, X - CW * 0.48 * sz, Y - CH * 1.1 * sz, CW * 0.96 * sz, CH * 1.1 * sz, 6); c.fill(); c.stroke(); }
   };
+  // 血条的高度：海报牛按老规矩，正片牛按模型高度（站着的牛更高）
+  R.cowTop = function (cw, Y) {
+    const sz = D.cows[cw.id].size, k = CH * 1.25 * sz + (cw.id === 'qingniu' ? 10 : 0);
+    if (Art.style !== 'su' || !NL.SU) return Y - k;
+    return Y - Math.max(k, NL.SU.top(cw.id, cw.stood) * Art.cowScale(cw.id, CW) * 0.95 + 4);
+  };
   R.cowOverlay = function (c, g, cw, S, t) {
     const { X, Y } = this.cowPos(cw, t);
-    const sz = D.cows[cw.id].size, top = Y - CH * 1.25 * sz - (cw.id === 'qingniu' ? 10 : 0);
+    const sz = D.cows[cw.id].size, top = this.cowTop(cw, Y);
     if (cw.hp < cw.maxHp && !cw.boss) hpBar(c, X, top, 26 * Math.max(0.8, sz), 4, cw.hp / cw.maxHp, '#ff5a3a');
     if (cw.boss) {
       hpBar(c, X, top, 60, 6, cw.hp / cw.maxHp, cw.enraged ? '#ff2a2a' : '#ffb02a');
@@ -3111,13 +3570,50 @@ window.SVAArt = (function () {
       c.restore();
     }
   };
+  /* ---------- 台词气泡 ---------- */
+  function bubble(c, X, Y, txt, a) {
+    c.save(); c.globalAlpha *= Math.max(0, Math.min(1, a));
+    c.font = 'bold 12px "Microsoft YaHei",sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle';
+    const w = c.measureText(txt).width + 14, h = 20;
+    const x0 = Math.max(4, Math.min(W - w - 4, X - w / 2)), y0 = Math.max(OY, Y - h - 8);
+    c.fillStyle = '#fffef4'; c.strokeStyle = '#2a1a0a'; c.lineWidth = 1.5;
+    rr(c, x0, y0, w, h, 8); c.fill(); c.stroke();
+    const tx = Math.max(x0 + 8, Math.min(x0 + w - 12, X - 3));
+    c.beginPath(); c.moveTo(tx, y0 + h - 0.5); c.lineTo(tx + 3, y0 + h + 7); c.lineTo(tx + 8, y0 + h - 0.5); c.fill();
+    c.beginPath(); c.moveTo(tx, y0 + h); c.lineTo(tx + 3, y0 + h + 7); c.lineTo(tx + 8, y0 + h); c.stroke();
+    c.fillStyle = '#2a1a0a'; c.fillText(txt, x0 + w / 2, y0 + h / 2 + 1);
+    c.restore();
+  }
+  R.say = function (c, f) {
+    const k = f.t / f.T;
+    bubble(c, sx(f.x), sy(f.y) - CH * 0.9 - k * 10, f.txt, Math.min(k * 8, (1 - k) * 5));
+  };
+  // 牛来一家三口隔一阵冒一句台词（同屏最多 3 个气泡）
+  R.lines = function (c, g, t) {
+    let n = 0;
+    for (const cw of g.cows) {
+      const L = cw.alive && !cw.fly && D.cows[cw.id].lines;
+      if (!L || n >= 3) continue;
+      const P = 7, ph = t + cw.uid * 2.37, cyc = Math.floor(ph / P), f = ph - cyc * P, h = hash(cw.uid, cyc, 3);
+      if (f > 2.4 || h > 0.3) continue;
+      n++;
+      const { X, Y } = this.cowPos(cw, t);
+      bubble(c, X, this.cowTop(cw, Y) - 4, L[Math.floor(h * 100) % L.length], Math.min(f * 6, (2.4 - f) * 4));
+    }
+  };
+
   R.death = function (c, f, t) {
     const k = Math.min(1, f.t / f.T);
     let X = sx(f.x), Y = sy(f.y) + CH * 0.28;
     if (f.fly) Y -= CH * 1.0 * Math.max(0, 1 - k * 2.5);
-    const rot = Math.min(1, k * 3) * (Math.PI / 2) * 0.95;
     const a = k > 0.6 ? (1 - k) / 0.4 : 1;
-    Art.drawCow(c, f.id, X, Y - Math.sin(Math.min(1, k * 3) * Math.PI) * 8, 0, f.dir, 'i', k < 0.1, CW, -rot, a);
+    if (Art.style === 'su') {
+      // 正片：愣 0.15 秒，然后没有任何过渡，「啪」地四脚朝天
+      Art.drawCow(c, f.id, X, Y - (k < 0.15 ? 0 : Math.max(0, Math.sin((k - 0.15) * 14)) * 5 * (1 - k)), 0, f.dir, k < 0.15 ? 'i' : 'd', k < 0.1, CW, 0, a);
+    } else {
+      const rot = Math.min(1, k * 3) * (Math.PI / 2) * 0.95;
+      Art.drawCow(c, f.id, X, Y - Math.sin(Math.min(1, k * 3) * Math.PI) * 8, 0, f.dir, 'i', k < 0.1, CW, -rot, a);
+    }
     if (f.boss && k < 0.8) { c.fillStyle = 'rgba(255,220,120,' + (0.6 * (1 - k)) + ')'; ell(c, X, Y - 20, 40 + k * 60, 30 + k * 40); c.fill(); }
     // 赏金
     if (f.gold) {
@@ -3428,7 +3924,8 @@ window.SVAArt = (function () {
     get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
     set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { } }
   };
-  UI.save = Object.assign({ stars: {}, best: 0, seen: {}, sfx: 0.6, bgm: 0.35, tut: 0 }, store.get(SAVE_KEY, {}) || {});
+  UI.save = Object.assign({ stars: {}, best: 0, seen: {}, sfx: 0.6, bgm: 0.35, tut: 0, art: 'su' }, store.get(SAVE_KEY, {}) || {});
+  Art.setStyle(UI.save.art === 'poster' ? 'poster' : 'su');
   UI.persist = () => store.set(SAVE_KEY, UI.save);
   UI.maxCleared = () => { let m = 0; for (const L of D.levels) if (UI.save.stars[L.id] > 0) m = Math.max(m, L.id); return m; };
   UI.levelOpen = L => L.endless ? UI.maxCleared() >= D.ENDLESS_UNLOCK : (L.id === 1 || UI.save.stars[L.id - 1] > 0);
@@ -3539,7 +4036,12 @@ window.SVAArt = (function () {
         h('button', { class: 'btn green', onclick: () => { UI.sfx('click'); UI.help(); } }, '❓ 玩法'),
         h('button', { class: 'btn gray', onclick: () => { UI.sfx('click'); UI.settings(); } }, '⚙ 设置'))
     ));
-    s.appendChild(h('div', { class: 'foot' }, '基于《保卫羊村·怀旧服》单机复刻的引擎制作 · 塔、墙、雕像、羊与音效为原作素材 · 牛是手搓的 · 非商业粉丝作品 · ',
+    // 致敬《牛来》：海报是精致的 Q 版，正片是方块建模
+    s.appendChild(h('div', { class: 'poster' },
+      h('div', { class: 'pic' }, h('img', { class: 'kid', src: Art.cowIcon('calf', 120, 'poster') }), h('img', { class: 'mom', src: Art.cowIcon('naiu', 120, 'poster') })),
+      h('div', { class: 'pt', text: '牛 来 攻 城' }),
+      h('div', { class: 'pc', text: '* 海报仅供参考，以正片为准' })));
+    s.appendChild(h('div', { class: 'foot' }, '基于《保卫羊村·怀旧服》单机复刻的引擎制作 · 塔、墙、雕像、羊与音效为原作素材 · 牛的建模致敬动画电影《牛来》（设置里可以换回 Q 版海报牛）· 非商业粉丝作品 · ',
       h('a', { href: document.querySelector('script[src]') ? '../index.html' : '保卫羊村怀旧服.html', style: { color: '#2a5a10' }, text: '回到《保卫羊村》' })));
     UI.show('title');
     UI.bgm('calm');
@@ -4099,8 +4601,13 @@ window.SVAArt = (function () {
     const m = UI.modal([h('h2', { text: '设置' }),
       mk('音效', 'sfx', () => { if (A) A.setVol(UI.save.sfx, null); UI.sfx('coin'); }),
       mk('音乐', 'bgm', () => { if (A) A.setVol(null, UI.save.bgm); }),
+      h('div', { class: 'artsel' }, h('b', { text: '牛的建模' }),
+        ...[['su', '正片（致敬《牛来》）'], ['poster', '海报（Q 版）']].map(([k, label]) => h('button', {
+          class: 'btn sm ' + (Art.style === k ? 'green' : 'gray'),
+          onclick: () => { UI.save.art = k; UI.persist(); Art.setStyle(k); UI.closeModal(m); UI.settings(); }
+        }, label))),
       h('p', { class: 'small muted', text: '音效与战斗音乐来自《保卫羊村》原作；牛叫是 Web Audio 现合成的。' }),
-      h('div', { class: 'acts' }, h('button', { class: 'btn', onclick: () => { if (confirm('确定清空所有进度？')) { UI.save = { stars: {}, best: 0, seen: {}, sfx: UI.save.sfx, bgm: UI.save.bgm, tut: 0 }; UI.persist(); UI.closeAll(); UI.toTitle(); } } }, '清空进度'), h('button', { class: 'btn green', onclick: () => UI.closeModal(m) }, '好的'))], { dismiss: true });
+      h('div', { class: 'acts' }, h('button', { class: 'btn', onclick: () => { if (confirm('确定清空所有进度？')) { UI.save = { stars: {}, best: 0, seen: {}, sfx: UI.save.sfx, bgm: UI.save.bgm, tut: 0, art: UI.save.art }; UI.persist(); UI.closeAll(); UI.toTitle(); } } }, '清空进度'), h('button', { class: 'btn green', onclick: () => UI.closeModal(m) }, '好的'))], { dismiss: true });
   };
   UI.help = function () {
     const m = UI.modal([h('h2', { text: '玩法' }),
@@ -4182,7 +4689,7 @@ window.SVAArt = (function () {
 (function () {
   'use strict';
   const NL = window.NL;
-  const tips = ['牛群正在集结……', '墙越结实，牛越愿意绕路', '撞城牛专挑最薄的墙', '奶牛会给同伴回血，先打它！', '散弹塔对飞天牛伤害翻倍', '牛郎像的牧歌能安抚牛群'];
+  const tips = ['牛群正在集结……', '墙越结实，牛越愿意绕路', '撞城牛专挑最薄的墙', '牛妈妈会给同伴回血，先打她！', '正在渲染建模……', '牛来撞树上了，哭的不应该是树吗？', '散弹塔对飞天牛伤害翻倍', '牛郎像的牧歌能安抚牛群'];
   function prog(p, t) { const f = document.getElementById('ld-fill'); if (f) f.style.width = p + '%'; const tp = document.getElementById('ld-tip'); if (tp && t) tp.textContent = t; }
   function boot() {
     try {
