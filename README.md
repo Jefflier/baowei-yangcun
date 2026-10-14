@@ -6,11 +6,11 @@
 > 推荐 Chrome / Edge。若双击后存档存不上（少数浏览器限制 file:// 存储），在本目录运行
 > `python tools/devserver.py` 再访问 <http://localhost:8123/> 即可。
 >
-> 想发给朋友？`dist/保卫羊村怀旧服.html` 是打包好的**单文件版**（约 6.7 MB，无任何外部依赖，双击即玩；
-> 里面内联了全部原版矢量资产、原作音效音乐和标题底图，所以比早期版本大）。
-> 修改源码后可用 `python tools/build_single.py` 重新生成。
-> 注意：单文件版只内联 JS/CSS，不含 `assets/wolf/*.png`（18.5 MB），所以单文件版里狼会用程序化美术；
-> 想要原作狼，用源码目录运行 `index.html` 即可。
+> 想发给朋友？`dist/保卫羊村怀旧服.html` 是打包好的**单文件完整版**（约 29 MB，双击即玩，不需要服务器，
+> 不引用任何外部文件）：JS/CSS、原版矢量资产、原作音效音乐、标题底图，以及原作狼图集（130 种）、
+> 战斗底图、大厅 / 世界地图插画全都内联在里面（图片转成无损 WebP 的 data URI，像素与 PNG 一致）。
+> 修改源码后用 `python tools/build_single.py` 重新生成（约 10 秒；有 Pillow 时转 WebP，没有就直接用 PNG）；
+> 加 `--lite` 生成不带狼图集的精简版（约 10 MB，狼用程序化美术）。
 
 ## 玩法概览
 
@@ -215,16 +215,17 @@ tools/              开发辅助：sim.html（无头平衡模拟）、gallery.ht
                     wolf_flips.py（扫出哪些狼的哪个朝向要水平镜像 → assets/wolf/flips.js）、
                     svg_sheet.py（把导出的 SVG 拼成图册，挑符号用）、
                     fetch_site_assets.py（一键抓齐原站 SWF）/ wolf_coverage.py（狼图集覆盖率）、
-                    codegen.html（兑换码生成）、devserver.py（无缓存开发服务器）、build_single.py（打包单文件）
+                    codegen.html（兑换码生成）、devserver.py（无缓存开发服务器）、build_single.py（打包单文件完整版，`--lite` 不带狼图集）
                     video_wolf_grab.py / wolf_video_match.py / wolf_video_cards.py / wolf_video_report.py /
                     wolf_video_make_page.py（B站录像抽帧 → 抠狼 → 跟模型逐个比对 → 出核对页）、
                     map_match_frames.py（录像帧 ↔ 战斗底图 SIFT 匹配）/ map_register.py（逐关标定 → assets/map/register.js）/
                     shot_levels.ps1（无头 Chrome 批量截战斗画面）、
                     fx_check.html（子弹/特效/狼身状态对照页）
-dist/               打包产物（单文件版）
+dist/               打包产物（单文件完整版，双击即玩）
 ```
 
 ## 测试与质量
+- `node tools/selftest.js`：无依赖的引擎自检（结算时宝石守恒、噩梦赠送宝石回收、存档导入导出、狼卡首通奖励、减速叠加、波动塔连击、46 张图推演），几秒跑完。
 - 引擎规则单测（建造/出售/升级/宝石返还/雕像/搬迁/堵路拒绝…）、132 种狼逐个跑 60 秒无异常、UI 冒烟、全战役 46 图解锁链与结算流程自动化通关测试均已通过。
 - 性能：84 只狼 + 26 座塔同屏约 7 ms/帧（狼使用精灵缓存）。
 - 竞技场难度按玩家当前狼队自动标定：4 个对手强度分别为「狼队刚好能赢的最大防线」的 0.4 / 0.7 / 1.0 / 1.5 倍（前三个必赢，最后一个需要变强）。

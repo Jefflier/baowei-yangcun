@@ -509,7 +509,7 @@ tools/shot.html?go=hub&click=shop                   # 进大厅并点开商店�
 | 标题画面 | ✅ | `first_install.jpg` 当底图（§9.2） |
 | 狼图鉴描述 / 台词、塔介绍、宝石名 | ✅ | `assets/data/lore.js`（§9.3） |
 | 战斗里狼头顶的台词气泡、BOSS 出场介绍卡 | ✅（触发场合推断） | §16.2 / §16.3。录像里能看到这两样；哪句台词在哪个场合说，原作没留说明 |
-| 单文件版 `dist/` | ❌ | 只内联 JS/CSS（含音频、标题图这些 data URI），不含 `assets/wolf`、`assets/map` 的 PNG，所以单文件版里狼和底图会退回程序化 |
+| 单文件版 `dist/` | ✅ | `tools/build_single.py` 把 `assets/wolf`、`assets/map`、`assets/scene` 的 PNG 转成无损 WebP data URI 写进 `window.SVA_ASSETS`，三个图片加载器按原路径先查它；`--lite` 不带狼图集 |
 
 ## 14. 子弹与战斗特效（2026-09-30）
 

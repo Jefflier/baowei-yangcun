@@ -24,7 +24,6 @@
 
   /* ---------- 小工具 ---------- */
   SV.clamp = (v, a, b) => v < a ? a : v > b ? b : v;
-  SV.lerp = (a, b, t) => a + (b - a) * t;
   SV.dist = (ax, ay, bx, by) => Math.hypot(ax - bx, ay - by);
   SV.fmt = function (n) {
     n = Math.floor(n);
@@ -164,7 +163,6 @@
     }
     this.hasHazard = this.hazards.length > 0;
   }
-  MapModel.prototype.idxOf = function (x, y) { return y * this.cols + x; };
   MapModel.prototype.inb = function (x, y) { return x >= 0 && y >= 0 && x < this.cols && y < this.rows; };
   // 格子本身是否可走（不含建筑）
   MapModel.prototype.walkableBase = function (i) {

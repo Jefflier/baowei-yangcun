@@ -34,7 +34,6 @@
   }
 
   /* 原始符号名 → data URL（找不到就返回 null） */
-  A.matURL = function (name, w, hh) { return url('material', name, w, hh); };
   A.itemURL = function (name, w, hh) { return url('item', name, w, hh); };
   A.skillURL = function (name, w, hh) { return url('skill', name, w, hh); };
   /* 不用管符号在哪个库里：material 先找，再找 item */
@@ -77,15 +76,6 @@
       }), size || 26);
     });
   };
-  /* 机关图标：捕兽夹 / 地雷 */
-  UI.trapImg = function (tid, size) {
-    var name = tid === 'clamp' ? 'bushoujia1' : 'za_le';
-    return UI.resIcon(name, size || 26, function () {
-      return A.icoImg(A.iconURL('trap_' + tid, 40, 40, function (cx, w, hh) {
-        A.drawTrap(cx, tid, 36, 20, 22, true);
-      }), size || 26);
-    });
-  };
 
   /* ---------- 狼头像：原作模型 ----------
      所有「狼图标」（下一波预览条、波次页、图鉴、BOSS 卡、训练营、竞技场…）都走 UI.wolfImg → Art.wolfIconURL。
@@ -108,7 +98,23 @@
     // 取正面（d）行走帧里偏中间的一帧，脚底贴近图标底边
     var ok = OW.draw(cx, {id: wid, dir: 'd', frame: 3, x: size / 2, y: size * 0.99, size: size * 0.98});
     if (!ok) return null;
-    return wcache[key] = cv.toDataURL('image/png');
+    try { return wcache[key] = cv.toDataURL('image/png'); }
+    catch (e) { tainted = true; return null; }      // 见下面 atlasBg
+  }
+  /* 双击 index.html（file://）时，本地图片画进画布后浏览器不许再读出来，toDataURL 会抛 SecurityError，
+     图标就一直停在旧模型上（以前图鉴还会直接打不开）。这时换个办法：<img> 本身放一个透明像素，
+     原作图集当背景图、按百分比裁出正面第 3 帧。仍然是 <img>，各处的尺寸样式和「未解锁剪影」照常生效。 */
+  var tainted = false;
+  var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+  function atlasBg(img, wid) {
+    var p = OW.resolve(wid);
+    if (!p) return;
+    var cols = p.rec.cols || 1, flips = (window.SVA_WOLF_FLIPS || {})[p.id] || '';
+    img.src = BLANK;
+    img.style.backgroundImage = 'url("' + p.rec.img.src + '")';
+    img.style.backgroundSize = cols * 100 + '% 400%';               // 图集 4 行（d/l/u/r）× cols 列
+    img.style.backgroundPosition = (cols > 1 ? (3 % cols) / (cols - 1) * 100 : 0) + '% 0%';
+    if (flips.indexOf('d') >= 0) img.style.transform = 'scaleX(-1)';
   }
   A.wolfIconURL = function (id, size) {
     size = size || 56;
@@ -118,7 +124,10 @@
   UI.wolfImg = function (id, size) {
     var px = size || 42, img = h('img', {src: A.wolfIconURL(id, 56), style: {width: px + 'px', height: px + 'px'}});
     var def = SV.wolfDef && SV.wolfDef(id), wid = def && OW && cfg.wolf !== false ? OW.idOf(def) : null;
-    if (wid && !OW.ready(wid)) OW.whenReady(wid, function () { img.src = A.wolfIconURL(id, 56); });
+    if (!wid) return img;
+    var upgrade = function () { var u = A.wolfIconURL(id, 56); if (tainted) atlasBg(img, wid); else img.src = u; };
+    if (OW.ready(wid)) { if (tainted) atlasBg(img, wid); }
+    else OW.whenReady(wid, upgrade);
     return img;
   };
 

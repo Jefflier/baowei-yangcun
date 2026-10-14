@@ -134,7 +134,6 @@
   /* ---------- 塔开火 ---------- */
   P.updateTower = function (b, dt) {
     if (b.flash > 0) b.flash -= dt;
-    if (b.kind !== 'tower') return;
     if (b.disT > 0) { b.disT -= dt; return; }
     if (b.spdT > 0) { b.spdT -= dt; if (b.spdT <= 0) b.spdMulT = 1; }
     const st = this.towerStats(b);
@@ -240,7 +239,12 @@
       if (perp <= 0.55) hit.push([proj, u]);
     }
     hit.sort((a, c) => a[0] - c[0]);
-    for (let k = 0; k < Math.min(st.pierce, hit.length); k++) { this.hitWolf(b, st, hit[k][1], st.dmg, {}); this.fxHit(b, st, hit[k][1], { ttl: 0.3 }); }
+    // 黑宝石连击：这一发光束按几率再结算 n-1 次
+    const times = st.combo && this.rng.next() < st.combo.p ? st.combo.n : 1;
+    for (let k = 0; k < Math.min(st.pierce, hit.length); k++) {
+      for (let r = 0; r < times; r++) this.hitWolf(b, st, hit[k][1], st.dmg, r ? { combo: true } : {});
+      this.fxHit(b, st, hit[k][1], { ttl: 0.3 });
+    }
   };
 
   P.fireChain = function (b, st, w) {
@@ -307,7 +311,6 @@
       if (u === main) { this.hitWolf(b, st, u, st.dmg, { crit: 1 }); }
       else if (d <= st.splash) this.hitWolf(b, st, u, st.dmg * st.splashRate, { splash: true });
     }
-    if (b.type === 'cannon' && p.st.comboBoom) { /* reserved */ }
   };
 
   /* ---------- 命中 & 伤害 ---------- */
@@ -319,7 +322,7 @@
     let amt = dmg;
     if (o.light || st.lightning) { const r = res.light || 0; if (r >= 1) return; amt *= (1 - r); }
     if (o.crit && o.crit > 1) { const cr = res.crit || 0; amt *= 1 + (o.crit - 1) * (1 - cr); }
-    const shown = this.damage(w, amt, { tower: b, crit: o.crit > 1, splash: o.splash });
+    this.damage(w, amt, { tower: b, crit: o.crit > 1, splash: o.splash });
     // 附带效果
     const rng = this.rng;
     if (!w.alive) { return; }
@@ -333,7 +336,6 @@
       if (!w.curse) { w.curse = { t: 5, energy: st.curse.energy, hits: 0 }; this.fxHit(b, st, w, { curse: true, ttl: 0.4 }); }
       else { w.curse.energy = Math.max(w.curse.energy, st.curse.energy); w.curse.t = 5; }
     }
-    if (b && b.kind === 'tower' && o.combo) { /* visual only */ }
   };
 
   P.addPoison = function (w, dps, dur) {
@@ -362,7 +364,7 @@
   P.slowValue = function (w) {
     if (!w.slows.length) return 0;
     let m = -Infinity, m2 = 0;
-    for (const s of w.slows) { if (s.v > m) { m2 = Math.max(m2, 0); m = s.v; } else if (s.v > m2) m2 = s.v; }
+    for (const s of w.slows) { if (s.v > m) { m2 = Math.max(m2, m); m = s.v; } else if (s.v > m2) m2 = s.v; }
     if (m <= 0) return m;
     return Math.min(0.88, m + m2 * 0.3);
   };
@@ -686,10 +688,9 @@
     }
     if (w.def.rb && w.def.rb.length) {
       const ids = w.def.rb;
-      const base = Math.max(1, w.maxhp * 0.15);
       ids.forEach((rid, k) => {
-        const c = this.spawnWolf(rid, { wave: w.wave, x: w.x + (k - ids.length / 2) * 0.12, y: w.y, level: wv ? wv.level : 10, noReward: false, wt: 0, child: true });
-        if (c) { c.lastx = w.lastx; c.lasty = w.lasty; c.fly = !!c.def.fly; c.noReward = true; }
+        const c = this.spawnWolf(rid, { wave: w.wave, x: w.x + (k - ids.length / 2) * 0.12, y: w.y, level: wv ? wv.level : 10, noReward: true, wt: 0, child: true });
+        if (c) { c.lastx = w.lastx; c.lasty = w.lasty; }
       });
     }
     if (w.boss || w.elite || w.random) {
@@ -839,17 +840,6 @@
     for (let i = fx.length - 1; i >= 0; i--) { fx[i].t += dt; if (fx[i].t >= fx[i].ttl) fx.splice(i, 1); }
     for (let i = this.floats.length - 1; i >= 0; i--) { const f = this.floats[i]; f.t += dt; if (f.t >= f.ttl) this.floats.splice(i, 1); }
     if (this.focusId && !this.wolves.some(w => w.uid === this.focusId)) this.focusId = 0;
-  };
-
-  /* ---------- 便捷：当前波信息 ---------- */
-  P.upcoming = function () {
-    // 预览下一波（不消耗随机数，仅估计）
-    const M = this.W;
-    const ids = {};
-    const nb = this.nextBossKind();
-    let info = { boss: nb ? nb.kind : null, ids };
-    for (const p of M.prop) ids[p[1]] = 1;
-    return info;
   };
 
 })(typeof window !== 'undefined' ? window : globalThis);

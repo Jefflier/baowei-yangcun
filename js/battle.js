@@ -53,7 +53,6 @@
     this.speedMult = opts.speedMult != null ? opts.speedMult : SV.SPEED_MULT;
     this.hpScale = opts.hpScale != null ? opts.hpScale : SV.hpScaleFor(this.mapIdx);
     this.dmgMul = opts.dmgMul || 1;
-    this.towerCap = opts.towerCap || 999;
     this.autoWave = opts.autoWave !== false;
     this.bombStock = this.mode === 'arena' ? 0 : (opts.bombs | 0);   // 背包里的炸弹数
     this.bombsOn = 0; this.bombUsed = 0;                            // 已装 / 已引爆
@@ -62,7 +61,7 @@
     this.progress = 0;
     this.scoreMax = this.W.sc;
     this.infinite = !!this.def.inf;
-    this.maxLives = opts.lives || (this.mode === 'nightmare' ? 30 : 30);
+    this.maxLives = opts.lives || 30;
     this.lives = this.maxLives;
     this.waveNo = 0;
     this.waves = [];                                   // 活动波
@@ -125,7 +124,7 @@
 
   /* ---------- 建造 ---------- */
   P.towerCost = function (type, lv) { const t = D.towers[type]; return t.cost[SV.clamp(lv, 1, t.max) - 1]; };
-  P.towerMax = function (type) { return Math.min(D.towers[type].max, this.towerCap); };
+  P.towerMax = function (type) { return D.towers[type].max; };
 
   P.cellFree = function (x, y) {
     if (!this.map.inb(x, y)) return false;
@@ -183,7 +182,6 @@
     } else return { ok: false, msg: '未知建筑' };
     if (!this.canAfford(cost)) return { ok: false, msg: '银币不足（需要 ' + SV.fmt(cost) + '）' };
     if (this.map.type[i] === 1 && b.block && this.wolfOnCell(x, y)) return { ok: false, msg: '狼正站在这里' };
-    if (this.mode === 'arena') { /* 不限 */ }
     // 阻路检测
     this.occ[i] = b;
     if (b.block && this.map.type[i] === 1) {
@@ -319,8 +317,7 @@
 
   P.rollDiff = function () {
     let r = this.rng.next(), acc = 0;
-    let arr = DIFF_TABLE;
-    if (this.waveNo <= 2) arr = DIFF_TABLE.slice(0, 3).map(x => [x[0], x[1]]);
+    const arr = this.waveNo <= 2 ? DIFF_TABLE.slice(0, 3) : DIFF_TABLE;   // 开局两波不出高难度
     let tot = 0; for (const a of arr) tot += a[1];
     r *= tot;
     for (const a of arr) { acc += a[1]; if (r <= acc) return a[0]; }
@@ -414,7 +411,6 @@
     // 生成时间轴
     let tt = 0;
     const spawns = this.map.spawns;
-    const groups = norm.length;
     for (let k = 0; k < norm.length; k++) {
       const e = norm[k]; const d = SV.wolfDef(e.id);
       const gap = e.elite ? 1.4 : (d.fly ? 0.7 : 0.55) * (1 + (0.5 / Math.max(0.4, d.speed / 0.6)) * 0.2);
@@ -537,9 +533,8 @@
     wv.done = true;
     if (wv.lure) { this.emit('waveEnd', wv); return; }
     this.stats.waveClears++;
-    const gain = Math.max(0, wv.budget - wv.leakPop * 2);
     if (this.mode !== 'nightmare') {
-      this.progress = Math.max(0, this.progress + (wv.leakPop > 0 ? wv.budget - wv.leakPop * 2 : wv.budget));
+      this.progress = Math.max(0, this.progress + wv.budget - wv.leakPop * 2);   // 漏狼倒扣进度
       if (!this.infinite && this.progress > this.scoreMax) this.progress = this.scoreMax;
       if (this.infinite) {                                   // 无限图：每完成一圈(2400进度)获得"调任文书"奖励，首圈视为通关
         const lap = Math.floor(this.progress / 2400);
@@ -621,13 +616,12 @@
     return {
       win: this.win, retreated: !!this.retreated, mode: this.mode, mapIdx: this.mapIdx,
       progress: this.progress, scoreMax: this.scoreMax, waves: this.waveNo, kills: this.stats.kills, leaks: this.stats.leaks,
-      silverNet: Math.floor(this.silver - this.startSilver + this.spentTowerRefund()),
+      silverNet: Math.floor(this.silver - this.startSilver),
       silverLeft: Math.floor(this.silver), spentTower: this.spentTower, earned: Math.floor(this.stats.earned), spent: this.stats.spent,
       exp: Math.floor(this.expGained), points: this.pointsGained, loot: this.loot.slice(), nmWave: this.nmWave || 0,
       bossKills: this.stats.bossKills, time: this.t
     };
   };
-  P.spentTowerRefund = function () { return 0; };
 
   /* 战斗结束时：回收宝石到库存 */
   P.dismantle = function () {

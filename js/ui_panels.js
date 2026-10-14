@@ -5,7 +5,6 @@
   'use strict';
   const SV = global.SV, D = SV.D, G = SV.Game, UI = SV.UI, h = UI.h, Audio = SV.Audio;
   const P = UI.Panels = {};
-  const refreshHub = () => { const cur = UI.screen; if (cur === 'hub') { UI.refreshRes(); UI.Menu.toHubQuick && UI.Menu.toHubQuick(); } };
   const click = () => Audio.play('click');
   const tabsView = function (defs, initial, render) {
     // defs: [[key,label,dot]]
@@ -108,7 +107,6 @@
   /* ================= 宝石工坊 ================= */
   P.gems = function () {
     const s = G.save;
-    let m;
     const render = (tab, redraw) => {
       if (tab === 'bag') {
         const grid = h('div', { class: 'gemgrid' }, h('div'), ...SV.GEM_TIERS.map(t => h('b', { class: 'center', text: t })));
@@ -141,7 +139,7 @@
             lg ? h('div', { class: 'small lore-o', text: '原作：' + lg.n.join(' → ') + '（蕴含' + lg.e + '能量）' }) : null))); });
       return box;
     };
-    m = UI.modal({ title: '💎 宝石工坊', body: tabsView([['bag', '背包与合成'], ['info', '宝石说明']], 'bag', render), width: 830, onClose: () => { G.persist(true); UI.refreshRes(); } });
+    UI.modal({ title: '💎 宝石工坊', body: tabsView([['bag', '背包与合成'], ['info', '宝石说明']], 'bag', render), width: 830, onClose: () => { G.persist(true); UI.refreshRes(); } });
   };
 
   /* ================= 商店 ================= */
@@ -276,7 +274,7 @@
   // 敲狼小游戏
   P.whack = function (f, done) {
     if (G.whackLeft() <= 0) { UI.toast('今天的间谍狼已经敲完了，明天再来！', 'err'); return; }
-    let score = 0, hits = 0, misses = 0, time = 25, cur = -1, curT = 0, over = false, timer, tick;
+    let score = 0, hits = 0, time = 25, cur = -1, curT = 0, over = false, timer, tick;
     const cells = [];
     const scoreEl = h('b', { text: '0' }), timeEl = h('b', { text: '25' });
     const grid = h('div', { class: 'grid', style: { gridTemplateColumns: 'repeat(3, 130px)', gap: '10px', justifyContent: 'center' } });
@@ -293,11 +291,11 @@
           G.save.friends.whack.n++; G.save.stats.whacks++; G.taskProgress('whack', 1);
           const pop = h('div', { style: { position: 'absolute', left: '30px', top: '20px', color: '#ffe27a', fontWeight: 900, fontSize: '22px', textShadow: '0 2px 0 #000', animation: 'banner 0.8s forwards', pointerEvents: 'none' }, text: '+' + gain }); hole.appendChild(pop); setTimeout(() => pop.remove(), 800);
           if (G.whackLeft() <= 0) end();
-        } else { misses++; }
+        }
       });
       cells.push({ hole, wolf }); grid.appendChild(hole);
     }
-    const m = UI.modal({ title: '🔨 拜访 ' + f.n + ' —— 敲间谍狼！', width: 520, noBackdropClose: true, body: h('div', { class: 'center' }, h('div', { class: 'row', style: { justifyContent: 'center', gap: '30px', fontSize: '18px', marginBottom: '8px' } }, h('span', null, '⏱ ', timeEl, ' 秒'), h('span', null, '🪙 ', scoreEl)), grid, h('div', { class: 'small muted', style: { marginTop: '8px' }, text: '点击冒头的间谍狼！' })), onClose: () => { over = true; clearInterval(timer); clearInterval(tick); G.addSilver(score); G.checkAch(); G.persist(true); UI.refreshRes(); if (done) done(); } });
+    UI.modal({ title: '🔨 拜访 ' + f.n + ' —— 敲间谍狼！', width: 520, noBackdropClose: true, body: h('div', { class: 'center' }, h('div', { class: 'row', style: { justifyContent: 'center', gap: '30px', fontSize: '18px', marginBottom: '8px' } }, h('span', null, '⏱ ', timeEl, ' 秒'), h('span', null, '🪙 ', scoreEl)), grid, h('div', { class: 'small muted', style: { marginTop: '8px' }, text: '点击冒头的间谍狼！' })), onClose: () => { over = true; clearInterval(timer); clearInterval(tick); G.addSilver(score); G.checkAch(); G.persist(true); UI.refreshRes(); if (done) done(); } });
     function pop() {
       if (over) return;
       if (cur >= 0) { cells[cur].wolf.style.bottom = '-70px'; cells[cur].wolf.dataset.up = '0'; }

@@ -3,7 +3,7 @@
  * ============================================================ */
 (function (global) {
   'use strict';
-  const SV = global.SV, D = SV.D, G = SV.Game;
+  const SV = global.SV, G = SV.Game;
   const UI = SV.UI = { screen: null, hooks: {}, t: 0, modals: [] };
   SV.view = { scale: 1 };
 
@@ -79,13 +79,13 @@
   };
 
   /* ---------- 屏幕切换 ---------- */
-  UI.show = function (name) {
+  UI.show = function (name, keepModals) {
     document.querySelectorAll('.scr').forEach(s => s.classList.remove('on'));
     const el = document.getElementById('scr-' + name);
     if (el) el.classList.add('on');
     UI.screen = name;
     if (UI.hooks['show:' + name]) UI.hooks['show:' + name]();
-    UI.closeAllModals();
+    if (!keepModals) UI.closeAllModals();
     if (name === 'battle') { /* music handled in battle */ }
     else SV.Audio.playBgm('calm');
   };
@@ -184,7 +184,7 @@
     addEventListener('keydown', e => {
       if (e.key === 'Escape' && UI.modals.length) { const m = UI.modals[UI.modals.length - 1]; if (m.head && m.head.querySelector('.x')) { SV.Audio.play('click'); m.close(); e.preventDefault(); } }
     });
-    let last = performance.now(), acc = 0;
+    let last = performance.now();
     function frame(now) {
       const dt = Math.min(0.05, (now - last) / 1000); last = now; UI.t += dt;
       try {

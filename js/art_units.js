@@ -59,7 +59,8 @@
     const cv = Art.mkCanvas(w * 2, h * 2); if (!cv) return '';
     const cx = cv.getContext('2d'); cx.scale(2, 2);
     drawFn(cx, w, h);
-    return iconCache[k] = cv.toDataURL();
+    // 画进了本地图片（双击打开时的狼图集）就读不出来了：返回空串、不缓存，UI.wolfImg 会改用图集当背景图（art_ui_original.js）
+    try { return iconCache[k] = cv.toDataURL(); } catch (e) { return ''; }
   };
   Art.gemURL = function (c, t, size) {
     size = size || 40;

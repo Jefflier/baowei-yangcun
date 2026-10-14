@@ -44,6 +44,7 @@
         right.append(slots);
       }
       m.setBody(h('div', { class: 'row', style: { alignItems: 'flex-start', gap: '14px' } }, left, right));
+      m.setTitle('⛺ 狼队训练营 · 队伍战斗力 ' + SV.fmt(G.teamPower()));   // 训练 / 学技能 / 换阵容后战斗力跟着变
       function pickSkill(slot) {
         const cur = rec.sk[slot];
         const box = h('div', { style: { width: '640px' } });
@@ -56,9 +57,8 @@
         const mm = UI.modal({ title: '选择技能 · 槽位 ' + (slot + 1), body: box, width: 700 });
       }
     };
-    m = UI.modal({ title: '⛺ 狼队训练营 · 队伍战斗力 ' + SV.fmt(G.teamPower()), body: h('div'), width: 900, onClose: () => { G.persist(true); UI.refreshRes(); } });
+    m = UI.modal({ title: '⛺ 狼队训练营', body: h('div'), width: 900, onClose: () => { G.persist(true); UI.refreshRes(); } });
     draw();
-    m._refreshTitle = () => m.setTitle('⛺ 狼队训练营 · 队伍战斗力 ' + SV.fmt(G.teamPower()));
   };
 
   /* ================= 竞技场大厅 ================= */
@@ -78,7 +78,6 @@
       const grid = h('div', { class: 'grid', style: { gridTemplateColumns: 'repeat(4,1fr)', gap: '10px' } });
       opps.forEach(o => {
         const out = SV.ArenaLogic.reward(o, true);
-        const diff = o.power / Math.max(1, my);
         grid.appendChild(h('div', { class: 'card center ' + (o.done ? 'dis' : '') },
           h('div', { style: { position: 'relative', height: '90px', borderRadius: '8px', overflow: 'hidden', border: '3px solid #8a5a2c', marginBottom: '4px' } }, (function () { const cv = h('canvas', { width: 220, height: 180, style: { width: '100%', height: '100%' } }); cv.getContext('2d').drawImage(UI.Menu.thumb(o.map, 90), 0, 0, 220, 180); return cv; })(), h('div', { style: { position: 'absolute', left: 0, bottom: 0, right: 0, background: 'rgba(0,0,0,.55)', color: '#fff', fontSize: '12px', fontWeight: 800 }, text: D.maps[o.map].n })),
           h('b', { text: o.name }), h('div', { class: 'small muted', text: 'Lv.' + o.level }),
@@ -143,7 +142,6 @@
     let n = 0; while (!B.over && n++ < 30000) B.update(1 / 60);
   };
   Arena.quit = function () {
-    const B = Arena.B;
     Arena.active = false; Arena.B = null;
     UI.hooks.battleFrame = UI.Battle.frameHook;
     UI.Menu.toHub();
@@ -169,13 +167,12 @@
       const drawCards = () => {
         UI.clear(cardsEl);
         [0, 1, 2].forEach(i => {
-          const isReal = i === out.pick;
           cardsEl.appendChild(h('div', { class: 'card center', style: { width: '150px', height: '110px', cursor: revealed.some(x => x) ? 'default' : 'pointer', background: revealed[i] ? '#fff8d8' : 'linear-gradient(#ffb84a,#ff8a2e)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '4px', transition: 'transform .3s', transform: revealed[i] ? 'scale(1.05)' : '' }, onclick: () => {
             if (revealed.some(x => x)) return; Audio.play('chest'); revealed[i] = true;
             // 真实奖励放在被点击的卡上；其余显示随机“可惜”卡
             if (i !== out.pick) { const t = out.cards[i]; out.cards[i] = cardReward; out.cards[out.pick] = t; }
             revealed.forEach((_, j) => revealed[j] = true); drawCards();
-          } }, revealed[i] ? [UI.lootChip(out.cards[i]), h('div', { class: 'small muted', text: i === out.pick || true ? (out.cards[i] === cardReward ? '✔ 已获得' : '（没抽到）') : '' })] : [h('div', { style: { fontSize: '38px' }, text: '🎁' }), h('b', { style: { color: '#fff', textShadow: '0 2px 0 #7a3f0a' }, text: '翻牌' })]));
+          } }, revealed[i] ? [UI.lootChip(out.cards[i]), h('div', { class: 'small muted', text: out.cards[i] === cardReward ? '✔ 已获得' : '（没抽到）' })] : [h('div', { style: { fontSize: '38px' }, text: '🎁' }), h('b', { style: { color: '#fff', textShadow: '0 2px 0 #7a3f0a' }, text: '翻牌' })]));
         });
       };
       drawCards();

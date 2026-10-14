@@ -86,7 +86,6 @@
     G.save.silver -= cost; rec.sk[slot] = { id: skill, lv }; G.persist(); return true;
   };
   G.forgetSkill = function (id, slot) { const rec = G.wolfOwned(id); if (!rec) return; const cur = rec.sk[slot]; if (cur) { G.save.silver += Math.floor(G.skillCost(cur.id, cur.lv) * 0.5); rec.sk[slot] = null; G.persist(); } };
-  G.setTeam = function (ids) { G.save.wolves.team = ids.slice(0, 3); G.persist(); };
 
   /* ---------- 竞技场 ---------- */
   const A = SV.ArenaLogic = {};
