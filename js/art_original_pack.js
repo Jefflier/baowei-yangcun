@@ -71,7 +71,7 @@
     if (!fr) return;
     var S = GEM_SOCKET[b.type] || GEM_SOCKET.sentry;
     var sx = cs / 65;
-    var w = fr.vb[2] * sx, h = fr.vb[3] * sx;
+    var w = fr.vb[2] * sx;
     var gx = cx + (fr.vb[0] + S.x * fr.vb[2]) * sx;
     var gy = cy + (fr.vb[1] + S.y * fr.vb[3]) * sx;
     A.gem(ctx, gx, gy, S.r * w, b.gem.c, b.gem.t, t);
@@ -164,9 +164,9 @@
       if (!window.SVAWolf) return origWolf.apply(A, arguments);
       var dir = ({0: 'w', 1: 'se', 2: 'n', 3: 'sw'})[w.dir] || 'se';
       var state = w.dead || w.hp <= 0 ? 'die' : (w.attack ? 'attack' : (w.walk ? 'walk' : 'idle'));
-      var pal = def.__pal || SVAWolf.palFor(def.n);
+      var pal = def.__pal || window.SVAWolf.palFor(def.n);
       var fsz = cs * (def.boss ? 1.15 : 1.0);
-      SVAWolf.draw(ctx, {x: x, y: y - lift, size: fsz, dir: dir,
+      window.SVAWolf.draw(ctx, {x: x, y: y - lift, size: fsz, dir: dir,
                          phase: (w.walk || 0), state: state, pal: pal});
       // 图集还没加载完时走的兜底分支：血条、状态特效、选中标记照样要有
       if (w.hp > 0 && A.drawWolfOverlay) A.drawWolfOverlay(ctx, w, x, y - lift, cs, t, focus, fsz * 0.55, -fsz * 0.95);

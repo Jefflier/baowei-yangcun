@@ -65,8 +65,8 @@
       tutorial: { done: false }
     };
   };
-  G.load = function () {
-    let s = SV.store.get(KEY, null);
+  G.load = function (raw) {
+    const s = raw || SV.store.get(KEY, null);
     const d = G.defaults();
     if (s && s.v) {
       // 合并缺失字段
@@ -87,7 +87,8 @@
   G.reset = function () { SV.store.del(KEY); G.save = G.defaults(); G.dailyReset(); G.persist(true); };
   G.exportCode = function () { try { return btoa(unescape(encodeURIComponent(JSON.stringify(G.save)))); } catch (e) { return ''; } };
   G.importCode = function (code) {
-    try { const s = JSON.parse(decodeURIComponent(escape(atob(code.trim())))); if (!s || !s.v) return false; SV.store.set(KEY, s); G.load(); return true; } catch (e) { return false; }
+    // 直接载入解析出的存档：浏览器禁用存储（少数 file:// 场景）时也能导入，只是刷新后不保留
+    try { const s = JSON.parse(decodeURIComponent(escape(atob(code.trim())))); if (!s || !s.v) return false; G.load(s); G.persist(true); return true; } catch (e) { return false; }
   };
 
   /* ---------- 货币 & 经验 ---------- */
@@ -103,7 +104,6 @@
     return up;
   };
   G.addGem = function (c, t, n) { G.save.gems[c][t - 1] += (n == null ? 1 : n); };
-  G.gemCount = (c, t) => G.save.gems[c][t - 1];
   G.gemTotal = function () { let n = 0; for (const r of G.save.gems) for (const v of r) n += v; return n; };
   G.fuse = function (c, t) {
     const g = G.save.gems;
@@ -111,7 +111,6 @@
     g[c][t - 1] -= 3; g[c][t] += 1; G.save.stats.fuse++; G.checkAch(); G.taskProgress('fuse', 1); return true;
   };
   G.fuseAll = function (c, t) { let n = 0; while (G.fuse(c, t)) n++; return n; };
-  G.gemName = (c, t) => SV.GEM_COLORS[c].n + '宝石·' + SV.GEM_TIERS[t - 1];
 
   G.giveLoot = function (l, quiet) {
     if (l.type === 'gem') G.addGem(l.c, l.t, l.n || 1);
@@ -153,8 +152,6 @@
   G.STRAW_N = ['初级稻草羊', '中级稻草羊', '高级稻草羊']; G.PHONO_N = ['初级留声机', '中级留声机', '高级留声机'];
 
   /* ---------- 战斗生命周期 ---------- */
-  G.towerCap = function () { return 999; };
-
   G.startBattle = function (idx, mode, opts) {
     opts = opts || {};
     const s = G.save;
@@ -172,7 +169,7 @@
     G.snapshot = JSON.stringify({ gems: s.gems, silver: s.silver, items: s.items, lollipop: s.lollipop });
     const dm = G.DIFF[s.settings.diff != null ? s.settings.diff : 1];
     const B = new SV.Battle({
-      mapIdx: idx, mode: mode || 'normal', silver, gemStock: gems, boost, playerLevel: s.level, towerCap: G.towerCap(),
+      mapIdx: idx, mode: mode || 'normal', silver, gemStock: gems, boost, playerLevel: s.level,
       hpScale: SV.hpScaleFor(idx) * dm.hp, dmgMul: 1 + Math.min(0.4, s.level * 0.004),
       autoWave: s.settings.autoWave, lives: mode === 'nightmare' ? 20 : 30, bombs: s.items.bomb || 0,
       onEvent: (name, data) => G.onBattleEvent(name, data)
@@ -192,7 +189,6 @@
   };
 
   G.onBattleEvent = function (name, data) {
-    const B = G.battle;
     if (name === 'build') { G.save.stats.towers += (data.kind === 'tower' ? 1 : 0); G.taskProgress('build', data.kind === 'tower' ? 1 : 0); if (data.kind === 'tower') G.save.stats.maxTowerLv = Math.max(G.save.stats.maxTowerLv, data.lv); }
     if (name === 'kill') { G.save.stats.kills++; G.taskProgress('kill', 1); if (!G.save.seen[data.id]) G.save.seen[data.id] = 1; if (data.boss) { G.save.stats.bosses++; } }
     if (name === 'spawn') { if (!G.save.seen[data.id]) { G.save.seen[data.id] = 1; } }
@@ -207,12 +203,9 @@
     opts = opts || {};
     const s = G.save, res = B.getResult();
     const out = { res, silverBefore: s.silver, lootList: [], levelUps: 0, firstClear: false, bonus: 0, expGain: 0, exp: 0 };
-    B.dismantle();                                             // 宝石全部回收
-    G.settleBombs(B);                                          // 只扣已引爆的炸弹
+    G.reclaim(B);
     G.saveLayout(B);
     if (B.mode === 'nightmare') {
-      // 噩梦：回收自带精华宝石（已在 dismantle 中回到库存），扣除赠送的
-      for (let c = 0; c < 6; c++) s.gems[c][3] = Math.max(0, s.gems[c][3] - 1);
       const w = B.nmWave;
       const rec = s.maps[B.mapIdx] = s.maps[B.mapIdx] || { clears: 0, best: 0, nm: 0, wins: 0, tries: 0, bestTime: 0 };
       const newBest = w > (rec.nm || 0);
@@ -266,7 +259,8 @@
           if (B.mapIdx === 43) { rewards.push({ type: 'item', id: 'phono', lv: 1, n: 1 }); rewards.push({ type: 'item', id: 'straw', lv: 1, n: 1 }); }
           if (B.mapIdx === 44) { for (let l = 1; l <= 3; l++) { rewards.push({ type: 'item', id: 'phono', lv: l, n: 1 }); rewards.push({ type: 'item', id: 'straw', lv: l, n: 1 }); } }
           if (B.mapIdx % 4 === 0) rewards.push({ type: 'item', id: 'lollipop', n: 2 });
-          const cards = { 5: 'tufeil', 9: 'renzhel', 14: 'hushil', 20: 'jiangshil', 27: 'tanhuangl', 34: 'xuel_B' };
+          // 键是 maps 下标（0 起），要和 camp.js 里狼卡的「获取方式」一致：菲洛克村 / 拉帕斯村 / 拉卡维村 / 赤火地带 / 虎克工厂
+          const cards = { 5: 'tufeil', 8: 'renzhel', 13: 'hushil', 20: 'jiangshil', 26: 'tanhuangl', 34: 'xuel_B' };
           if (cards[B.mapIdx]) rewards.push({ type: 'wolfShard', id: cards[B.mapIdx], n: 8 });
         } else {
           if (B.rng.next() < 0.35) rewards.push({ type: 'gem', c: B.rng.int(0, 5), t: Math.max(1, tier - 1), n: 1 });
@@ -291,7 +285,12 @@
     return out;
   };
 
-  /* 直接退出（不结算，恢复战前状态）*/
+  /* 战斗收尾：塔上的宝石回库存、收回噩梦赠送的精华、只扣已引爆的炸弹 */
+  G.reclaim = function (B) {
+    B.dismantle();
+    if (B.nightmareGift) { for (let c = 0; c < 6; c++) G.save.gems[c][3] = Math.max(0, G.save.gems[c][3] - 1); B.nightmareGift = false; }
+    G.settleBombs(B);
+  };
   G.settleBombs = function (B) {
     const s = G.save; if (!B || !B.bombUsed) return;
     s.items.bomb = Math.max(0, (s.items.bomb || 0) - B.bombUsed);
@@ -299,10 +298,10 @@
     s.stats.bombKills = (s.stats.bombKills || 0) + (B.stats.bombKills || 0);
     B.bombUsed = 0;                                           // 防止重复结算
   };
+  /* 直接退出（不结算） */
   G.abortBattle = function () {
     if (!G.battle) return;
-    const B = G.battle;
-    B.dismantle(); G.settleBombs(B);
+    G.reclaim(G.battle);
     G.inBattle = false; G.battle = null;
     G.persist(true);
   };

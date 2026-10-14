@@ -3,7 +3,7 @@
  * ============================================================ */
 (function (global) {
   'use strict';
-  const SV = global.SV, D = SV.D, G = SV.Game;
+  const SV = global.SV, G = SV.Game;
   const UI = SV.UI = { screen: null, hooks: {}, t: 0, modals: [] };
   SV.view = { scale: 1 };
 
@@ -184,7 +184,7 @@
     addEventListener('keydown', e => {
       if (e.key === 'Escape' && UI.modals.length) { const m = UI.modals[UI.modals.length - 1]; if (m.head && m.head.querySelector('.x')) { SV.Audio.play('click'); m.close(); e.preventDefault(); } }
     });
-    let last = performance.now(), acc = 0;
+    let last = performance.now();
     function frame(now) {
       const dt = Math.min(0.05, (now - last) / 1000); last = now; UI.t += dt;
       try {

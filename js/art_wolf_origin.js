@@ -11,7 +11,7 @@
 window.SVAWolfOrigin = (function () {
   // 注意：每只狼的行走帧数都不一样（实测 10~34 列），列数是从图片宽度量出来的。
   // 早期版本把列数写死成 24，导致 58 只狼取到越界帧、整只退回手搓模型（看起来就是朝向/造型乱跳）。
-  var CELL = 96, DEF_COLS = 24, ROWS = 4;
+  var CELL = 96, DEF_COLS = 24;
   var DIRS = {d: 0, l: 1, u: 2, r: 3};
   var cache = {};          // id -> {img, dead, ok, failed, cols, deadCols}
 
@@ -25,23 +25,34 @@ window.SVAWolfOrigin = (function () {
   function base() {
     return window.SVA_WOLF_DIR || 'assets/wolf/';
   }
+  /* 已烘好的图集清单（assets/wolf/index.js）。有清单就只请求清单里的名字，
+     不再按别名一个个去试（每只变体狼以前会白发 4~8 个 404 请求）。 */
+  var INDEX = null;
+  function baked(id) {
+    if (!window.SVA_WOLF_INDEX) return true;
+    if (!INDEX) { INDEX = {}; window.SVA_WOLF_INDEX.forEach(function (n) { INDEX[n] = 1; }); }
+    return !!INDEX[id];
+  }
+  /* 单文件版把图片内联成 data URI（tools/build_single.py 生成 window.SVA_ASSETS），按原路径取 */
+  function url(p) { return (window.SVA_ASSETS && window.SVA_ASSETS[p]) || p; }
 
   function load(id) {
     if (cache[id]) return cache[id];
-    var rec = {img: new Image(), dead: new Image(), ok: false, failed: false,
+    var rec = {img: new Image(), dead: new Image(), ok: false, failed: !baked(id),
                cols: DEF_COLS, deadCols: DEF_COLS};
     cache[id] = rec;
+    if (rec.failed) return rec;
     rec.img.onload = function () {
       rec.cols = Math.max(1, Math.round(rec.img.naturalWidth / CELL));
       rec.ok = rec.img.naturalWidth >= CELL && rec.img.naturalHeight >= CELL;
       if (!rec.ok) rec.failed = true;
     };
     rec.img.onerror = function () { rec.failed = true; };
-    rec.img.src = base() + id + '.png';
+    rec.img.src = url(base() + id + '.png');
     rec.dead.onload = function () {
       rec.deadCols = Math.max(1, Math.round(rec.dead.naturalWidth / CELL));
     };
-    rec.dead.src = base() + id + '_dead.png';
+    rec.dead.src = url(base() + id + '_dead.png');
     // 顺手把别名模型也拉起来（sdys_A 之类用的是 sdys 的图），免得开场先闪一下手搓狼
     var alt = aliasOf(id) || [];
     for (var i = 0; i < alt.length; i++) if (alt[i] !== id) load(alt[i]);
@@ -129,7 +140,6 @@ window.SVAWolfOrigin = (function () {
     var sx = n * CELL, sy = row * CELL;
     if (img.naturalWidth < (n + 1) * CELL) return false;
     var size = o.size || CELL;
-    var k = size / CELL;
     if (flip) { ctx.save(); ctx.translate(o.x, 0); ctx.scale(-1, 1); ctx.translate(-o.x, 0); }
     ctx.drawImage(img, sx, sy, CELL, CELL, o.x - size / 2, o.y - size, size, size);
     if (o.flash) {                      // 受击闪白：同一帧叠加一遍（加色），透明处不受影响

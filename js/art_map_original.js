@@ -33,7 +33,8 @@ window.SVAMapArt = (function () {
     if (!rec) {
       rec = cache[id] = {im: new Image(), ok: false};
       rec.im.onload = function () { rec.ok = rec.im.naturalWidth > 8; };
-      rec.im.src = dir + id + '.png';
+      var src = dir + id + '.png';
+      rec.im.src = (window.SVA_ASSETS && window.SVA_ASSETS[src]) || src;   // 单文件版：内联的 data URI
     }
     return rec;
   }

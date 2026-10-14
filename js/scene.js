@@ -3,7 +3,7 @@
  * ============================================================ */
 (function (global) {
   'use strict';
-  const SV = global.SV, Art = SV.Art, OUT = Art.OUT, rr = Art.rr, ell = Art.ell, shade = Art.shade;
+  const SV = global.SV, Art = SV.Art, OUT = Art.OUT, rr = Art.rr, ell = Art.ell;
   const Scene = SV.Scene = { cache: {}, W: 1280, H: 720 };
 
   function sky(ctx, top, bot, H) { const g = ctx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, top); g.addColorStop(1, bot); ctx.fillStyle = g; ctx.fillRect(0, 0, 1280, H); }
@@ -183,7 +183,7 @@
       // 羊群散步
       const n = name === 'title' ? 5 : 4;
       for (let i = 0; i < n; i++) {
-        const [ph, y, dir0] = sheepPos[i];
+        const [ph, y] = sheepPos[i];
         const span = 1000, sp = 14 + i * 4;
         const pos = ((t * sp + ph * span) % (span * 2));
         const x = pos < span ? pos + 120 : span * 2 - pos + 120, d = pos < span ? 1 : -1;

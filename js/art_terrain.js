@@ -172,7 +172,6 @@
   Art.house = house;
 
   Art.drawDeco = function (ctx, kind, x, y, s, hsh, hsh2) {
-    const k2 = hsh2;
     switch (kind) {
       case 'tree': tree(ctx, x, y, s, hsh, hsh2 < 0.12 ? 1 : hsh2 < 0.22 ? 2 : 0); break;
       case 'palm': if (hsh2 < 0.18) cactus(ctx, x, y, s, hsh); else palm(ctx, x, y, s, hsh); break;
@@ -313,7 +312,7 @@
       const cs2 = Object.keys(byCol).map(Number).sort((a, b) => a - b);
       const x0 = cs2[0], x1 = cs2[cs2.length - 1];
       const rowsHit = {};
-      for (const [c, r] of chasm) rowsHit[r] = 1;
+      for (const [, r] of chasm) rowsHit[r] = 1;
       let r = 0;
       while (r < rows) {
         if (!rowsHit[r]) { r++; continue; }
@@ -468,7 +467,7 @@
     // 篱笆门 + 羊村房子
     const lab = map.labels[i] || '';
     // 房子放在出口外侧
-    let hx = x + cs / 2, hy = y + ch * 0.95, dir = 0;
+    let dir = 0;
     if (/→/.test(lab)) dir = 1; else if (/←/.test(lab)) dir = -1; else if (/↑/.test(lab)) dir = 2; else if (/↓/.test(lab)) dir = 3;
     const oneOut = (dx, dy) => { const nc = c + dx, nr = r + dy; return nc < 0 || nr < 0 || nc >= map.cols || nr >= map.rows || map.type[nr * map.cols + nc] === 0; };
     if (!dir) { if (c === map.cols - 1 || oneOut(1, 0)) dir = 1; else if (c === 0 || oneOut(-1, 0)) dir = -1; else if (r === 0 || oneOut(0, -1)) dir = 2; else dir = 3; }

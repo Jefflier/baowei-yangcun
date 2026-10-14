@@ -3,7 +3,7 @@
  * ============================================================ */
 (function (global) {
   'use strict';
-  const SV = global.SV, D = SV.D;
+  const SV = global.SV;
   const AI = SV.AI = {};
 
   /* 当前所有地面出怪路径上的格子（顺序） */
@@ -142,7 +142,6 @@
         if (t < 0) continue;
         const gain = t - base;
         // 偏好离羊村近的位置（把怪逼进死胡同），同增益取靠近羊村的一侧
-        const gd = f.dist[spawns[0]];
         if (gain > bestGain + 1e-6 || (Math.abs(gain - bestGain) < 1e-6 && best && B.field.dist[i] < B.field.dist[best.i])) { bestGain = gain; best = { i, x, y }; }
       }
       if (!best) break;

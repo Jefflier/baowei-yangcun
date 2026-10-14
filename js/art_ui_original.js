@@ -34,7 +34,6 @@
   }
 
   /* 原始符号名 → data URL（找不到就返回 null） */
-  A.matURL = function (name, w, hh) { return url('material', name, w, hh); };
   A.itemURL = function (name, w, hh) { return url('item', name, w, hh); };
   A.skillURL = function (name, w, hh) { return url('skill', name, w, hh); };
   /* 不用管符号在哪个库里：material 先找，再找 item */
@@ -74,15 +73,6 @@
     return UI.resIcon('baozhatong1', size || 26, function () {
       return A.icoImg(A.iconURL('bomb_ico', 26, 26, function (cx, w, hh) {
         A.drawBomb(cx, 44, w / 2, hh - 4, false, 0);
-      }), size || 26);
-    });
-  };
-  /* 机关图标：捕兽夹 / 地雷 */
-  UI.trapImg = function (tid, size) {
-    var name = tid === 'clamp' ? 'bushoujia1' : 'za_le';
-    return UI.resIcon(name, size || 26, function () {
-      return A.icoImg(A.iconURL('trap_' + tid, 40, 40, function (cx, w, hh) {
-        A.drawTrap(cx, tid, 36, 20, 22, true);
       }), size || 26);
     });
   };

@@ -10,7 +10,6 @@
   Menu.toTitle = function () {
     const root = UI.clear(document.getElementById('scr-title'));
     const has = !!SV.store.get('sv_nostalgia_save_v1', null);
-    const s = G.save;
     const bt = (txt, cls, fn) => h('button', { class: 'btn ' + cls, text: txt, onclick: () => { Audio.init(); Audio.play('click'); fn(); } });
     root.appendChild(h('div', { class: 'logo' }, h('h1', { text: '保卫羊村' }), h('div', { class: 'sub', text: '怀 旧 服' })));
     root.appendChild(h('div', { class: 'menu' },
@@ -118,7 +117,6 @@
     return { list, pos };
   };
   Menu.toWorld = function (ch) {
-    const s = G.save;
     if (ch) UI.worldCh = ch;
     else if (Menu.selMap != null) UI.worldCh = D.maps[Menu.selMap].ch;
     const root = UI.clear(document.getElementById('scr-world'));
@@ -133,7 +131,7 @@
     root.appendChild(tabs);
     // 节点
     const { list, pos } = Menu.layout(cur);
-    root.classList.toggle('compact', !!(global.SVAScenePack && SVAScenePack.compactNodes && SVAScenePack.compactNodes(cur)));
+    root.classList.toggle('compact', !!(global.SVAScenePack && global.SVAScenePack.compactNodes && global.SVAScenePack.compactNodes(cur)));
     Menu.pos = pos;
     for (const idx of list) {
       const st = G.mapState(idx), rec = G.mapRec(idx), cleared = G.mapCleared(idx);

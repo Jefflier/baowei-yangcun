@@ -17,7 +17,6 @@
   SV.gemText = function (type, c, t) {
     if (c == null) return '无宝石：纯物理伤害，不受属性抗性影响。';
     const fake = { type, lv: 30, gem: { c, t }, id: 0, aura: { dmg: 1, spd: 1, rng: 1 }, kind: 'tower' };
-    const B = BU.B || { speedMult: SV.SPEED_MULT, towerStats: SV.Battle.prototype.towerStats };
     const st = SV.Battle.prototype.towerStats.call({ speedMult: SV.SPEED_MULT }, fake);
     const L = [];
     const p = x => Math.round(x * 100) + '%';
@@ -133,7 +132,6 @@
 
   BU.retreat = function () {
     const B = BU.B; if (B.over) return;
-    const won = false;
     UI.confirm(BU.mode === 'nightmare' ? '结束本次噩梦？\n将根据已坚持的波数结算宝箱奖励。' : (B.infinite ? '结束本局并结算？\n击杀所得银币、经验与掉落都会保留' + (B.lapDone ? '，并计为通关。' : '。完成第一圈（进度 2400）才算通关。') : '确认撤退？\n本局不会获得通关奖励，但击杀所得银币与经验保留，已建造的塔将被拆除（宝石回收）。'), () => {
       B.retreat();
     }, { yes: '撤退', danger: true, title: '撤退' });
@@ -275,7 +273,7 @@
   /* ---------- 侧栏渲染 ---------- */
   BU.renderPaneLight = function () { BU.refreshAffordable(); };
   BU.renderPane = function () {
-    const B = BU.B, E = BU.el;
+    const E = BU.el;
     const keepScroll = E.pane.scrollTop, sameTab = BU._lastTab === BU.tab; BU._lastTab = BU.tab;
     const pane = UI.clear(E.pane);
     E.tabs.querySelectorAll('.t').forEach(t => t.classList.toggle('on', t.dataset.k === BU.tab));
@@ -358,7 +356,7 @@
     const B = BU.B; const code = G.layoutCode(B);
     if (!B.buildings.length) { UI.toast('还没有布阵可以分享', 'err'); return; }
     const ta = h('textarea', { class: 'code', readonly: true }); ta.value = code;
-    const m = UI.modal({ title: '📤 布阵分享码', width: 520, body: h('div', null, h('div', { class: 'small muted', style: { marginBottom: '6px' }, text: '把下面的代码发给朋友，他在「' + B.map.name + '」里点「导入布阵」即可复刻你的阵型（宝石按对方库存尽量镶嵌）。' }), ta), footer: h('div', { class: 'row', style: { justifyContent: 'center' } }, h('button', { class: 'btn green', text: '复制', onclick: () => { ta.select(); try { document.execCommand('copy'); UI.toast('已复制', 'good'); } catch (e) { } } })) });
+    UI.modal({ title: '📤 布阵分享码', width: 520, body: h('div', null, h('div', { class: 'small muted', style: { marginBottom: '6px' }, text: '把下面的代码发给朋友，他在「' + B.map.name + '」里点「导入布阵」即可复刻你的阵型（宝石按对方库存尽量镶嵌）。' }), ta), footer: h('div', { class: 'row', style: { justifyContent: 'center' } }, h('button', { class: 'btn green', text: '复制', onclick: () => { ta.select(); try { document.execCommand('copy'); UI.toast('已复制', 'good'); } catch (e) { } } })) });
     setTimeout(() => ta.select(), 50);
   };
   BU.importLayout = function () {
@@ -472,7 +470,7 @@
   };
 
   BU.towerPanel = function (pane, b) {
-    const B = BU.B, st = B.towerStats(b), T = D.towers[b.type], max = B.towerMax(b.type);
+    const B = BU.B, st = B.towerStats(b), max = B.towerMax(b.type);
     const gemTxt = b.gem ? SV.GEM_COLORS[b.gem.c].n + SV.GEM_TIERS[b.gem.t - 1] : '未镶嵌';
     const dps = SV.AI.dpsOf(B, b);
     pane.appendChild(h('div', { class: 'card' },

@@ -3,7 +3,7 @@
  * ============================================================ */
 (function (global) {
   'use strict';
-  const SV = global.SV, D = SV.D, G = SV.Game;
+  const SV = global.SV, G = SV.Game;
 
   /* ================= 每日重置 ================= */
   const TASK_DEFS = [

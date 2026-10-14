@@ -47,7 +47,8 @@
           }
         }
       };
-      rec.im.src = DIR + key + '.png';
+      var src = DIR + key + '.png';
+      rec.im.src = (global.SVA_ASSETS && global.SVA_ASSETS[src]) || src;   // 单文件版：内联的 data URI
     }
     return rec;
   }
