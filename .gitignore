@@ -20,3 +20,6 @@ video/_work_cover/
 Thumbs.db
 desktop.ini
 .DS_Store
+
+# exe 启动器构建时生成（tools/build_exe.py）
+launcher/game.html.gz
