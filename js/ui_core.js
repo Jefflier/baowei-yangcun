@@ -79,13 +79,13 @@
   };
 
   /* ---------- 屏幕切换 ---------- */
-  UI.show = function (name) {
+  UI.show = function (name, keepModals) {
     document.querySelectorAll('.scr').forEach(s => s.classList.remove('on'));
     const el = document.getElementById('scr-' + name);
     if (el) el.classList.add('on');
     UI.screen = name;
     if (UI.hooks['show:' + name]) UI.hooks['show:' + name]();
-    UI.closeAllModals();
+    if (!keepModals) UI.closeAllModals();
     if (name === 'battle') { /* music handled in battle */ }
     else SV.Audio.playBgm('calm');
   };

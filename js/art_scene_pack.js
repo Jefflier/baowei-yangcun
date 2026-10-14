@@ -41,9 +41,9 @@
           if (key === 'village') {
             Scene.hubHotspots = buildSpots();
             // 如果这会儿已经站在大厅里，热区要重排一次
-            if (UI && UI.screen === 'hub' && UI.Menu && UI.Menu.toHub) UI.Menu.toHub();
+            if (UI && UI.screen === 'hub' && UI.Menu && UI.Menu.toHub) UI.Menu.toHub(false, true);
           } else if (UI && UI.screen === 'world' && UI.Menu && UI.Menu.toWorld && cfg.worldNodes !== false) {
-            UI.Menu.toWorld();                                      // 原画到了：关卡节点换成贴着原画旗标的紧凑样式
+            UI.Menu.toWorld(undefined, true);                       // 原画到了：关卡节点换成贴着原画旗标的紧凑样式
           }
         }
       };

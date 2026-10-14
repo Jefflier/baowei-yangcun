@@ -44,7 +44,8 @@
     { id: 'inn', n: '好友', x: 725, y: 550, w: 130, h: 100, fn: () => UI.Panels.friends() },
     { id: 'lib', n: '图鉴', x: 1125, y: 350, w: 130, h: 250, fn: () => UI.Panels.codex() }
   ];
-  Menu.toHub = function (first) {
+  // refresh = 只是原画加载完重排一下（js/art_scene_pack.js）：不关掉开着的面板、不重复弹签到
+  Menu.toHub = function (first, refresh) {
     const root = UI.clear(document.getElementById('scr-hub'));
     const s = G.save;
     root.appendChild(UI.resBar({
@@ -72,7 +73,8 @@
       root.appendChild(el);
     }
     root.appendChild(h('div', { style: { position: 'absolute', left: '14px', bottom: '10px', color: '#fff', fontSize: '13px', textShadow: '0 1px 3px rgba(0,0,0,.8)' }, text: '点击建筑进入相应功能 · 从右侧大门「出征」前往羊羊大陆' }));
-    UI.show('hub');
+    UI.show('hub', refresh);
+    if (refresh) return;
     if (G.loginPending()) setTimeout(() => UI.Panels.login(), 350);
     else if (first) UI.toast('点击右侧大门「出征」开始第一场战斗！', 'good');
     G.persist(true);
@@ -116,7 +118,7 @@
     });
     return { list, pos };
   };
-  Menu.toWorld = function (ch) {
+  Menu.toWorld = function (ch, refresh) {
     if (ch) UI.worldCh = ch;
     else if (Menu.selMap != null) UI.worldCh = D.maps[Menu.selMap].ch;
     const root = UI.clear(document.getElementById('scr-world'));
@@ -153,7 +155,7 @@
       Menu.selMap = cand;
     }
     root.appendChild(Menu.infoPanel(Menu.selMap));
-    UI.show('world');
+    UI.show('world', refresh);
     // show() 不清除内容
   };
 
