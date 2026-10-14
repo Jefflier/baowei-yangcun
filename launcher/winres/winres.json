@@ -1,0 +1,36 @@
+{
+  "RT_GROUP_ICON": {
+    "APP": {
+      "0000": ["icon256.png", "icon64.png", "icon48.png", "icon32.png", "icon24.png", "icon16.png"]
+    }
+  },
+  "RT_MANIFEST": {
+    "#1": {
+      "0409": {
+        "identity": { "name": "BaoweiYangcun.Launcher", "version": "1.0.0.0" },
+        "description": "保卫羊村 · 怀旧服",
+        "minimum-os": "win7",
+        "execution-level": "as invoker",
+        "dpi-awareness": "per monitor v2"
+      }
+    }
+  },
+  "RT_VERSION": {
+    "#1": {
+      "0000": {
+        "fixed": { "file_version": "1.0.0.0", "product_version": "1.0.0.0" },
+        "info": {
+          "0804": {
+            "Comments": "迷宫式塔防，单机复刻。双击即玩，不需要安装。",
+            "FileDescription": "保卫羊村 · 怀旧服",
+            "FileVersion": "1.0.0",
+            "InternalName": "baowei-yangcun",
+            "OriginalFilename": "保卫羊村怀旧服.exe",
+            "ProductName": "保卫羊村 · 怀旧服",
+            "ProductVersion": "1.0.0"
+          }
+        }
+      }
+    }
+  }
+}

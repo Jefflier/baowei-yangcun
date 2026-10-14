@@ -3,6 +3,13 @@
 一款纯前端、无需安装、**双击 `index.html` 即可游玩**的迷宫式塔防游戏，复刻自《保卫羊村》怀旧服的核心玩法。
 音效与战斗音乐用的是**原作的 35 个 mp3**（内联进 JS，缺了自动退回 Web Audio 程序化音效）；美术可以在**程序化绘制**与**原作矢量原画**之间切换（见下节「原版矢量美术」）。
 
+> **Windows 直接玩：下载 `dist/保卫羊村怀旧服.exe`，双击即可**（约 25 MB，一个文件，不用安装）。
+> 它会用系统自带的 Edge 开一个独立的游戏窗口（没有 Edge 就用 Chrome，再不行用默认浏览器）；
+> 存档在 `%LOCALAPPDATA%\BaoweiYangcun`，和平时上网用的浏览器互不影响。
+> 第一次运行 Windows 可能提示「已保护你的电脑」（exe 没有数字签名），点「更多信息 → 仍要运行」即可。
+> 以前在网页版里玩的存档：在网页版「设置」里导出存档码，到 exe 里导入。
+> 修改源码后用 `python tools/build_exe.py` 重新生成（需要 Go 1.21+，Linux / macOS 上也能直接交叉编译）。
+>
 > 推荐 Chrome / Edge。若双击后存档存不上（少数浏览器限制 file:// 存储），在本目录运行
 > `python tools/devserver.py` 再访问 <http://localhost:8123/> 即可。
 >
@@ -215,13 +222,14 @@ tools/              开发辅助：sim.html（无头平衡模拟）、gallery.ht
                     wolf_flips.py（扫出哪些狼的哪个朝向要水平镜像 → assets/wolf/flips.js）、
                     svg_sheet.py（把导出的 SVG 拼成图册，挑符号用）、
                     fetch_site_assets.py（一键抓齐原站 SWF）/ wolf_coverage.py（狼图集覆盖率）、
-                    codegen.html（兑换码生成）、devserver.py（无缓存开发服务器）、build_single.py（打包单文件完整版，`--lite` 不带狼图集）
+                    codegen.html（兑换码生成）、devserver.py（无缓存开发服务器）、build_single.py（打包单文件完整版，`--lite` 不带狼图集）、build_exe.py（打包 Windows exe）
                     video_wolf_grab.py / wolf_video_match.py / wolf_video_cards.py / wolf_video_report.py /
                     wolf_video_make_page.py（B站录像抽帧 → 抠狼 → 跟模型逐个比对 → 出核对页）、
                     map_match_frames.py（录像帧 ↔ 战斗底图 SIFT 匹配）/ map_register.py（逐关标定 → assets/map/register.js）/
                     shot_levels.ps1（无头 Chrome 批量截战斗画面）、
                     fx_check.html（子弹/特效/狼身状态对照页）
-dist/               打包产物（单文件完整版，双击即玩）
+launcher/           Windows exe 启动器（Go）：嵌入单文件版，本机起服务 + Edge 应用模式窗口
+dist/               打包产物：保卫羊村怀旧服.exe（Windows 程序）、保卫羊村怀旧服.html（单文件完整版）
 ```
 
 ## 测试与质量
