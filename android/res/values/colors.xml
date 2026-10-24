@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 徽章外圈的木头色（css/style.css 的 wood 变量） -->
+    <color name="ic_launcher_background">#8A5A2C</color>
+    <!-- 网页加载画面最上面的天蓝色（css/style.css 的 #loading），启动画面和窗口底色都用它，接得上不闪 -->
+    <color name="sky">#7FD0FF</color>
+</resources>

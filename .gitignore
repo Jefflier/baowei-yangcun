@@ -23,3 +23,6 @@ desktop.ini
 
 # exe 启动器构建时生成（tools/build_exe.py）
 launcher/game.html.gz
+
+# APK 构建工具链缓存与中间文件（tools/build_apk.py 从 Maven Central 下载，约 260 MB）
+tools/_android/

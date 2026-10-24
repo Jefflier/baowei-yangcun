@@ -12,7 +12,7 @@
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html, body { margin: 0; height: 100%; background: #0f1a0c; overflow: hidden; font-family: var(--font); color: var(--ink); user-select: none; -webkit-user-select: none; }
 #stage { position: absolute; left: 50%; top: 50%; width: 1280px; height: 720px; transform-origin: 0 0; background: #20301a; overflow: hidden; }
-#cv { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; display: block; }
+#cv { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; display: block; touch-action: none; }
 #ui, .scr { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; pointer-events: none; }
 .scr { display: none; }
 .scr.on { display: block; }

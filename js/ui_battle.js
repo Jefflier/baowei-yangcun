@@ -113,7 +113,15 @@
     const pos = e => { const p = R.clientToLogical(e.clientX, e.clientY); return p; };
     cv.addEventListener('mousemove', e => { if (UI.screen !== 'battle') return; BU.onMove(pos(e), e); });
     cv.addEventListener('mousedown', e => { if (UI.screen !== 'battle') return; e.preventDefault(); if (e.button === 0) { BU.mouseDown = true; BU.onClick(pos(e), e); } else if (e.button === 2) { BU.cancel(); } });
-    addEventListener('mouseup', () => { BU.mouseDown = false; BU.lastPaint = -1; });
+    const lift = () => { BU.mouseDown = false; BU.lastPaint = -1; };
+    addEventListener('mouseup', lift);
+    // 触屏：按下 = 左键按下，按住拖动连续造墙（手指一动浏览器就不补发鼠标事件了，只能自己接）；
+    // preventDefault 让浏览器也不再为这次点击补发鼠标事件，免得处理两遍。第二根手指按下就结束拖动
+    const tpos = e => pos(e.changedTouches[0]);
+    cv.addEventListener('touchstart', e => { if (UI.screen !== 'battle') return; e.preventDefault(); if (e.touches.length > 1) { lift(); return; } const p = tpos(e); BU.onMove(p, e); BU.mouseDown = true; BU.onClick(p, e); }, { passive: false });
+    cv.addEventListener('touchmove', e => { if (UI.screen !== 'battle' || !BU.mouseDown) return; e.preventDefault(); BU.onMove(tpos(e), e); }, { passive: false });
+    cv.addEventListener('touchend', lift);
+    cv.addEventListener('touchcancel', lift);
     cv.addEventListener('contextmenu', e => e.preventDefault());
     cv.addEventListener('mouseleave', () => { BU.hover = null; BU.hoverWolf = null; if (BU.el && BU.el.tip) BU.el.tip.style.display = 'none'; });
     addEventListener('keydown', e => { if (UI.screen !== 'battle' || UI.modals.length) return; if (e.target && /INPUT|TEXTAREA/.test(e.target.tagName)) return; BU.onKey(e); });
@@ -169,7 +177,8 @@
     } else tip.style.display = 'none';
     if (BU.mouseDown && BU.place && BU.place.kind === 'wall' && c.ok) {
       const key = c.y * 100 + c.x;
-      if (key !== BU.lastPaint) { BU.lastPaint = key; BU.tryPlace(c); }
+      // 拖过已占用 / 不能建的格子静默跳过：按下那格刚造好墙，手一抖就会再“造”一次，以前会连刷「格子已被占用」
+      if (key !== BU.lastPaint) { BU.lastPaint = key; if (B.cellFree(c.x, c.y)) BU.tryPlace(c); }
     }
   };
 

@@ -10,6 +10,14 @@
 > 以前在网页版里玩的存档：在网页版「设置」里导出存档码，到 exe 里导入。
 > 修改源码后用 `python tools/build_exe.py` 重新生成（需要 Go 1.21+，Linux / macOS 上也能直接交叉编译）。
 >
+> **安卓手机 / 平板：下载 `dist/保卫羊村怀旧服.apk` 安装**（约 23 MB；安卓 8.0 及以上，按安卓 16 / 17 的新规矩适配，目标 API 37）。
+> 第一次装要在系统里允许「安装未知来源应用」。横屏全屏玩：点一下 = 鼠标左键，**按住拖动可以连续造墙**；
+> **返回键**依次是：关弹窗 → 取消建造 / 选中 → 撤退确认，大陆地图回大厅、大厅回标题，标题页再按退到后台。
+> 不需要任何权限、不联网；切到后台自动存档、暂停战斗、静音。存档在 App 自己的数据里，卸载会清掉，要换手机先在「设置」里导出存档码。
+> 修改源码后用 `python tools/build_apk.py` 重新生成（只要 Python 和 JDK 11–21，**不用装 Android SDK**，
+> 第一次会从 Maven Central 下载约 260 MB 工具链，见脚本开头说明）。APK 用仓库里公开的侧载密钥 `android/sideload.keystore` 签名，
+> 谁打出来的新版都能直接覆盖安装；要上架应用商店请用 `--keystore` 换成自己的密钥。
+>
 > 推荐 Chrome / Edge。若双击后存档存不上（少数浏览器限制 file:// 存储），在本目录运行
 > `python tools/devserver.py` 再访问 <http://localhost:8123/> 即可。
 >
@@ -222,14 +230,17 @@ tools/              开发辅助：sim.html（无头平衡模拟）、gallery.ht
                     wolf_flips.py（扫出哪些狼的哪个朝向要水平镜像 → assets/wolf/flips.js）、
                     svg_sheet.py（把导出的 SVG 拼成图册，挑符号用）、
                     fetch_site_assets.py（一键抓齐原站 SWF）/ wolf_coverage.py（狼图集覆盖率）、
-                    codegen.html（兑换码生成）、devserver.py（无缓存开发服务器）、build_single.py（打包单文件完整版，`--lite` 不带狼图集）、build_exe.py（打包 Windows exe）
+                    codegen.html（兑换码生成）、devserver.py（无缓存开发服务器）、build_single.py（打包单文件完整版，`--lite` 不带狼图集）、build_exe.py（打包 Windows exe）、
+                    build_apk.py（打包安卓 APK）/ make_android_icons.py（安卓自适应图标）
                     video_wolf_grab.py / wolf_video_match.py / wolf_video_cards.py / wolf_video_report.py /
                     wolf_video_make_page.py（B站录像抽帧 → 抠狼 → 跟模型逐个比对 → 出核对页）、
                     map_match_frames.py（录像帧 ↔ 战斗底图 SIFT 匹配）/ map_register.py（逐关标定 → assets/map/register.js）/
                     shot_levels.ps1（无头 Chrome 批量截战斗画面）、
                     fx_check.html（子弹/特效/狼身状态对照页）
 launcher/           Windows exe 启动器（Go）：嵌入单文件版，本机起服务 + Edge 应用模式窗口
-dist/               打包产物：保卫羊村怀旧服.exe（Windows 程序）、保卫羊村怀旧服.html（单文件完整版）
+android/            安卓外壳：MainActivity.java（全屏 WebView，游戏文件在 APK 的 assets/www/）、AndroidManifest.xml、
+                    res/（图标与主题）、app.js（只在 App 里插入：返回键、隐藏全屏按钮、后台静音）、ApkSign.java（v2 签名）
+dist/               打包产物：保卫羊村怀旧服.exe（Windows 程序）、保卫羊村怀旧服.apk（安卓 App）、保卫羊村怀旧服.html（单文件完整版）
 ```
 
 ## 测试与质量
