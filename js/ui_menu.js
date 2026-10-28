@@ -54,6 +54,7 @@
         h('button', { class: 'btn sm orange', text: '🎁', title: '兑换码', onclick: () => { Audio.play('click'); UI.Panels.redeem(); } }),
         h('button', { class: 'btn sm blue', text: '❓', title: '玩法说明', onclick: () => { Audio.play('click'); UI.Panels.help(); } }),
         h('button', { class: 'btn sm green', text: '⛶', title: '全屏', onclick: () => { Audio.play('click'); UI.toggleFullscreen(); } }),
+        UI.hooks.hubButtons ? UI.hooks.hubButtons() : null,          // 外壳加的按钮（安卓 App 的「看广告领奖励」，见 android/app.js）
         h('button', { class: 'btn sm gray', text: '⚙', title: '设置', onclick: () => { Audio.play('click'); UI.Panels.settings(); } }))
     }));
     // 有原作羊村插画时用插画上的坐标（见 js/art_scene_pack.js），否则用程序化场景的坐标。

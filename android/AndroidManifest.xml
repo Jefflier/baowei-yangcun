@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- versionCode / versionName / minSdk / targetSdk 由 tools/build_apk.py 交给 aapt2 写进来，改版本号改那里 -->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.baoweiyangcun.huaijiu">
+<!-- 包名、版本号、minSdk / targetSdk 不写在这里：侧载版由 tools/build_apk.py 交给 aapt2，
+     Google Play 版由 android/build.gradle.kts 写进来（版本号两边共用 android/version.properties） -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- 不申请任何权限：游戏文件都在 APK 里，WebView 只读本地资源，不联网 -->
+    <!-- 侧载版不申请任何权限：游戏文件都在 APK 里，WebView 只读本地资源，不联网。
+         Google Play 版为了放广告多要联网权限，见 android/play/AndroidManifest.xml -->
 
     <!-- appCategory="game"：安卓 16+ 在平板 / 折叠屏上会忽略横屏锁定，游戏类不受影响。
          就算被忽略也没关系：舞台按窗口大小等比缩放，竖屏时网页会提示横过来。
@@ -19,11 +20,11 @@
         android:supportsRtl="false">
 
         <!-- configChanges 列全：转屏、拖窗口大小、折叠 / 展开、改字体或深色模式时都不重建页面，
-             不然 WebView 会重新载入，正在打的那一局就没了 -->
+             不然 WebView 会重新载入，正在打的那一局就没了。
+             启动模式用默认的 standard：看广告时切出去、再点桌面图标回来，广告页还在（singleTask 会把它关掉，奖励就丢了） -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:launchMode="singleTask"
             android:screenOrientation="sensorLandscape"
             android:resizeableActivity="true"
             android:windowSoftInputMode="adjustResize"

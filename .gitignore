@@ -26,3 +26,12 @@ launcher/game.html.gz
 
 # APK 构建工具链缓存与中间文件（tools/build_apk.py 从 Maven Central 下载，约 260 MB）
 tools/_android/
+
+# Google Play 版的 Gradle 构建产物、Android Studio 配置，和自己的上传密钥（docs/ANDROID_ADS.md，千万别提交）
+android/build/
+android/.gradle/
+android/.kotlin/
+android/.idea/
+android/local.properties
+android/keystore.properties
+android/*.jks

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Google Play 版额外的清单，和 android/AndroidManifest.xml 合并（android/build.gradle.kts 的 play 版本） -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 广告要联网；广告 ID 权限（AD_ID）由 AdMob SDK 自带的清单合并进来 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application>
+        <!-- AdMob 应用 ID：正式版取 android/gradle.properties 的 admobAppId，调试版固定用谷歌的测试 ID -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="${admobAppId}" />
+    </application>
+</manifest>

@@ -53,6 +53,7 @@
       h('div', { class: 'row', style: { margin: '6px 0' } }, h('span', { class: 'bold', style: { width: '80px' }, text: '难度' }), ...G.DIFF.map((d, i) => h('button', { class: 'btn sm ' + ((s.diff != null ? s.diff : 1) === i ? 'orange' : 'gray'), title: d.d, text: d.n, onclick: e => { s.diff = i; G.persist(true); e.target.parentElement.querySelectorAll('.btn').forEach((b, j) => { b.className = 'btn sm ' + (j === i ? 'orange' : 'gray'); }); } })), h('span', { class: 'small muted', text: '（下一局生效）' })),
       tog('显示伤害数字', 'dmg'), tog('显示狼的台词气泡', 'talk'), tog('默认显示网格', 'grid'), tog('默认显示走狼路线', 'path'), tog('自动开怪（下一波自动到来）', 'autoWave'), tog('显示教学提示', 'tips'),
       h('div', { class: 'row', style: { margin: '6px 0' } }, h('span', { class: 'bold', style: { width: '80px' }, text: '兑换码' }), h('button', { class: 'btn sm orange', text: '🎁 输入兑换码', onclick: () => { click(); P.redeem(); } })),
+      UI.hooks.settingsRows ? UI.hooks.settingsRows() : null,       // 外壳加的设置项（安卓 App 的广告隐私选项）
       h('div', { class: 'hr' }),
       h('div', { class: 'bold', text: '存档管理' }), code,
       h('div', { class: 'row', style: { marginTop: '6px' } },

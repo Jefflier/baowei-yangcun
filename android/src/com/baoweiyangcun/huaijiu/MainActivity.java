@@ -72,6 +72,7 @@ public class MainActivity extends Activity {
     private WebView web;
     private Object backCallback;                  // OnBackInvokedCallback（API 33+）；用 Object 存，老系统上不用加载这个类
     private boolean resumed;
+    private Ads ads;                              // Google Play 版是 AdMob 激励视频，侧载版是空实现
 
     @Override
     @SuppressWarnings("deprecation")   // setDecorFitsSystemWindows：安卓 15 起强制边到边、调用无效，11–14 上仍需要
@@ -97,8 +98,15 @@ public class MainActivity extends Activity {
             }
         });
         setContentView(root);
+        ads = new Ads(this, new AdSink() {
+            @Override
+            public void send(String event, boolean earned) {
+                sendAdEvent(event, earned);
+            }
+        });
         createWebView();
         hideSystemBars();
+        ads.start();
 
         if (Build.VERSION.SDK_INT >= 33) {
             OnBackInvokedCallback cb = new OnBackInvokedCallback() {
@@ -131,6 +139,7 @@ public class MainActivity extends Activity {
         s.setSafeBrowsingEnabled(false);               // 只加载 APK 里自带的文件
         web.setWebViewClient(new Client());
         web.setWebChromeClient(new WebChromeClient());
+        if (Ads.ENABLED) web.addJavascriptInterface(ads, "SVAds");   // 页面只加载 APK 自带的文件，外链都交给浏览器
         root.addView(web, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         web.loadUrl(HOME);
     }
@@ -174,6 +183,18 @@ public class MainActivity extends Activity {
         }
         v.setPadding(l, t, r, b);
         return in.consumeSystemWindowInsets();
+    }
+
+    /** 广告事件转给网页（android/app.js 的 SVApp.onAd 发奖励、刷新按钮）；event 只会是 Ads 里写死的几个词 */
+    private void sendAdEvent(final String event, final boolean earned) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (web != null) {
+                    web.evaluateJavascript("window.SVApp && SVApp.onAd && SVApp.onAd('" + event + "', " + earned + ")", null);
+                }
+            }
+        });
     }
 
     /** 返回键：先让网页处理（关弹窗、取消建造、撤退确认、退回上一层，见 android/app.js），网页说到头了就退到后台 */
@@ -224,6 +245,7 @@ public class MainActivity extends Activity {
         if (Build.VERSION.SDK_INT >= 33 && backCallback != null) {
             getOnBackInvokedDispatcher().unregisterOnBackInvokedCallback((OnBackInvokedCallback) backCallback);
         }
+        if (ads != null) ads.destroy();
         if (web != null) {
             root.removeView(web);
             web.destroy();

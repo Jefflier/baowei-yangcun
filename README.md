@@ -16,7 +16,9 @@
 > 不需要任何权限、不联网；切到后台自动存档、暂停战斗、静音。存档在 App 自己的数据里，卸载会清掉，要换手机先在「设置」里导出存档码。
 > 修改源码后用 `python tools/build_apk.py` 重新生成（只要 Python 和 JDK 11–21，**不用装 Android SDK**，
 > 第一次会从 Maven Central 下载约 260 MB 工具链，见脚本开头说明）。APK 用仓库里公开的侧载密钥 `android/sideload.keystore` 签名，
-> 谁打出来的新版都能直接覆盖安装；要上架应用商店请用 `--keystore` 换成自己的密钥。
+> 谁打出来的新版都能直接覆盖安装。这个侧载版没有广告。
+> **上架 Google Play 的版本**带 AdMob 激励视频（大厅 📺 看广告领银币 / 炸弹 / 棒棒糖，每天 5 次）：用 Android Studio 打开 `android/`
+> 打 `playRelease` 的 AAB，AdMob ID、上传密钥、隐私政策和 Play 后台要填的东西见 [`docs/ANDROID_ADS.md`](docs/ANDROID_ADS.md)。
 >
 > 推荐 Chrome / Edge。若双击后存档存不上（少数浏览器限制 file:// 存储），在本目录运行
 > `python tools/devserver.py` 再访问 <http://localhost:8123/> 即可。
@@ -238,8 +240,10 @@ tools/              开发辅助：sim.html（无头平衡模拟）、gallery.ht
                     shot_levels.ps1（无头 Chrome 批量截战斗画面）、
                     fx_check.html（子弹/特效/狼身状态对照页）
 launcher/           Windows exe 启动器（Go）：嵌入单文件版，本机起服务 + Edge 应用模式窗口
-android/            安卓外壳：MainActivity.java（全屏 WebView，游戏文件在 APK 的 assets/www/）、AndroidManifest.xml、
-                    res/（图标与主题）、app.js（只在 App 里插入：返回键、隐藏全屏按钮、后台静音）、ApkSign.java（v2 签名）
+android/            安卓外壳：src/MainActivity.java（全屏 WebView，游戏文件在 APK 的 assets/www/）、AndroidManifest.xml、
+                    res/（图标与主题）、app.js（只在 App 里插入：返回键、隐藏全屏按钮、后台静音、看广告领奖励）、
+                    ApkSign.java（v2 签名）、version.properties（两个版本共用的版本号）、
+                    sideload/（侧载版的空广告实现）、play/ + build.gradle.kts（Google Play 版：AdMob 激励视频，见 docs/ANDROID_ADS.md）
 dist/               打包产物：保卫羊村怀旧服.exe（Windows 程序）、保卫羊村怀旧服.apk（安卓 App）、保卫羊村怀旧服.html（单文件完整版）
 ```
 

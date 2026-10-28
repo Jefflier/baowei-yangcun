@@ -1,4 +1,5 @@
-"""打包安卓 App：dist/保卫羊村怀旧服.apk（安卓 8.0 及以上可装；目标 API 37，按安卓 16 / 17 的新规矩适配）。
+"""打包安卓 App 的侧载版：dist/保卫羊村怀旧服.apk（安卓 8.0 及以上可装；目标 API 37，按安卓 16 / 17 的新规矩适配）。
+没有广告。上架 Google Play 的带广告版本用 Android Studio 打开 android/ 构建，见 docs/ANDROID_ADS.md。
 
 用法：
   python tools/build_apk.py                               生成 dist/保卫羊村怀旧服.apk
@@ -13,12 +14,13 @@
 （谷歌自己的 dl.google.com / maven.google.com 在不少网络下连不上，这条路线只依赖 Maven Central。）
 
 APK 里装的是：
-  * classes.dex —— android/src 里的外壳：一个全屏 WebView（见 MainActivity.java 开头的说明）
+  * classes.dex —— android/src 里的外壳：一个全屏 WebView（见 MainActivity.java 开头的说明），
+    加上 android/sideload/java 里的空广告实现
   * assets/www/ —— 游戏本体，和目录版一模一样：index.html（末尾插入 android/app.js）、css、js、
     assets 下 index.html 引用的脚本，以及战斗底图 / 大厅与世界地图 / 狼图集的 PNG（按需加载，比单文件版省内存）
 签名：默认用仓库里的 android/sideload.keystore（公开的侧载密钥，密码 baoweiyangcun）。谁重新打包都是同一个签名，
 新版 APK 能直接覆盖安装、存档不丢；要上架应用商店请换成自己的密钥（换了密钥就得先卸载旧版）。
-改版本号：改下面的 VERSION_CODE（每次发新版 +1）和 VERSION_NAME。
+改版本号：改 android/version.properties（每次发新版 versionCode +1；Google Play 版也读它）。
 """
 import argparse
 import hashlib
@@ -42,8 +44,7 @@ SRC = os.path.join(ROOT, 'android')
 CACHE = os.path.join(ROOT, 'tools', '_android')
 WORK = os.path.join(CACHE, 'build')
 
-VERSION_CODE = 1
-VERSION_NAME = '1.0.0'
+PACKAGE = 'com.baoweiyangcun.huaijiu'   # 和 android/build.gradle.kts 的 applicationId 一致
 MIN_SDK = 26          # 安卓 8.0
 TARGET_SDK = 37       # 安卓 17
 COMPILE_SDK = (37, '17')
@@ -128,6 +129,13 @@ def run(cmd, **kw):
         raise SystemExit('命令失败（%d）：%s' % (r.returncode, ' '.join(str(c) for c in cmd)))
 
 
+def version():
+    """android/version.properties → (versionCode, versionName)"""
+    with open(os.path.join(SRC, 'version.properties'), encoding='utf-8') as f:
+        kv = dict(l.strip().split('=', 1) for l in f if '=' in l and not l.lstrip().startswith('#'))
+    return int(kv['versionCode']), kv['versionName']
+
+
 def web_files():
     """(APK 里 assets/www/ 下的路径, 内容)：index.html 引用的样式和脚本 + 图片加载器按路径去取的 PNG"""
     html = build_single.read('index.html')
@@ -193,12 +201,18 @@ def main():
     os.makedirs(WORK)
     w = lambda *p: os.path.join(WORK, *p)
 
-    # 1. 资源 + 清单：aapt2 编译 android/res，对着安卓 17 的框架资源表链接
+    # 1. 资源 + 清单：aapt2 编译 android/res，对着安卓 17 的框架资源表链接。
+    #    清单里不写包名（Gradle 要求写在 build.gradle.kts 里），这里补上再交给 aapt2
+    with open(os.path.join(SRC, 'AndroidManifest.xml'), encoding='utf-8') as f:
+        manifest = re.sub(r'<manifest\b', '<manifest package="%s"' % PACKAGE, f.read(), count=1)
+    with open(w('AndroidManifest.xml'), 'w', encoding='utf-8') as f:
+        f.write(manifest)
+    version_code, version_name = version()
     run([aapt2, 'compile', '--dir', os.path.join(SRC, 'res'), '-o', w('res.zip')])
     run([aapt2, 'link', '-o', w('base.apk'), '-I', jars['android'],
-         '--manifest', os.path.join(SRC, 'AndroidManifest.xml'),
+         '--manifest', w('AndroidManifest.xml'),
          '--min-sdk-version', MIN_SDK, '--target-sdk-version', TARGET_SDK,
-         '--version-code', VERSION_CODE, '--version-name', VERSION_NAME,
+         '--version-code', version_code, '--version-name', version_name,
          '--compile-sdk-version-code', COMPILE_SDK[0], '--compile-sdk-version-name', COMPILE_SDK[1],
          w('res.zip')])
 
@@ -210,7 +224,8 @@ def main():
             f.write('package org.robolectric.internal.bytecode; public interface %s {}\n' % n)
     run([javac, '--release', '8', '-Xlint:-options', '-d', w('robo_classes')]
         + [os.path.join(stub_dir, n + '.java') for n in ROBO_STUBS])
-    sources = [os.path.join(d, f) for d, _, fs in os.walk(os.path.join(SRC, 'src')) for f in fs if f.endswith('.java')]
+    sources = [os.path.join(d, f) for top in ('src', os.path.join('sideload', 'java'))
+               for d, _, fs in os.walk(os.path.join(SRC, top)) for f in fs if f.endswith('.java')]
     run([javac, '--release', '8', '-encoding', 'UTF-8', '-Xlint:all,-options',
          '-cp', os.pathsep.join([jars['android'], w('robo_classes')]), '-d', w('classes')] + sources)
     run([java, '-cp', jars['dx'], 'com.android.dx.command.Main', '--dex', '--min-sdk-version=%d' % MIN_SDK,
